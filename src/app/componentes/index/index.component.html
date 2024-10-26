@@ -8,21 +8,24 @@
 </header>
 <main>
     <nav>
-        <a href=""><img src="../../../assets/inicio.svg" alt="imagem-inicio.svg">Dashboard</a>
-        <span>CADASTRO:</span>
-        <a href="">Entidade</a>
-        <a href="">Clientes</a>
-        <a href="">Serviços</a>
-        <a href="">Peças</a>
-        <span>MOVIMENTAÇÃO:</span>
-        <a href="">Abertura OS</a>
-        <a href="">Andamento OS</a>
-        <a href="">Conclusão OS</a>
-        <span>RELATÓRIOS:</span>
-        <a href="">Listagem de OS</a>
-        <a href="">Rel. Abertura OS</a>
-        <a href="">Rel. Andamento OS</a>
-        <a href="">Rel. Conclusão OS</a>
+        <button #nav01 value="cadastro" (click)="listDown(nav01)">Cadastro</button>
+        <div class="listDown" id="list-cadastro">
+            <a href="">Clientes</a>
+            <a href="">Serviços</a>
+            <a href="">Peças</a>
+        </div>
+        <button #nav02 value="movimentacao" (click)="listDown(nav02)">Movimentação</button>
+        <div class="listDown" id="list-movimentacao">
+            <a href="">DashBoard</a>
+            <a href="">Abertura OS</a>
+            <a href="">Andamento OS</a>
+            <a href="">Conclusão OS</a>
+        </div>
+        <button #nav03 value="relatorios" (click)="listDown(nav03)">Relatórios</button>
+        <div class="listDown" id="list-relatorios">
+            <a href="">Listagem de Ordens de Serviços</a>
+        </div>
+        <button>Configurações</button>
     </nav>
     <section>
         <router-outlet></router-outlet>

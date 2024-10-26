@@ -1,41 +1,79 @@
-nav{
-    width: 20%;
-    background-color: #DDE6EA;
-    height: 100%;
+header{
+    display: flex;
+    height: 10vh;
+    justify-content: space-between;
 
-    & span{
-        display: inline-flex;
-        width: 97.125%;
-        height: 1.75rem;
+    background-color: rgba(255, 255, 255, .5);
+    border-bottom: 1px solid gray;
 
-        align-items: center;
-        font: bold 1rem 'Calibri';
-
-        border-bottom: 1px solid gray;
-        padding-left: .5rem;
+    & .titulo-principal{
+        font: bold 2rem 'Roboto';
+        margin: .5rem 0rem .5rem 1rem;
     }
 
-    & a{
-        display: inline-flex;
-        width: 94.25%;
-        height: 1.5rem;
+    & .informacoes-principal{
+        text-align: right;
+        margin: .5rem 1rem .5rem 0rem;
+        
+        & .entidade-informacoes{
+            font: bold 1.25rem 'Calibri';
+        }
 
-        align-items: center;
-        font: normal .9rem 'Calibri';
-        color: black;
-        text-decoration: none;
-        transition: .2s;
-
-        border-bottom: 1px solid gray;
-        padding-left: 1rem;
+        & span{
+            font: normal 1rem 'Calibri';
+        }
     }
+}
+main{
+    position: relative;
+    width: 100vw;
+    height: 90vh;
 
-    & a:hover{
-        background-color: rgba(255, 255, 255, .5);
-    }
+    & nav{
+        width: 100%;
+        height: 4vh;
+        background: linear-gradient(to top, lightgray, white);
 
-    & img{
-        width: 1.4rem;
-        margin-right: .25rem;
+        & button{
+            width: 8rem;
+            height: 4vh;
+
+            font: normal .9rem 'Calibri';
+            border: none;
+            border-radius: 3px;
+
+            background-color: transparent;
+            transition: .2s;
+        }
+
+        & button:hover{
+            background-color: rgba(0, 0, 0, .25);
+            cursor: pointer;
+        }
+
+        & .listDown{
+            position: absolute;
+            display: none;
+            width: 10rem;
+            background-color: whitesmoke;
+
+            & a{
+                display: inline-flex;
+                align-items: center;
+                width: 95%;
+                height: 1.5rem;
+                font: normal .9rem 'Calibri';
+                padding-left: .5rem;
+                color: black;
+                text-decoration: none;
+                border-bottom: 1px solid gray;
+                transition: .2s;
+            }
+
+            & a:hover{
+                background-color: cornflowerblue;
+                color: white;
+            }
+        }
     }
 }
