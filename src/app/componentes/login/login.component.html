@@ -1,0 +1,29 @@
+<header>
+    <span class="titulo-principal"> Controle de OS</span>
+    <div class="informacoes-principal">
+        <span class="entidade-informacoes">{{entidade}}</span>
+        <br>
+        <span>Versão: {{versao}}</span>
+    </div>
+</header>
+<main>
+    <div class="componente">
+        <div class="titulo-componente">
+            <span>Login:</span>
+        </div>
+        <div class="corpo-componente">
+            <img src="../../../assets/login.svg" alt="imagem-login.svg">
+            <label for="usuario">Usuário:</label>
+            <input type="text" id="usuario">
+            <br>
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha">
+            <button (click)="login()"><img src="../../../assets/check.svg" alt="imagem-check.svg">Login</button>
+        </div>
+    </div>
+    <dialog>
+        <img src="../../../assets/aviso.svg" alt="imagem-aviso.svg">
+        <span>{{aviso}}</span><br>
+        <button>Ok!</button>
+    </dialog>
+</main>

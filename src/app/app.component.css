@@ -1,0 +1,9 @@
+section {
+    width: 100vw;
+    height: 100vh;
+    margin: -.5rem;
+
+    background-image: url("../assets/wallpaper.png");
+    background-size: cover;
+    overflow: hidden;
+}
