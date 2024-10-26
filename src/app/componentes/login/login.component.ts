@@ -14,23 +14,11 @@ export class LoginComponent {
   entidade : string;
   versao : string;
 
-  aviso : string = "";
+  mensagem : string = "";
 
   constructor(private sessao : SessaoService, private router : Router){
     this.entidade = this.sessao.entidade;
     this.versao = this.sessao.versao;
-  }
-
-  avisoShow(){
-    let modal = (document.querySelector('dialog') as HTMLDialogElement);
-    let button = (document.querySelector('dialog button') as HTMLButtonElement);
-
-    modal.showModal();
-
-    button.onclick = function(){
-      modal.close();
-    }
-    
   }
 
   async login(){
@@ -52,15 +40,15 @@ export class LoginComponent {
       let data = await request.json();
 
       if(data.sucesso){
+        console.log(data.sucesso);
+        this.mensagem = "";
         this.sessao.usuario = data.sucesso[0].nome;
         this.router.navigate(['']);
         return
       }
 
       if(data.erro){
-        this.aviso = data.erro;
-        this.avisoShow();
-        return
+        this.mensagem = data.erro;
       }
 
       else {

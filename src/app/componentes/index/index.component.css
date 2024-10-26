@@ -1,0 +1,41 @@
+nav{
+    width: 20%;
+    background-color: #DDE6EA;
+    height: 100%;
+
+    & span{
+        display: inline-flex;
+        width: 97.125%;
+        height: 1.75rem;
+
+        align-items: center;
+        font: bold 1rem 'Calibri';
+
+        border-bottom: 1px solid gray;
+        padding-left: .5rem;
+    }
+
+    & a{
+        display: inline-flex;
+        width: 94.25%;
+        height: 1.5rem;
+
+        align-items: center;
+        font: normal .9rem 'Calibri';
+        color: black;
+        text-decoration: none;
+        transition: .2s;
+
+        border-bottom: 1px solid gray;
+        padding-left: 1rem;
+    }
+
+    & a:hover{
+        background-color: rgba(255, 255, 255, .5);
+    }
+
+    & img{
+        width: 1.4rem;
+        margin-right: .25rem;
+    }
+}

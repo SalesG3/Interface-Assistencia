@@ -112,6 +112,13 @@ main{
     }
 }
 
+.mensagem{
+    display: inline-block;
+    padding: .5rem;
+    font: normal 0.9rem 'Calibri';
+    color: red;
+}
+
 dialog{
     width: 20rem;
     border: 1px solid gray;

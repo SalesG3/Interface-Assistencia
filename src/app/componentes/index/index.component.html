@@ -1,0 +1,30 @@
+<header>
+    <span class="titulo-principal"> Controle de OS</span>
+    <div class="informacoes-principal">
+        <span class="entidade-informacoes">{{entidade}}</span>
+        <br>
+        <span>Usuário: {{usuario}} | Versão: {{versao}}</span>
+    </div>
+</header>
+<main>
+    <nav>
+        <a href=""><img src="../../../assets/inicio.svg" alt="imagem-inicio.svg">Dashboard</a>
+        <span>CADASTRO:</span>
+        <a href="">Entidade</a>
+        <a href="">Clientes</a>
+        <a href="">Serviços</a>
+        <a href="">Peças</a>
+        <span>MOVIMENTAÇÃO:</span>
+        <a href="">Abertura OS</a>
+        <a href="">Andamento OS</a>
+        <a href="">Conclusão OS</a>
+        <span>RELATÓRIOS:</span>
+        <a href="">Listagem de OS</a>
+        <a href="">Rel. Abertura OS</a>
+        <a href="">Rel. Andamento OS</a>
+        <a href="">Rel. Conclusão OS</a>
+    </nav>
+    <section>
+        <router-outlet></router-outlet>
+    </section>
+</main>
