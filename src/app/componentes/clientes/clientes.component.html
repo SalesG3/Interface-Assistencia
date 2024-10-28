@@ -7,12 +7,12 @@
             <button class="voltar" hidden>Voltar</button>
             <button class="fechar"><img src="../../../assets/fechar.svg">Fechar</button>
             <div class="operadores" hidden>
-                <button>Salvar +</button>
-                <button>Salvar</button>
-                <button>Cancelar</button>
+                <button><img src="../../../assets/salvar+.svg">Salvar +</button>
+                <button><img src="../../../assets/salvar+.svg">Salvar</button>
+                <button (click)="alternarTela('')"><img src="../../../assets/fechar.svg">Cancelar</button>
             </div>
             <div class="crud">
-                <button><img src="../../../assets/incluir.svg">Incluir</button>
+                <button (click)="alternarTela('Incluindo')"><img src="../../../assets/incluir.svg">Incluir</button>
                 <button><img src="../../../assets/alterar.svg">Alterar</button>
                 <button><img src="../../../assets/consultar.svg">Consultar</button>
                 <button><img src="../../../assets/excluir.svg">Exluir</button>
@@ -39,6 +39,44 @@
             </table>
             <div class="rodape">
                 <span>Total de Registros: </span>
+            </div>
+        </div>
+        <div class="dados-componente" hidden>
+            <div class="dados-registro">
+                <span>Cliente</span>
+                <label for="codigo">Código:</label>
+                <input type="text" id="codigo">
+
+                <label for="cliente">Cliente:</label>
+                <input type="text" id="cliente">
+                <br>
+                <label for="tipo">Tipo Pessoa:</label>
+                <select id="tipo">
+                    <option value="" hidden></option>
+                    <option value="CPF">Física</option>
+                    <option value="CNPJ">Jurídica</option>
+                </select>
+
+                <label for="cadastro">CPF/CNPJ:</label>
+                <input type="text" id="cadastro">
+
+                <label for="contato">Contato:</label>
+                <input type="text" id="contato">
+                <br>
+                <label for="email">Email:</label>
+                <input type="text" id="email">
+
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco">
+                <br>
+                <label for="historico">Histórico:</label><br>
+                <textarea id="historico"></textarea>
+                <br>
+                <label for="ativo">Ativo:</label>
+                <input type="checkbox" id="ativo">
+                
+                <label for="notificar">Notificar?</label>
+                <input type="checkbox" id="notificar">
             </div>
         </div>
     </div>

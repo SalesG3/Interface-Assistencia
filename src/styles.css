@@ -53,6 +53,12 @@
             filter: brightness(.9);
         }
 
+        & button:disabled{
+            opacity: .5;
+            cursor: default;
+            filter: brightness(1);
+        }
+
         & .fechar, .voltar, .operadores{
             float: right;
         }
@@ -155,6 +161,76 @@
         & span{
             font: bold .8rem 'Calibri';
             padding-left: .5rem;
+        }
+    }
+}
+
+.dados-componente{
+    width: 100%;
+    height: 19.45rem;
+    background-color: #DDE6EA;
+
+    & .dados-registro{
+        display: inline-block;
+        width: 97.5%;
+        height: 93.75%;
+        margin: .5rem;
+        border: 1px solid gray;
+
+        & span{
+            display: inline-block;
+            width: 98.75%;
+            margin: .125rem .25rem 0rem .25rem;
+
+            font: bold .9rem 'Calibri';
+            text-align: center;
+
+            border-radius: 5px;
+            background-color: #AEBEC7;
+        }
+
+        & label{
+            display: inline-flex;
+            width: 5rem;
+            height: 1.375rem;
+            margin: .5rem 0rem 0rem .25rem;
+
+            font: normal .9rem 'Calibri';
+            padding-left: .25rem;
+            
+            align-items: center;
+            background-color: #AEBEC7;
+        }
+
+        & input, select {
+            font: normal .9rem 'Calibri';
+            border: 1px solid gray;
+            outline: none;
+        }
+
+        & textarea{
+            width: 97.75%;
+            height: 3.5rem;
+            margin: 0rem .25rem 0rem .25rem;
+            font: normal .9rem 'Calibri';
+            border: 1px solid gray;
+            outline: none;
+            resize: none;
+        }
+
+        & input[type=checkbox]{
+            display: inline-flex;
+            vertical-align:bottom;
+            
+            margin: 0rem 0rem 0rem -2px;
+            border-radius: 0px;
+
+            height: 1.375rem;
+            width: 1.375rem;
+        }
+
+        & input:focus, select:focus, textarea:focus{
+            border: 1px solid cornflowerblue;
         }
     }
 }

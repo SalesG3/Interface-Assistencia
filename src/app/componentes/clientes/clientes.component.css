@@ -2,3 +2,12 @@
 :host ::ng-deep .codigo{ width: 5rem; }
 :host ::ng-deep .cliente{ width: 26rem; }
 :host ::ng-deep .cadastro{ width: 12rem; }
+
+/* Dados Registro: */
+#codigo{ width: 5rem; }
+#cliente{ width: 26.75rem; }
+#tipo{ width: 5.4rem; }
+#cadastro{ width: 10.425rem; }
+#contato{ width: 10.425rem; }
+#email{ width: 12rem; }
+#endereco{ width: 19.75rem; }
