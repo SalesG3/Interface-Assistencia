@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { RequestService } from '../../servicos/request.service';
 
 @Component({
   selector: 'app-clientes',
@@ -10,8 +11,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ClientesComponent {
   dadosTabela : any;
+  textoModal : string = "";
 
-  constructor(private sanitizer : DomSanitizer){
+  constructor(private sanitizer : DomSanitizer, private request : RequestService){
 
     //Teste de estilização para Tbody:
     let html : string = "";
@@ -24,6 +26,38 @@ export class ClientesComponent {
 
     this.dadosTabela = this.sanitizer.bypassSecurityTrustHtml(html);
 
+  }
+
+  async salvarRegistro(){
+    let data = {
+      codigo: (document.querySelector('#codigo') as HTMLInputElement).value,
+      cliente: (document.querySelector('#cliente') as HTMLInputElement).value,
+      tipo: (document.querySelector('#tipo') as HTMLInputElement).value,
+      cadastro: (document.querySelector('#cadastro') as HTMLInputElement).value,
+      contato: (document.querySelector('#contato') as HTMLInputElement).value,
+      email: (document.querySelector('#email') as HTMLInputElement).value,
+      endereco: (document.querySelector('#endereco') as HTMLInputElement).value,
+      historico: (document.querySelector('#historico') as HTMLInputElement).value,
+      ativo: (document.querySelector('#ativo') as HTMLInputElement).checked,
+      notificar: (document.querySelector('#notificar') as HTMLInputElement).checked
+    }
+
+    let response = await this.request.novoRegistro('Clientes', data);
+    let modal = document.querySelector('.modalSucesso') as HTMLDialogElement;
+    let button = document.querySelector('.modalSucesso button') as HTMLButtonElement;
+
+    if(response.sucesso){
+      this.textoModal = "Registro Salvo com Sucesso!"
+      modal.showModal();
+      button.onclick = function(){
+        modal.close()
+      }
+      this.alternarTela('');
+    }
+
+    if(response.duplicado){
+
+    }
   }
 
 
@@ -72,10 +106,14 @@ export class ClientesComponent {
         }
 
         for(let i = 0; i < inputs.length; i++){
-          (inputs[i] as HTMLInputElement).value = "";
+          let input = (inputs[i] as HTMLInputElement);
+          
+          input.value = "";
+          if(input.type == "checkbox"){
+            input.checked = true;
+          }
         }
       break;
     }
   }
-
 }

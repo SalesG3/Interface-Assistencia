@@ -8,7 +8,7 @@
             <button class="fechar"><img src="../../../assets/fechar.svg">Fechar</button>
             <div class="operadores" hidden>
                 <button><img src="../../../assets/salvar+.svg">Salvar +</button>
-                <button><img src="../../../assets/salvar+.svg">Salvar</button>
+                <button (click)="salvarRegistro()"><img src="../../../assets/salvar+.svg">Salvar</button>
                 <button (click)="alternarTela('')"><img src="../../../assets/fechar.svg">Cancelar</button>
             </div>
             <div class="crud">
@@ -73,11 +73,24 @@
                 <textarea id="historico"></textarea>
                 <br>
                 <label for="ativo">Ativo:</label>
-                <input type="checkbox" id="ativo">
+                <input type="checkbox" id="ativo" checked>
                 
                 <label for="notificar">Notificar?</label>
-                <input type="checkbox" id="notificar">
+                <input type="checkbox" id="notificar" checked>
             </div>
         </div>
     </div>
 </section>
+
+<dialog class="modalSucesso">
+    <div class="modal">
+        <div class="titulo">
+            <span>Sucesso!</span>
+        </div>
+        <div class="corpo">
+            <img src="../../../assets/salvar+.svg">
+            <span>{{textoModal}}</span><br>
+            <button><img src="../../../assets/salvar.svg">OK!</button>
+        </div>
+    </div>
+</dialog>

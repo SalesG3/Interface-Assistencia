@@ -234,3 +234,54 @@
         }
     }
 }
+
+.modalSucesso{
+    width: 15rem;
+    border: none;
+
+    & .titulo{
+        margin: -1rem -1rem 0rem -1rem;
+        padding: .125rem 0rem .125rem .25rem;
+
+        font: bold .9rem 'Calibri';
+        background-color: lightgray;
+    }
+
+    & .corpo{
+        margin: 0rem -1rem 0rem -1rem;
+        box-shadow: inset 0px 4px 4px -4px;
+
+        & img{
+            float: left;
+            width: 3.5rem;
+            margin: .75rem;
+        }
+
+        & span{
+            display: block;
+            font: normal .85rem 'Calibri';
+            padding: .5rem 0rem 0rem .5rem;
+        }
+
+        & button{
+            float: right;
+            margin-right: .5rem;
+            width: 4rem;
+            height: 1.5rem;
+            font: normal .85rem 'Calibri';
+            background: linear-gradient(to top, lightgray, white);
+            border: 1px solid gray;
+            border-radius: 3px;
+
+            & img{
+                width: 1rem;
+                margin: 0;
+            }
+        }
+
+        & button:hover{
+            cursor: pointer;
+            filter: brightness(.9);
+        }
+    }
+}
