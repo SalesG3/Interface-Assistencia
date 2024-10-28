@@ -1,0 +1,45 @@
+<section class="componente">
+    <div class="titulo-componente">
+        <span>Clientes:</span>
+    </div>
+    <div class="corpo-componente">
+        <div class="ferramentas">
+            <button class="voltar" hidden>Voltar</button>
+            <button class="fechar"><img src="../../../assets/fechar.svg">Fechar</button>
+            <div class="operadores" hidden>
+                <button>Salvar +</button>
+                <button>Salvar</button>
+                <button>Cancelar</button>
+            </div>
+            <div class="crud">
+                <button><img src="../../../assets/incluir.svg">Incluir</button>
+                <button><img src="../../../assets/alterar.svg">Alterar</button>
+                <button><img src="../../../assets/consultar.svg">Consultar</button>
+                <button><img src="../../../assets/excluir.svg">Exluir</button>
+                <button><img src="../../../assets/copiar.svg">Copiar</button>
+            </div>
+        </div>
+        <div class="grid-componente">
+            <div class="grid-pesquisar">
+                <img src="../../../assets/pesquisa.svg">
+                <input type="text">
+                <button>Pesquisar</button>
+                <span> | </span>
+                <button>Filtrar</button>
+            </div>
+            <table class="grid-tabela">
+                <thead>
+                    <tr>
+                        <th class="codigo">Código:</th>
+                        <th class="cliente">Cliente:</th>
+                        <th class="cadastro">CPF/CNPJ:</th>
+                    </tr>
+                </thead>
+                <tbody [innerHTML]="dadosTabela"></tbody>
+            </table>
+            <div class="rodape">
+                <span>Total de Registros: </span>
+            </div>
+        </div>
+    </div>
+</section>

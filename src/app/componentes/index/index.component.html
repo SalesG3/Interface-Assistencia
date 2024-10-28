@@ -8,22 +8,22 @@
 </header>
 <main>
     <nav>
+        <button>DashBoard</button>
         <button #nav01 value="cadastro" (click)="listDown(nav01)">Cadastro</button>
         <div class="listDown" id="list-cadastro">
-            <a href="">Clientes</a>
-            <a href="">Serviços</a>
-            <a href="">Peças</a>
+            <a [routerLink]="'/clientes'">Clientes</a>
+            <a >Serviços</a>
+            <a >Peças</a>
         </div>
         <button #nav02 value="movimentacao" (click)="listDown(nav02)">Movimentação</button>
         <div class="listDown" id="list-movimentacao">
-            <a href="">DashBoard</a>
-            <a href="">Abertura OS</a>
-            <a href="">Andamento OS</a>
-            <a href="">Conclusão OS</a>
+            <a >Abertura OS</a>
+            <a >Andamento OS</a>
+            <a >Conclusão OS</a>
         </div>
         <button #nav03 value="relatorios" (click)="listDown(nav03)">Relatórios</button>
         <div class="listDown" id="list-relatorios">
-            <a href="">Listagem de Ordens de Serviços</a>
+            <a >Listagem</a>
         </div>
         <button>Configurações</button>
     </nav>

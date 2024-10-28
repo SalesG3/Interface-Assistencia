@@ -1,0 +1,4 @@
+/* Colunas da Grid: */
+:host ::ng-deep .codigo{ width: 5rem; }
+:host ::ng-deep .cliente{ width: 26rem; }
+:host ::ng-deep .cadastro{ width: 12rem; }
