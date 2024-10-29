@@ -9,6 +9,25 @@ export class RequestService {
 
   constructor() { }
 
+  async codigoAuto( tabela : string){
+
+    try{
+      let request = await fetch(environment.APIURL + `/codigo/${tabela}`,{
+        method: "GET",
+        headers: this.headers
+      });
+
+      if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
+      let response = await request.json();
+
+      return response;
+    }
+    catch(erro){
+      alert('Inconsistência Interna! Entrar em contato com Suporte.');
+      console.error(erro); return
+    }
+  }
+
   async novoRegistro( tabela : string, data : object ){
 
     try{

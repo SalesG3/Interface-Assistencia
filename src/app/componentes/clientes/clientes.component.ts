@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RequestService } from '../../servicos/request.service';
+import { ComunsService } from '../../servicos/comuns.service';
 
 @Component({
   selector: 'app-clientes',
@@ -10,10 +11,11 @@ import { RequestService } from '../../servicos/request.service';
   styleUrl: './clientes.component.css'
 })
 export class ClientesComponent {
-  dadosTabela : any;
   textoModal : string = "";
+  mensagem : string = "";
+  dadosTabela : any;
 
-  constructor(private sanitizer : DomSanitizer, private request : RequestService){
+  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comuns : ComunsService){
 
     //Teste de estilização para Tbody:
     let html : string = "";
@@ -28,7 +30,36 @@ export class ClientesComponent {
 
   }
 
-  async salvarRegistro(){
+  async incluirRegistro(){
+    let response = await this.request.codigoAuto('clientes');
+    let codigo = document.querySelector('#codigo') as HTMLInputElement;
+
+    this.comuns.alternarTela('Incluindo');
+    this.mensagem = "";
+
+    codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0');
+  }
+
+  cancelarRegistro(){
+    let modal = document.querySelector('#modalConfirmacao') as HTMLDialogElement;
+    let btnSim = document.querySelector('#sim') as HTMLButtonElement;
+    let btnNao = document.querySelector('#nao') as HTMLButtonElement;
+
+    let alternarTela = this.comuns.alternarTela;
+    this.textoModal = "Realmente deseja sair?"
+    modal.showModal();
+
+    btnNao.onclick = function(){
+      modal.close()
+    }
+
+    btnSim.onclick = function(){
+      alternarTela('');
+      modal.close();
+    }
+  }
+
+  async salvarRegistro(modo : string){
     let data = {
       codigo: (document.querySelector('#codigo') as HTMLInputElement).value,
       cliente: (document.querySelector('#cliente') as HTMLInputElement).value,
@@ -42,9 +73,10 @@ export class ClientesComponent {
       notificar: (document.querySelector('#notificar') as HTMLInputElement).checked
     }
 
-    let response = await this.request.novoRegistro('Clientes', data);
-    let modal = document.querySelector('.modalSucesso') as HTMLDialogElement;
-    let button = document.querySelector('.modalSucesso button') as HTMLButtonElement;
+    let response = await this.request.novoRegistro('clientes', data);
+
+    let modal = document.querySelector('#modalSucesso') as HTMLDialogElement;
+    let button = document.querySelector('#modalSucesso button') as HTMLButtonElement;
 
     if(response.sucesso){
       this.textoModal = "Registro Salvo com Sucesso!"
@@ -52,68 +84,16 @@ export class ClientesComponent {
       button.onclick = function(){
         modal.close()
       }
-      this.alternarTela('');
+      this.mensagem = "";
+      this.comuns.alternarTela(modo);
     }
 
     if(response.duplicado){
-
-    }
-  }
-
-
-  // Função que Alterna entre Telas:
-  alternarTela( modo : string ){
-    let inputs = document.querySelectorAll('.dados-componente input, textarea, select')
-
-    let grid = document.querySelector('.grid-componente') as HTMLElement;
-    let dados = document.querySelector('.dados-componente') as HTMLElement;
-
-    let crud = document.querySelectorAll('.crud button');
-    let oper = document.querySelector('.operadores') as HTMLElement;
-
-    let fechar = document.querySelector('.fechar') as HTMLElement;
-    let voltar = document.querySelector('.voltar') as HTMLElement;
-
-    switch(modo){
-      case 'Incluindo':
-        grid.setAttribute('hidden','');
-        dados.removeAttribute('hidden');
-
-        fechar.setAttribute('hidden','');
-        voltar.setAttribute('hidden','');
-
-        oper.removeAttribute('hidden');
-        for(let i = 0; i < crud.length; i++){
-          crud[i].setAttribute('disabled','');
-        };
-
-        for(let i = 0; i < inputs.length; i++){
-          (inputs[i] as HTMLInputElement).value = "";
-        }
-        
-      break;
-
-      default:
-        grid.removeAttribute('hidden');
-        dados.setAttribute('hidden','');
-
-        fechar.removeAttribute('hidden');
-        voltar.setAttribute('hidden','');
-
-        oper.setAttribute('hidden','');
-        for(let i = 0; i < crud.length; i++){
-          crud[i].removeAttribute('disabled');
-        }
-
-        for(let i = 0; i < inputs.length; i++){
-          let input = (inputs[i] as HTMLInputElement);
-          
-          input.value = "";
-          if(input.type == "checkbox"){
-            input.checked = true;
-          }
-        }
-      break;
+      this.mensagem = "Campos em vermelho já está sendo utilizado em outro Registro!";
+      let inputs = response.duplicado;
+      for(let i = 0; i < inputs.length; i++){
+        (document.querySelector(inputs[i].duplicado) as HTMLElement).classList.add('inputObrigatorio')
+      }
     }
   }
 }

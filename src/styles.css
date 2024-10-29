@@ -235,9 +235,10 @@
     }
 }
 
-.modalSucesso{
+.modal{
     width: 15rem;
-    border: none;
+    border: 1px solid lightgray;
+    box-shadow: 3px 3px 6px -3px;
 
     & .titulo{
         margin: -1rem -1rem 0rem -1rem;
@@ -284,4 +285,16 @@
             filter: brightness(.9);
         }
     }
+}
+
+.inputObrigatorio{
+    border: 1px solid red !important;
+}
+
+.mensagem{
+    font: normal .85rem 'Calibri' !important;
+    color: red !important;
+
+    background-color: transparent !important;
+    text-align: left !important;
 }

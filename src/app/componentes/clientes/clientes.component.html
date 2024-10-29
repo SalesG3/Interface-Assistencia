@@ -7,12 +7,12 @@
             <button class="voltar" hidden>Voltar</button>
             <button class="fechar"><img src="../../../assets/fechar.svg">Fechar</button>
             <div class="operadores" hidden>
-                <button><img src="../../../assets/salvar+.svg">Salvar +</button>
-                <button (click)="salvarRegistro()"><img src="../../../assets/salvar+.svg">Salvar</button>
-                <button (click)="alternarTela('')"><img src="../../../assets/fechar.svg">Cancelar</button>
+                <button (click)="salvarRegistro('Incluindo')"><img src="../../../assets/salvar+.svg">Salvar +</button>
+                <button (click)="salvarRegistro('')"><img src="../../../assets/salvar+.svg">Salvar</button>
+                <button (click)="cancelarRegistro()"><img src="../../../assets/fechar.svg">Cancelar</button>
             </div>
             <div class="crud">
-                <button (click)="alternarTela('Incluindo')"><img src="../../../assets/incluir.svg">Incluir</button>
+                <button (click)="incluirRegistro()"><img src="../../../assets/incluir.svg">Incluir</button>
                 <button><img src="../../../assets/alterar.svg">Alterar</button>
                 <button><img src="../../../assets/consultar.svg">Consultar</button>
                 <button><img src="../../../assets/excluir.svg">Exluir</button>
@@ -45,7 +45,7 @@
             <div class="dados-registro">
                 <span>Cliente</span>
                 <label for="codigo">Código:</label>
-                <input type="text" id="codigo">
+                <input type="text" id="codigo" maxlength="4">
 
                 <label for="cliente">Cliente:</label>
                 <input type="text" id="cliente">
@@ -77,13 +77,15 @@
                 
                 <label for="notificar">Notificar?</label>
                 <input type="checkbox" id="notificar" checked>
+                <br><br>
+                <span class="mensagem">{{mensagem}}</span>
             </div>
         </div>
     </div>
 </section>
 
-<dialog class="modalSucesso">
-    <div class="modal">
+<dialog id="modalSucesso" class="modal">
+    <div>
         <div class="titulo">
             <span>Sucesso!</span>
         </div>
@@ -91,6 +93,20 @@
             <img src="../../../assets/salvar+.svg">
             <span>{{textoModal}}</span><br>
             <button><img src="../../../assets/salvar.svg">OK!</button>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="modalConfirmacao" class="modal">
+    <div>
+        <div class="titulo">
+            <span>Confirmação:</span>
+        </div>
+        <div class="corpo">
+            <img src="../../../assets/aviso.svg">
+            <span>{{textoModal}}</span><br>
+            <button id="nao">Não!</button>
+            <button id="sim">Sim!</button>
         </div>
     </div>
 </dialog>

@@ -40,7 +40,6 @@ export class LoginComponent {
       let data = await request.json();
 
       if(data.sucesso){
-        console.log(data.sucesso);
         this.mensagem = "";
         this.sessao.usuario = data.sucesso[0].nome;
         this.router.navigate(['']);
