@@ -13,21 +13,29 @@ import { ComunsService } from '../../servicos/comuns.service';
 export class ClientesComponent {
   textoModal : string = "";
   mensagem : string = "";
+
+  countTabela : string = "0";
   dadosTabela : any;
 
-  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comuns : ComunsService){
+  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comuns : ComunsService){  }
 
-    //Teste de estilização para Tbody:
+  async pesquisarGrid(){
+    let data = {
+      pesquisa : (document.querySelector('#pesquisa') as HTMLInputElement).value
+    };
+
+    let response = await this.request.dadosGrid('clientes', data);
+
     let html : string = "";
 
-    for(let i = 0; i < 15; i++){
-
-      html += `<tr><td class="codigo">teste</td><td class="cliente">teste</td><td class="cadastro">teste</td></tr>`
-      
+    for(let i = 0; i < response.length; i++){
+      html += `<tr><td class="codigo">${response[i].codigo}</td>
+      <td class="cliente">${response[i].cliente}</td>
+      <td class="cadastro">${response[i].cadastro}</td></tr>`
     }
 
     this.dadosTabela = this.sanitizer.bypassSecurityTrustHtml(html);
-
+    this.countTabela = response.length;
   }
 
   async incluirRegistro(){
@@ -60,6 +68,9 @@ export class ClientesComponent {
   }
 
   async salvarRegistro(modo : string){
+
+    if(this.validarInputs() != true){ return }
+
     let data = {
       codigo: (document.querySelector('#codigo') as HTMLInputElement).value,
       cliente: (document.querySelector('#cliente') as HTMLInputElement).value,
@@ -95,5 +106,29 @@ export class ClientesComponent {
         (document.querySelector(inputs[i].duplicado) as HTMLElement).classList.add('inputObrigatorio')
       }
     }
+  }
+
+  validarInputs(){
+    let cadastro = document.querySelector('#cadastro') as HTMLInputElement;
+    let contato = document.querySelector('#contato') as HTMLInputElement;
+    
+    let inputs = ['#codigo', '#cliente', '#tipo', '#cadastro', '#contato'];
+    let validarInputs = this.comuns.validarInputs(inputs);
+
+    if(validarInputs != true){ this.mensagem = validarInputs; return}
+
+    if(cadastro.value.length != 14 && cadastro.value.length != 18){
+      cadastro.classList.add('inputObrigatorio');
+      this.mensagem = "Campo CPF/CNPJ é inválido!";
+      return false
+    };
+
+    if(contato.value.length != 13){
+      contato.classList.add('inputObrigatorio');
+      this.mensagem = "Campo Contato é inválido!";
+      return false
+    };
+
+    return true
   }
 }

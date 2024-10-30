@@ -22,8 +22,8 @@
         <div class="grid-componente">
             <div class="grid-pesquisar">
                 <img src="../../../assets/pesquisa.svg">
-                <input type="text">
-                <button>Pesquisar</button>
+                <input type="text" id="pesquisa">
+                <button (click)="pesquisarGrid()">Pesquisar</button>
                 <span> | </span>
                 <button>Filtrar</button>
             </div>
@@ -38,7 +38,7 @@
                 <tbody [innerHTML]="dadosTabela"></tbody>
             </table>
             <div class="rodape">
-                <span>Total de Registros: </span>
+                <span>Total de Registros: {{countTabela}}</span>
             </div>
         </div>
         <div class="dados-componente" hidden>

@@ -68,4 +68,26 @@ export class ComunsService {
       break;
     }
   }
+
+  validarInputs( inputs : Array<string> ){
+    let mensagem : string = "";
+
+    for(let i = 0; i < inputs.length; i++){
+      let input = document.querySelector(inputs[i]) as HTMLInputElement;
+
+      if(input.value.replaceAll(' ','') == ""){
+        input.classList.add('inputObrigatorio');
+      }
+      else{
+        input.classList.remove('inputObrigatorio');
+      }
+    }
+
+    if(document.querySelector('.inputObrigatorio')){
+      mensagem = "Campos em vermelho são obrigatórios";
+      return mensagem
+    };
+      
+    return true
+  }
 }

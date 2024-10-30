@@ -9,6 +9,26 @@ export class RequestService {
 
   constructor() { }
 
+  async dadosGrid(tabela : string, data : object){
+
+    try{
+      let request = await fetch(environment.APIURL + `/grid/${tabela}`,{
+        method: "POST",
+        headers: this.headers,
+        body: JSON.stringify(data)
+      });
+
+      if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
+      let response = await request.json();
+
+      return response;
+    }
+    catch(erro){
+      alert('Inconsistência Interna! Entrar em contato com Suporte.');
+      console.error(erro); return
+    }
+  }
+
   async codigoAuto( tabela : string){
 
     try{
