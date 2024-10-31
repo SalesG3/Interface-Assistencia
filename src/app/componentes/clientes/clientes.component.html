@@ -35,7 +35,7 @@
                         <th class="cadastro">CPF/CNPJ:</th>
                     </tr>
                 </thead>
-                <tbody [innerHTML]="dadosTabela"></tbody>
+                <tbody [innerHTML]="dadosTabela" (click)="trFocus($event)"></tbody>
             </table>
             <div class="rodape">
                 <span>Total de Registros: {{countTabela}}</span>

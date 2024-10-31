@@ -14,6 +14,8 @@ export class ClientesComponent {
   textoModal : string = "";
   mensagem : string = "";
 
+  navTabela : Array<string> = [];
+  idRegistro : string = "";
   countTabela : string = "0";
   dadosTabela : any;
 
@@ -29,9 +31,12 @@ export class ClientesComponent {
     let html : string = "";
 
     for(let i = 0; i < response.length; i++){
-      html += `<tr><td class="codigo">${response[i].codigo}</td>
+      html += `<tr id="${response[i].id_cliente}">
+      <td class="codigo">${response[i].codigo}</td>
       <td class="cliente">${response[i].cliente}</td>
-      <td class="cadastro">${response[i].cadastro}</td></tr>`
+      <td class="cadastro">${response[i].cadastro}</td></tr>`;
+
+      this.navTabela.push(response[i].id_cliente);
     }
 
     this.dadosTabela = this.sanitizer.bypassSecurityTrustHtml(html);
@@ -130,5 +135,15 @@ export class ClientesComponent {
     };
 
     return true
+  }
+
+  trFocus(event : MouseEvent){
+    if(document.querySelector('.trFocus')){
+      document.querySelector('.trFocus')?.classList.remove('trFocus');
+    }
+    
+    let tr = (event.target as HTMLElement).parentElement as HTMLTableRowElement;
+    tr.classList.add('trFocus');
+    this.idRegistro = tr.id;
   }
 }
