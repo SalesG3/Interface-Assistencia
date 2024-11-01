@@ -13,6 +13,7 @@ import { ComunsService } from '../../servicos/comuns.service';
 export class ClientesComponent {
   textoModal : string = "";
   mensagem : string = "";
+  modoTela : string = "";
 
   navTabela : Array<string> = [];
   idRegistro : string = "";
@@ -49,6 +50,7 @@ export class ClientesComponent {
 
     this.comuns.alternarTela('Incluindo');
     this.mensagem = "";
+    this.modoTela = "Incluindo";
 
     codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0');
   }
@@ -58,7 +60,6 @@ export class ClientesComponent {
     let btnSim = document.querySelector('#sim') as HTMLButtonElement;
     let btnNao = document.querySelector('#nao') as HTMLButtonElement;
 
-    let alternarTela = this.comuns.alternarTela;
     this.textoModal = "Realmente deseja sair?"
     modal.showModal();
 
@@ -66,10 +67,16 @@ export class ClientesComponent {
       modal.close()
     }
 
-    btnSim.onclick = function(){
-      alternarTela('');
+    btnSim.onclick = () => {
+      this.modoTela = "";
+      this.comuns.alternarTela('')
       modal.close();
     }
+  }
+
+  voltarConsultando(){
+    this.comuns.alternarTela('');
+    this.modoTela = "";
   }
 
   async salvarRegistro(modo : string){
@@ -88,6 +95,9 @@ export class ClientesComponent {
       ativo: (document.querySelector('#ativo') as HTMLInputElement).checked,
       notificar: (document.querySelector('#notificar') as HTMLInputElement).checked
     }
+
+    //TRATAMENTO PARA THIS.MODOTELA QUANDO O METODO ESTIVER COMO ALTERANDO;
+    //CRIAR PROCEDURE, ROTA E REQUEST PARA ALTERAÇÃO DO REGISTRO;
 
     let response = await this.request.novoRegistro('clientes', data);
 
@@ -111,6 +121,25 @@ export class ClientesComponent {
         (document.querySelector(inputs[i].duplicado) as HTMLElement).classList.add('inputObrigatorio')
       }
     }
+  }
+
+  async detalhesRegistro(modo : string){
+    if(this.idRegistro == ""){return}
+    let response = await this.request.consultarRegistro('clientes', this.idRegistro);
+    
+    for(let i in response[0]){
+      if(document.getElementById(i)){
+        let input = document.getElementById(i) as HTMLInputElement;
+        input.value = response[0][i];
+        
+        if(input.type == "checkbox"){
+          input.checked = response[0][i];
+        }
+      }
+    }
+    
+    this.modoTela = modo;
+    this.comuns.alternarTela(modo)
   }
 
   validarInputs(){

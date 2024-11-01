@@ -4,17 +4,26 @@
     </div>
     <div class="corpo-componente">
         <div class="ferramentas">
-            <button class="voltar" hidden>Voltar</button>
+            <button class="voltar" (click)="voltarConsultando()" hidden><img src="../../../assets/voltar.svg">Voltar</button>
             <button class="fechar"><img src="../../../assets/fechar.svg">Fechar</button>
             <div class="operadores" hidden>
                 <button (click)="salvarRegistro('Incluindo')"><img src="../../../assets/salvar+.svg">Salvar +</button>
                 <button (click)="salvarRegistro('')"><img src="../../../assets/salvar+.svg">Salvar</button>
                 <button (click)="cancelarRegistro()"><img src="../../../assets/fechar.svg">Cancelar</button>
             </div>
+            <div class="navegacao">
+                <span>{{modoTela}}</span>
+                <div class="navegadores" hidden>
+                    <button><img src="../../../assets/comeco.svg"></button>
+                    <button><img src="../../../assets/anterior.svg"></button>
+                    <button><img src="../../../assets/avancar.svg"></button>
+                    <button><img src="../../../assets/final.svg"></button>
+                </div>
+            </div>
             <div class="crud">
                 <button (click)="incluirRegistro()"><img src="../../../assets/incluir.svg">Incluir</button>
-                <button><img src="../../../assets/alterar.svg">Alterar</button>
-                <button><img src="../../../assets/consultar.svg">Consultar</button>
+                <button (click)="detalhesRegistro('Alterando')"><img src="../../../assets/alterar.svg">Alterar</button>
+                <button (click)="detalhesRegistro('Consultando')"><img src="../../../assets/consultar.svg">Consultar</button>
                 <button><img src="../../../assets/excluir.svg">Exluir</button>
                 <button><img src="../../../assets/copiar.svg">Copiar</button>
             </div>

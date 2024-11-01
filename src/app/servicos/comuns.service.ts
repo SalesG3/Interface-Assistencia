@@ -14,6 +14,7 @@ export class ComunsService {
     let dados = document.querySelector('.dados-componente') as HTMLElement;
 
     let crud = document.querySelectorAll('.crud button');
+    let nav = document.querySelector('.navegadores') as HTMLElement;
     let oper = document.querySelector('.operadores') as HTMLElement;
 
     let fechar = document.querySelector('.fechar') as HTMLElement;
@@ -26,6 +27,7 @@ export class ComunsService {
 
         fechar.setAttribute('hidden','');
         voltar.setAttribute('hidden','');
+        nav.setAttribute('hidden','');
 
         oper.removeAttribute('hidden');
         for(let i = 0; i < crud.length; i++){
@@ -35,13 +37,41 @@ export class ComunsService {
         for(let i = 0; i < inputs.length; i++){
           let input = (inputs[i] as HTMLInputElement);
           
+          input.removeAttribute('disabled');
           input.classList.remove('inputObrigatorio');
           input.value = "";
           if(input.type == "checkbox"){
             input.checked = true;
           }
         }
-        
+      break;
+
+      case "Alterando":
+        grid.setAttribute('hidden','');
+        dados.removeAttribute('hidden');
+
+        fechar.setAttribute('hidden','');
+        voltar.setAttribute('hidden','');
+        nav.setAttribute('hidden','');
+
+        oper.removeAttribute('hidden');
+        for(let i = 0; i < crud.length; i++){
+          crud[i].setAttribute('disabled','');
+        };
+      break;
+
+      case 'Consultando':
+        grid.setAttribute('hidden','');
+        dados.removeAttribute('hidden');
+
+        fechar.setAttribute('hidden','');
+        voltar.removeAttribute('hidden');
+        nav.removeAttribute('hidden');
+
+        oper.setAttribute('hidden','');
+        for(let i = 0; i < inputs.length; i++){
+          (inputs[i] as HTMLInputElement).setAttribute('disabled','');
+        }
       break;
 
       default:
@@ -50,6 +80,7 @@ export class ComunsService {
 
         fechar.removeAttribute('hidden');
         voltar.setAttribute('hidden','');
+        nav.setAttribute('hidden','');
 
         oper.setAttribute('hidden','');
         for(let i = 0; i < crud.length; i++){

@@ -67,4 +67,23 @@ export class RequestService {
       console.error(erro); return
     }
   }
+
+  async consultarRegistro(tabela : string, id : string){
+    
+    try{
+      let request = await fetch(environment.APIURL + `/consulta/${tabela}/${id}`,{
+        method: "GET",
+        headers: this.headers
+      });
+      
+      if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
+      let response = await request.json();
+
+      return response;
+    }
+    catch(erro){
+      alert('Inconsistência Interna! Entrar em contato com Suporte.');
+      console.error(erro); return
+    }
+  }
 }
