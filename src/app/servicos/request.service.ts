@@ -11,6 +11,8 @@ export class RequestService {
 
   async dadosGrid(tabela : string, data : object){
 
+    this.carregamento()
+
     try{
       let request = await fetch(environment.APIURL + `/grid/${tabela}`,{
         method: "POST",
@@ -21,15 +23,18 @@ export class RequestService {
       if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
       let response = await request.json();
 
+      this.finalizado();
       return response;
     }
     catch(erro){
       alert('Inconsistência Interna! Entrar em contato com Suporte.');
-      console.error(erro); return
+      console.error(erro); this.finalizado(); return
     }
   }
 
   async codigoAuto( tabela : string){
+
+    this.carregamento()
 
     try{
       let request = await fetch(environment.APIURL + `/codigo/${tabela}`,{
@@ -40,15 +45,18 @@ export class RequestService {
       if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
       let response = await request.json();
 
+      this.finalizado();
       return response;
     }
     catch(erro){
       alert('Inconsistência Interna! Entrar em contato com Suporte.');
-      console.error(erro); return
+      console.error(erro); this.finalizado(); return
     }
   }
 
   async novoRegistro( tabela : string, data : object ){
+
+    this.carregamento()
 
     try{
       let request = await fetch(environment.APIURL + `/novo/${tabela}`,{
@@ -60,15 +68,19 @@ export class RequestService {
       if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
       let response = await request.json();
 
+      this.finalizado();
       return response;
     }
     catch (erro){
+      
       alert('Inconsistência Interna! Entrar em contato com Suporte.');
-      console.error(erro); return
+      console.error(erro); this.finalizado(); return
     }
   }
 
-  async consultarRegistro(tabela : string, id : string){
+  async consultarRegistro(tabela : string, id : number){
+
+    this.carregamento()
     
     try{
       let request = await fetch(environment.APIURL + `/consulta/${tabela}/${id}`,{
@@ -79,11 +91,22 @@ export class RequestService {
       if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
       let response = await request.json();
 
+      this.finalizado();
       return response;
     }
     catch(erro){
       alert('Inconsistência Interna! Entrar em contato com Suporte.');
-      console.error(erro); return
+      console.error(erro); this.finalizado(); return
     }
+  }
+
+  carregamento(){
+    let loading = document.querySelector('.loading') as HTMLElement;
+    loading.style.display = "inline-flex"
+  }
+
+  finalizado(){
+    let loading = document.querySelector('.loading') as HTMLElement;
+    loading.style.display = "none"
   }
 }

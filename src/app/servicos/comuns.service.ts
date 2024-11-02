@@ -121,4 +121,35 @@ export class ComunsService {
       
     return true
   }
+
+  navRegistros( idRegistro : Number, navTabela : Array<number>){
+    let ultimo = navTabela.at(navTabela.length -1);
+    let primeiro = navTabela.at(0);
+
+    let comeco = document.querySelector('#comeco') as HTMLButtonElement;
+    let anterior = document.querySelector('#anterior') as HTMLButtonElement;
+    let avancar = document.querySelector('#avancar') as HTMLButtonElement;
+    let final = document.querySelector('#final') as HTMLButtonElement;
+
+    if(idRegistro == primeiro){
+      comeco.setAttribute('disabled','');
+      anterior.setAttribute('disabled','');
+
+      final.removeAttribute('disabled');
+      avancar.removeAttribute('disabled');
+    }
+    else if(idRegistro == ultimo){
+      final.setAttribute('disabled','');
+      avancar.setAttribute('disabled','');
+
+      comeco.removeAttribute('disabled');
+      anterior.removeAttribute('disabled');
+    }
+    else {
+      comeco.removeAttribute('disabled');
+      anterior.removeAttribute('disabled');
+      avancar.removeAttribute('disabled');
+      final.removeAttribute('disabled');
+    }
+  }
 }

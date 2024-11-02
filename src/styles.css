@@ -25,6 +25,10 @@
         }
     }
 
+    & .corpo-componente{
+        position: relative;
+    }
+
     & .ferramentas{
         display: inline-block;
         width: 100%;
@@ -340,4 +344,38 @@
 
     background-color: transparent !important;
     text-align: left !important;
+}
+
+.loading{
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    width: 100%;
+    height: 100%;
+
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .15);
+
+    & .texto-loading{
+        display: inline-flex;
+        width: 8rem;
+        height: 3rem;
+
+        align-items: center;
+        border-radius: 5px;
+        background-color:#ECECEC;
+    }
+    
+    & span{
+        font: bolder 1rem 'Calibri';
+        padding-left: .5rem;
+    }
+
+    & img{
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-left: .5rem;
+    }
 }

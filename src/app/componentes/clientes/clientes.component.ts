@@ -15,8 +15,8 @@ export class ClientesComponent {
   mensagem : string = "";
   modoTela : string = "";
 
-  navTabela : Array<string> = [];
-  idRegistro : string = "";
+  navTabela : Array<number> = [];
+  idRegistro : number = 0;
   countTabela : string = "0";
   dadosTabela : any;
 
@@ -28,9 +28,9 @@ export class ClientesComponent {
     };
 
     let response = await this.request.dadosGrid('clientes', data);
-
+    this.dadosTabela = [];
+    
     let html : string = "";
-
     for(let i = 0; i < response.length; i++){
       html += `<tr id="${response[i].id_cliente}">
       <td class="codigo">${response[i].codigo}</td>
@@ -69,7 +69,8 @@ export class ClientesComponent {
 
     btnSim.onclick = () => {
       this.modoTela = "";
-      this.comuns.alternarTela('')
+      this.mensagem = "";
+      this.comuns.alternarTela('');
       modal.close();
     }
   }
@@ -77,6 +78,9 @@ export class ClientesComponent {
   voltarConsultando(){
     this.comuns.alternarTela('');
     this.modoTela = "";
+
+    document.querySelector('.trFocus')?.classList.remove('trFocus');
+    this.idRegistro = 0;
   }
 
   async salvarRegistro(modo : string){
@@ -123,9 +127,9 @@ export class ClientesComponent {
     }
   }
 
-  async detalhesRegistro(modo : string){
-    if(this.idRegistro == ""){return}
-    let response = await this.request.consultarRegistro('clientes', this.idRegistro);
+  async detalhesRegistro(modo : string, idRegistro: number){
+    if(idRegistro == 0 || idRegistro == undefined){return}
+    let response = await this.request.consultarRegistro('clientes', idRegistro);
     
     for(let i in response[0]){
       if(document.getElementById(i)){
@@ -140,6 +144,7 @@ export class ClientesComponent {
     
     this.modoTela = modo;
     this.comuns.alternarTela(modo)
+    this.comuns.navRegistros(this.idRegistro, this.navTabela);
   }
 
   validarInputs(){
@@ -173,6 +178,34 @@ export class ClientesComponent {
     
     let tr = (event.target as HTMLElement).parentElement as HTMLTableRowElement;
     tr.classList.add('trFocus');
-    this.idRegistro = tr.id;
+    this.idRegistro = Number(tr.id);
+  }
+
+  async navegarRegistro(funcao : string){
+    let index = this.navTabela.indexOf(this.idRegistro);
+
+    switch(funcao){
+
+      case "avancar":
+        this.idRegistro = Number(this.navTabela.at(index +1));
+        await this.detalhesRegistro('Consultando', this.idRegistro);
+        
+      break;
+
+      case "anterior":
+        this.idRegistro = Number(this.navTabela.at(index -1));
+        await this.detalhesRegistro('Consultando', this.idRegistro);
+      break;
+
+      case "comeco":
+        this.idRegistro = Number(this.navTabela.at(0));
+        await this.detalhesRegistro('Consultando', this.idRegistro);
+      break;
+
+      case "final":
+        this.idRegistro = Number(this.navTabela.at(this.navTabela.length -1));
+        await this.detalhesRegistro('Consultando', this.idRegistro);
+      break;
+    }
   }
 }

@@ -14,16 +14,16 @@
             <div class="navegacao">
                 <span>{{modoTela}}</span>
                 <div class="navegadores" hidden>
-                    <button><img src="../../../assets/comeco.svg"></button>
-                    <button><img src="../../../assets/anterior.svg"></button>
-                    <button><img src="../../../assets/avancar.svg"></button>
-                    <button><img src="../../../assets/final.svg"></button>
+                    <button id="comeco" (click)="navegarRegistro('comeco')"><img src="../../../assets/comeco.svg"></button>
+                    <button id="anterior" (click)="navegarRegistro('anterior')"><img src="../../../assets/anterior.svg"></button>
+                    <button id="avancar" (click)="navegarRegistro('avancar')"><img src="../../../assets/avancar.svg"></button>
+                    <button id="final" (click)="navegarRegistro('final')"><img src="../../../assets/final.svg"></button>
                 </div>
             </div>
             <div class="crud">
                 <button (click)="incluirRegistro()"><img src="../../../assets/incluir.svg">Incluir</button>
-                <button (click)="detalhesRegistro('Alterando')"><img src="../../../assets/alterar.svg">Alterar</button>
-                <button (click)="detalhesRegistro('Consultando')"><img src="../../../assets/consultar.svg">Consultar</button>
+                <button (click)="detalhesRegistro('Alterando', this.idRegistro)"><img src="../../../assets/alterar.svg">Alterar</button>
+                <button (click)="detalhesRegistro('Consultando', this.idRegistro)"><img src="../../../assets/consultar.svg">Consultar</button>
                 <button><img src="../../../assets/excluir.svg">Exluir</button>
                 <button><img src="../../../assets/copiar.svg">Copiar</button>
             </div>
@@ -90,6 +90,14 @@
                 <span class="mensagem">{{mensagem}}</span>
             </div>
         </div>
+
+        <div class="loading" hidden>
+            <div class="texto-loading">
+                <img src="../../../assets/loading.gif">
+                <span>Aguarde ...</span>
+            </div>
+        </div>
+        
     </div>
 </section>
 
