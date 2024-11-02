@@ -7,7 +7,7 @@
             <button class="voltar" (click)="voltarConsultando()" hidden><img src="../../../assets/voltar.svg">Voltar</button>
             <button class="fechar"><img src="../../../assets/fechar.svg">Fechar</button>
             <div class="operadores" hidden>
-                <button (click)="salvarRegistro('Incluindo')"><img src="../../../assets/salvar+.svg">Salvar +</button>
+                <button (click)="salvarRegistro(this.modoTela)"><img src="../../../assets/salvar+.svg">Salvar +</button>
                 <button (click)="salvarRegistro('')"><img src="../../../assets/salvar+.svg">Salvar</button>
                 <button (click)="cancelarRegistro()"><img src="../../../assets/fechar.svg">Cancelar</button>
             </div>
@@ -22,10 +22,10 @@
             </div>
             <div class="crud">
                 <button (click)="incluirRegistro()"><img src="../../../assets/incluir.svg">Incluir</button>
-                <button (click)="detalhesRegistro('Alterando', this.idRegistro)"><img src="../../../assets/alterar.svg">Alterar</button>
-                <button (click)="detalhesRegistro('Consultando', this.idRegistro)"><img src="../../../assets/consultar.svg">Consultar</button>
-                <button><img src="../../../assets/excluir.svg">Exluir</button>
-                <button><img src="../../../assets/copiar.svg">Copiar</button>
+                <button (click)="detalhesRegistro('Alterando')"><img src="../../../assets/alterar.svg">Alterar</button>
+                <button (click)="detalhesRegistro('Consultando')"><img src="../../../assets/consultar.svg">Consultar</button>
+                <button (click)="excluirRegistro()"><img src="../../../assets/excluir.svg">Exluir</button>
+                <button (click)="copiarRegistro()"><img src="../../../assets/copiar.svg">Copiar</button>
             </div>
         </div>
         <div class="grid-componente">
@@ -97,7 +97,7 @@
                 <span>Aguarde ...</span>
             </div>
         </div>
-        
+
     </div>
 </section>
 

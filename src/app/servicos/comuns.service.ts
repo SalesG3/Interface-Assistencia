@@ -74,6 +74,23 @@ export class ComunsService {
         }
       break;
 
+      case "Copiando":
+        grid.setAttribute('hidden','');
+        dados.removeAttribute('hidden');
+
+        fechar.setAttribute('hidden','');
+        voltar.setAttribute('hidden','');
+        nav.setAttribute('hidden','');
+
+        oper.removeAttribute('hidden');
+        for(let i = 0; i < crud.length; i++){
+          crud[i].setAttribute('disabled','');
+        };
+        for(let i = 0; i < inputs.length; i++){
+          (inputs[i] as HTMLInputElement).removeAttribute('disabled');
+        }
+      break;
+
       default:
         grid.removeAttribute('hidden');
         dados.setAttribute('hidden','');

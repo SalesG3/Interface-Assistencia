@@ -78,6 +78,7 @@ export class ClientesComponent {
   voltarConsultando(){
     this.comuns.alternarTela('');
     this.modoTela = "";
+    this.mensagem = "";
 
     document.querySelector('.trFocus')?.classList.remove('trFocus');
     this.idRegistro = 0;
@@ -100,10 +101,20 @@ export class ClientesComponent {
       notificar: (document.querySelector('#notificar') as HTMLInputElement).checked
     }
 
-    //TRATAMENTO PARA THIS.MODOTELA QUANDO O METODO ESTIVER COMO ALTERANDO;
-    //CRIAR PROCEDURE, ROTA E REQUEST PARA ALTERAÇÃO DO REGISTRO;
+    let response;
+    switch(this.modoTela){
+      case "Incluindo":
+        response = await this.request.novoRegistro('clientes', data);
+      break;
 
-    let response = await this.request.novoRegistro('clientes', data);
+      case "Copiando":
+        response = await this.request.novoRegistro('clientes', data);
+      break;
+
+      case "Alterando":
+        response = await this.request.alterarRegistro('clientes', data, this.idRegistro);
+      break;
+    }
 
     let modal = document.querySelector('#modalSucesso') as HTMLDialogElement;
     let button = document.querySelector('#modalSucesso button') as HTMLButtonElement;
@@ -114,8 +125,17 @@ export class ClientesComponent {
       button.onclick = function(){
         modal.close()
       }
-      this.mensagem = "";
-      this.comuns.alternarTela(modo);
+
+      if(modo == "Incluindo"){
+        await this.incluirRegistro();
+      }
+      else if(modo == "Copiando"){
+        await this.copiarRegistro()
+      }
+      else {
+        this.voltarConsultando();
+        this.pesquisarGrid();
+      }
     }
 
     if(response.duplicado){
@@ -127,9 +147,9 @@ export class ClientesComponent {
     }
   }
 
-  async detalhesRegistro(modo : string, idRegistro: number){
-    if(idRegistro == 0 || idRegistro == undefined){return}
-    let response = await this.request.consultarRegistro('clientes', idRegistro);
+  async detalhesRegistro(modo : string){
+    if(this.idRegistro == 0){ return }
+    let response = await this.request.consultarRegistro('clientes', this.idRegistro);
     
     for(let i in response[0]){
       if(document.getElementById(i)){
@@ -188,24 +208,60 @@ export class ClientesComponent {
 
       case "avancar":
         this.idRegistro = Number(this.navTabela.at(index +1));
-        await this.detalhesRegistro('Consultando', this.idRegistro);
+        await this.detalhesRegistro('Consultando');
         
       break;
 
       case "anterior":
         this.idRegistro = Number(this.navTabela.at(index -1));
-        await this.detalhesRegistro('Consultando', this.idRegistro);
+        await this.detalhesRegistro('Consultando');
       break;
 
       case "comeco":
         this.idRegistro = Number(this.navTabela.at(0));
-        await this.detalhesRegistro('Consultando', this.idRegistro);
+        await this.detalhesRegistro('Consultando');
       break;
 
       case "final":
         this.idRegistro = Number(this.navTabela.at(this.navTabela.length -1));
-        await this.detalhesRegistro('Consultando', this.idRegistro);
+        await this.detalhesRegistro('Consultando');
       break;
+    }
+  }
+
+  async copiarRegistro(){
+    if(this.idRegistro == 0){ return }
+    await this.detalhesRegistro("Copiando");
+
+    let response = await this.request.codigoAuto('clientes');
+    let codigo = document.querySelector('#codigo') as HTMLInputElement;
+    
+    this.modoTela = "Copiando";
+    this.mensagem = "";
+    
+    this.comuns.alternarTela(this.modoTela);
+    codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0')
+  }
+
+  async excluirRegistro(){
+    if(this.idRegistro == 0){ return }
+
+    let modal = document.querySelector('#modalConfirmacao') as HTMLDialogElement;
+    let btnSim = document.querySelector('#sim') as HTMLButtonElement;
+    let btnNao = document.querySelector('#nao') as HTMLButtonElement;
+
+    this.textoModal = "Deseja apagar esse Registro?"
+    modal.showModal();
+
+    btnNao.onclick = function(){
+      modal.close()
+    }
+
+    btnSim.onclick = async () => {
+      await this.request.excluirRegistro('clientes', this.idRegistro);
+      this.voltarConsultando();
+      this.pesquisarGrid();
+      modal.close();
     }
   }
 }

@@ -78,6 +78,29 @@ export class RequestService {
     }
   }
 
+  async alterarRegistro(tabela : string, data : object, id : number){
+
+    this.carregamento();
+
+    try{
+      let request = await fetch(environment.APIURL + `/alterar/${tabela}/${id}`,{
+        method: "PUT",
+        headers: this.headers,
+        body: JSON.stringify(data)
+      });
+
+      if(!request.ok){alert('Inconsitência Interna! Entrar em contato com Suporte.'); console.error(request); return}
+      let response = await request.json();
+
+      this.finalizado();
+      return response
+    }
+    catch(erro){
+      alert('Inconsistência Interna! Entrar em contato com Suporte.');
+      console.error(erro); this.finalizado(); return
+    }
+  }
+
   async consultarRegistro(tabela : string, id : number){
 
     this.carregamento()
@@ -85,6 +108,28 @@ export class RequestService {
     try{
       let request = await fetch(environment.APIURL + `/consulta/${tabela}/${id}`,{
         method: "GET",
+        headers: this.headers
+      });
+      
+      if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
+      let response = await request.json();
+
+      this.finalizado();
+      return response;
+    }
+    catch(erro){
+      alert('Inconsistência Interna! Entrar em contato com Suporte.');
+      console.error(erro); this.finalizado(); return
+    }
+  }
+
+  async excluirRegistro(tabela : string, id : number){
+
+    this.carregamento();
+
+    try{
+      let request = await fetch(environment.APIURL + `/delete/${tabela}/${id}`,{
+        method: "DELETE",
         headers: this.headers
       });
       
