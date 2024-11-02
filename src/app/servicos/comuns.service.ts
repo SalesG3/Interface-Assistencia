@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { log } from 'node:console';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,9 @@ export class ComunsService {
         for(let i = 0; i < crud.length; i++){
           crud[i].setAttribute('disabled','');
         };
+        for(let i = 0; i < inputs.length; i++){
+          (inputs[i] as HTMLInputElement).removeAttribute('disabled');
+        }
       break;
 
       case 'Consultando':
@@ -148,7 +152,15 @@ export class ComunsService {
     let avancar = document.querySelector('#avancar') as HTMLButtonElement;
     let final = document.querySelector('#final') as HTMLButtonElement;
 
-    if(idRegistro == primeiro){
+    if(idRegistro == primeiro && idRegistro == ultimo){
+      comeco.setAttribute('disabled','');
+      anterior.setAttribute('disabled','');
+
+      final.setAttribute('disabled','');
+      avancar.setAttribute('disabled','');
+    }
+
+    else if(idRegistro == primeiro){
       comeco.setAttribute('disabled','');
       anterior.setAttribute('disabled','');
 
@@ -167,6 +179,108 @@ export class ComunsService {
       anterior.removeAttribute('disabled');
       avancar.removeAttribute('disabled');
       final.removeAttribute('disabled');
+    }
+  }
+
+  mascaraCodigo(event : InputEvent){
+    let input = document.querySelector('#codigo') as HTMLInputElement;
+    let formatado : string = "";
+    
+    for( let i = 0; i < input.value.length; i++ ){
+
+      if( i == input.maxLength && input.value[0] == '0' ){
+        formatado = formatado.replace('0','');
+        formatado += event.data;
+      }
+
+      else if ( i < input.maxLength ){
+        formatado += input.value[i]
+      }
+    }
+
+    input.value = formatado.padStart(input.maxLength,'0');
+  }
+
+  mascaraCadatro(){
+    let input = document.querySelector('#cadastro') as HTMLInputElement;
+    let valor = input.value.replaceAll('.','').replace('-','').replace('/','');
+    let formatado : string = "";
+    
+    if(valor.length < 12){
+      for(let i = 0; i < valor.length; i++){
+        if(!(valor[i] in [1,2,3,4,5,6,7,8,9,0])){
+          input.value = ""; return
+        }
+
+        if(i == 3 || i == 6){
+          formatado += "."
+        }
+  
+        if(i == 9){
+          formatado += "-"
+        }
+  
+        if(i < input.maxLength){
+          formatado += valor[i]
+        }
+      }
+    }
+    else{
+      for(let i = 0; i < valor.length; i++){
+        if(!(valor[i] in [1,2,3,4,5,6,7,8,9,0])){
+          input.value = ""; return
+        }
+
+        if(i == 2 || i == 5){
+          formatado += "."
+        }
+
+        if(i == 8){
+          formatado += "/"
+        }
+
+        if(i == 12){
+          formatado += "-"
+        }
+
+        if(i < input.maxLength){
+          formatado += valor[i]
+        }
+      }
+    }
+
+    input.value = formatado;
+    if(input.value.length > input.maxLength){
+      input.value = "";
+    }
+  }
+
+  mascaraContato(){
+    let input = document.querySelector('#contato') as HTMLInputElement;
+    let valor = input.value.replace('(','').replace(')','');
+    let formatado : string = "";
+
+    for(let i = 0; i < valor.length; i++){
+      if(!(valor[i] in [1,2,3,4,5,6,7,8,9,0])){
+        input.value = ""; return
+      }
+
+      if(i == 0){
+        formatado += "(";
+      }
+
+      if(i == 2){
+        formatado += ")"
+      }
+
+      if(i < input.maxLength){
+        formatado += valor[i]
+      }
+    }
+
+    input.value = formatado;
+    if(input.value.length > input.maxLength){
+      input.value = "";
     }
   }
 }

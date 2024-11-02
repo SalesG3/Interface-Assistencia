@@ -5,9 +5,9 @@
 :host ::ng-deep .trFocus{background-color: cornflowerblue !important; color: white !important;}
 
 /* Dados Registro: */
-#codigo{ width: 5rem; }
-#cliente{ width: 26.75rem; }
-#tipo{ width: 5.4rem; }
+#codigo{ width: 3.5rem; }
+#cliente{ width: 27.85rem; }
+#tipo{ width: 4.25rem; }
 #cadastro{ width: 10.425rem; }
 #contato{ width: 10.425rem; }
 #email{ width: 12rem; }

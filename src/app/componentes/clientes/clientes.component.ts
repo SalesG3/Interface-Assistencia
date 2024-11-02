@@ -20,7 +20,15 @@ export class ClientesComponent {
   countTabela : string = "0";
   dadosTabela : any;
 
-  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comuns : ComunsService){  }
+  mascaraCodigo : Function;
+  mascaraCadastro : Function;
+  mascaraContato : Function;
+
+  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comuns : ComunsService){
+    this.mascaraCodigo = this.comuns.mascaraCodigo;
+    this.mascaraCadastro = this.comuns.mascaraCadatro;
+    this.mascaraContato = this.comuns.mascaraContato;
+  }
 
   async pesquisarGrid(){
     let data = {
@@ -28,7 +36,7 @@ export class ClientesComponent {
     };
 
     let response = await this.request.dadosGrid('clientes', data);
-    this.dadosTabela = [];
+    this.navTabela = [];
     
     let html : string = "";
     for(let i = 0; i < response.length; i++){
