@@ -4,13 +4,13 @@ import { RequestService } from '../../servicos/request.service';
 import { ComunsService } from '../../servicos/comuns.service';
 
 @Component({
-  selector: 'app-clientes',
+  selector: 'app-servicos',
   standalone: true,
   imports: [],
-  templateUrl: './clientes.component.html',
-  styleUrl: './clientes.component.css'
+  templateUrl: './servicos.component.html',
+  styleUrl: './servicos.component.css'
 })
-export class ClientesComponent {
+export class ServicosComponent {
   textoModal : string = "";
   mensagem : string = "";
   modoTela : string = "";

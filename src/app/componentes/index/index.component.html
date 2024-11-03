@@ -21,13 +21,19 @@
             <a >Andamento OS</a>
             <a >Conclusão OS</a>
         </div>
-        <button #nav03 value="relatorios" (click)="listDown(nav03)">Relatórios</button>
+        <button #nav03 value="relatorios" (click)="abrirComponente('servicos')">Relatórios</button>
         <div class="listDown" id="list-relatorios">
             <a >Listagem</a>
         </div>
-        <button>Configurações</button>
+        <button (click)="abrirComponente('clientes')">Configurações</button>
     </nav>
     <section>
-        <router-outlet></router-outlet>
+
+        <ng-container *ngComponentOutlet="outlet01"></ng-container>
+        <ng-container *ngComponentOutlet="outlet02"></ng-container>
+        <ng-container *ngComponentOutlet="outlet03"></ng-container>
+        <ng-container *ngComponentOutlet="outlet04"></ng-container>
+        <ng-container *ngComponentOutlet="outlet05"></ng-container>
+
     </section>
 </main>
