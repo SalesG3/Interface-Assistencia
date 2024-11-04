@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { IndexComponent } from '../componentes/index/index.component';
 import { ClientesComponent } from '../componentes/clientes/clientes.component';
 import { ServicosComponent } from '../componentes/servicos/servicos.component';
 
@@ -43,7 +42,7 @@ export class RouterService {
       let docComponente = document.querySelector(`#${componente}`) as HTMLElement;
       docComponente.style.zIndex = '2';
   
-      docComponente.addEventListener('click', () => {
+      docComponente.addEventListener('mousedown', () => {
         let docComponentes = document.querySelectorAll('.componente');
   
         for(let i = 0; i < docComponentes.length; i++){

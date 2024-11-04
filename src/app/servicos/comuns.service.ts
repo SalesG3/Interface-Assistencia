@@ -5,21 +5,21 @@ import { Injectable } from '@angular/core';
 })
 export class ComunsService {
   
-
   constructor() { }
 
-  alternarTela( modo : string, componente : string){
-    let inputs = document.querySelectorAll(`${componente}.dados-componente input, textarea, select`)
+  // Alterna entre Telas e Modifica Barra de Ferramentas de acordo com Modo:
+  alternarTela(componente : string, modo : string){
+    let inputs = document.querySelectorAll(`#${componente} .dados-componente input, textarea, select`)
 
-    let grid = document.querySelector(`${componente} .grid-componente`) as HTMLElement;
-    let dados = document.querySelector(`${componente} .dados-componente`) as HTMLElement;
+    let grid = document.querySelector(`#${componente} .grid-componente`) as HTMLElement;
+    let dados = document.querySelector(`#${componente} .dados-componente`) as HTMLElement;
 
-    let crud = document.querySelectorAll(`${componente} .crud button`);
-    let nav = document.querySelector(`${componente} .navegadores`) as HTMLElement;
-    let oper = document.querySelector(`${componente} .operadores`) as HTMLElement;
+    let crud = document.querySelectorAll(`#${componente} .crud button`);
+    let nav = document.querySelector(`#${componente} .navegadores`) as HTMLElement;
+    let oper = document.querySelector(`#${componente} .operadores`) as HTMLElement;
 
-    let fechar = document.querySelector(`${componente} .fechar`) as HTMLElement;
-    let voltar = document.querySelector(`${componente} .voltar`) as HTMLElement;
+    let fechar = document.querySelector(`#${componente} .fechar`) as HTMLElement;
+    let voltar = document.querySelector(`#${componente} .voltar`) as HTMLElement;
 
     switch(modo){
       case 'Incluindo':
@@ -121,11 +121,12 @@ export class ComunsService {
     }
   }
 
-  validarInputs( inputs : Array<string>, componente : string){
+  // Valida inputs vazios de acordo com Array passada nos Parâmetros:
+  validarInputs(componente : string, inputs : Array<string>){
     let mensagem : string = "";
 
     for(let i = 0; i < inputs.length; i++){
-      let input = document.querySelector(componente + ' ' + inputs[i]) as HTMLInputElement;
+      let input = document.querySelector(`#${componente} ${inputs[i]}`) as HTMLInputElement;
 
       if(input.value.replaceAll(' ','') == ""){
         input.classList.add('inputObrigatorio');
@@ -143,14 +144,15 @@ export class ComunsService {
     return true
   }
 
-  navRegistros( idRegistro : Number, navcomponente : Array<number>, componente : string){
+  // Valida Posição e Navega entre Registros da GRID:
+  navRegistros(componente : string, idRegistro : number, navcomponente : Array<number>){
     let ultimo = navcomponente.at(navcomponente.length -1);
     let primeiro = navcomponente.at(0);
 
-    let comeco = document.querySelector(`${componente} #comeco`) as HTMLButtonElement;
-    let anterior = document.querySelector(`${componente} #anterior`) as HTMLButtonElement;
-    let avancar = document.querySelector(`${componente} #avancar`) as HTMLButtonElement;
-    let final = document.querySelector(`${componente} #final`) as HTMLButtonElement;
+    let comeco = document.querySelector(`#${componente} #comeco`) as HTMLButtonElement;
+    let anterior = document.querySelector(`#${componente} #anterior`) as HTMLButtonElement;
+    let avancar = document.querySelector(`#${componente} #avancar`) as HTMLButtonElement;
+    let final = document.querySelector(`#${componente} #final`) as HTMLButtonElement;
 
     if(idRegistro == primeiro && idRegistro == ultimo){
       comeco.setAttribute('disabled','');
@@ -182,8 +184,9 @@ export class ComunsService {
     }
   }
 
-  mascaraCodigo(event : InputEvent, componente : string){
-    let input = document.querySelector(`${componente} #codigo`) as HTMLInputElement;
+  // Mascara para o Campo Código:
+  mascaraCodigo(componente : string, event : InputEvent){
+    let input = document.querySelector(`#${componente} #codigo`) as HTMLInputElement;
     let formatado : string = "";
     
     for( let i = 0; i < input.value.length; i++ ){
@@ -201,8 +204,9 @@ export class ComunsService {
     input.value = formatado.padStart(input.maxLength,'0');
   }
 
+  // Mascara para o Campo Cadastro:
   mascaraCadatro(componente : string){
-    let input = document.querySelector(`${componente} #cadastro`) as HTMLInputElement;
+    let input = document.querySelector(`#${componente} #cadastro`) as HTMLInputElement;
     let valor = input.value.replaceAll('.','').replace('-','').replace('/','');
     let formatado : string = "";
     
@@ -255,8 +259,9 @@ export class ComunsService {
     }
   }
 
+  // Mascara para o Campo Contato:
   mascaraContato(componente : string){
-    let input = document.querySelector(`${componente} #contato`) as HTMLInputElement;
+    let input = document.querySelector(`#${componente} #contato`) as HTMLInputElement;
     let valor = input.value.replace('(','').replace(')','');
     let formatado : string = "";
 
