@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
-import { log } from 'node:console';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComunsService {
+  
 
   constructor() { }
 
-  alternarTela( modo : string ){
-    let inputs = document.querySelectorAll('.dados-componente input, textarea, select')
+  alternarTela( modo : string, componente : string){
+    let inputs = document.querySelectorAll(`${componente}.dados-componente input, textarea, select`)
 
-    let grid = document.querySelector('.grid-componente') as HTMLElement;
-    let dados = document.querySelector('.dados-componente') as HTMLElement;
+    let grid = document.querySelector(`${componente} .grid-componente`) as HTMLElement;
+    let dados = document.querySelector(`${componente} .dados-componente`) as HTMLElement;
 
-    let crud = document.querySelectorAll('.crud button');
-    let nav = document.querySelector('.navegadores') as HTMLElement;
-    let oper = document.querySelector('.operadores') as HTMLElement;
+    let crud = document.querySelectorAll(`${componente} .crud button`);
+    let nav = document.querySelector(`${componente} .navegadores`) as HTMLElement;
+    let oper = document.querySelector(`${componente} .operadores`) as HTMLElement;
 
-    let fechar = document.querySelector('.fechar') as HTMLElement;
-    let voltar = document.querySelector('.voltar') as HTMLElement;
+    let fechar = document.querySelector(`${componente} .fechar`) as HTMLElement;
+    let voltar = document.querySelector(`${componente} .voltar`) as HTMLElement;
 
     switch(modo){
       case 'Incluindo':
@@ -121,11 +121,11 @@ export class ComunsService {
     }
   }
 
-  validarInputs( inputs : Array<string> ){
+  validarInputs( inputs : Array<string>, componente : string){
     let mensagem : string = "";
 
     for(let i = 0; i < inputs.length; i++){
-      let input = document.querySelector(inputs[i]) as HTMLInputElement;
+      let input = document.querySelector(componente + ' ' + inputs[i]) as HTMLInputElement;
 
       if(input.value.replaceAll(' ','') == ""){
         input.classList.add('inputObrigatorio');
@@ -135,7 +135,7 @@ export class ComunsService {
       }
     }
 
-    if(document.querySelector('.inputObrigatorio')){
+    if(document.querySelector(`.inputObrigatorio`)){
       mensagem = "Campos em vermelho são obrigatórios";
       return mensagem
     };
@@ -143,14 +143,14 @@ export class ComunsService {
     return true
   }
 
-  navRegistros( idRegistro : Number, navTabela : Array<number>){
-    let ultimo = navTabela.at(navTabela.length -1);
-    let primeiro = navTabela.at(0);
+  navRegistros( idRegistro : Number, navcomponente : Array<number>, componente : string){
+    let ultimo = navcomponente.at(navcomponente.length -1);
+    let primeiro = navcomponente.at(0);
 
-    let comeco = document.querySelector('#comeco') as HTMLButtonElement;
-    let anterior = document.querySelector('#anterior') as HTMLButtonElement;
-    let avancar = document.querySelector('#avancar') as HTMLButtonElement;
-    let final = document.querySelector('#final') as HTMLButtonElement;
+    let comeco = document.querySelector(`${componente} #comeco`) as HTMLButtonElement;
+    let anterior = document.querySelector(`${componente} #anterior`) as HTMLButtonElement;
+    let avancar = document.querySelector(`${componente} #avancar`) as HTMLButtonElement;
+    let final = document.querySelector(`${componente} #final`) as HTMLButtonElement;
 
     if(idRegistro == primeiro && idRegistro == ultimo){
       comeco.setAttribute('disabled','');
@@ -182,8 +182,8 @@ export class ComunsService {
     }
   }
 
-  mascaraCodigo(event : InputEvent){
-    let input = document.querySelector('#codigo') as HTMLInputElement;
+  mascaraCodigo(event : InputEvent, componente : string){
+    let input = document.querySelector(`${componente} #codigo`) as HTMLInputElement;
     let formatado : string = "";
     
     for( let i = 0; i < input.value.length; i++ ){
@@ -201,8 +201,8 @@ export class ComunsService {
     input.value = formatado.padStart(input.maxLength,'0');
   }
 
-  mascaraCadatro(){
-    let input = document.querySelector('#cadastro') as HTMLInputElement;
+  mascaraCadatro(componente : string){
+    let input = document.querySelector(`${componente} #cadastro`) as HTMLInputElement;
     let valor = input.value.replaceAll('.','').replace('-','').replace('/','');
     let formatado : string = "";
     
@@ -255,8 +255,8 @@ export class ComunsService {
     }
   }
 
-  mascaraContato(){
-    let input = document.querySelector('#contato') as HTMLInputElement;
+  mascaraContato(componente : string){
+    let input = document.querySelector(`${componente} #contato`) as HTMLInputElement;
     let valor = input.value.replace('(','').replace(')','');
     let formatado : string = "";
 

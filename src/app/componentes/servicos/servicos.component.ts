@@ -11,6 +11,8 @@ import { ComunsService } from '../../servicos/comuns.service';
   styleUrl: './servicos.component.css'
 })
 export class ServicosComponent {
+  componente : string = '#servicos';
+
   textoModal : string = "";
   mensagem : string = "";
   modoTela : string = "";
@@ -31,11 +33,12 @@ export class ServicosComponent {
   }
 
   async pesquisarGrid(){
+    (document.querySelector('#servicos') as HTMLElement).style.zIndex = '2';
     let data = {
       pesquisa : (document.querySelector('#pesquisa') as HTMLInputElement).value
     };
 
-    let response = await this.request.dadosGrid('clientes', data);
+    let response = await this.request.dadosGrid('servicos', data);
     this.navTabela = [];
     
     let html : string = "";
@@ -56,7 +59,7 @@ export class ServicosComponent {
     let response = await this.request.codigoAuto('clientes');
     let codigo = document.querySelector('#codigo') as HTMLInputElement;
 
-    this.comuns.alternarTela('Incluindo');
+    this.comuns.alternarTela('Incluindo', this.componente);
     this.mensagem = "";
     this.modoTela = "Incluindo";
 
@@ -78,13 +81,13 @@ export class ServicosComponent {
     btnSim.onclick = () => {
       this.modoTela = "";
       this.mensagem = "";
-      this.comuns.alternarTela('');
+      this.comuns.alternarTela('', this.componente);
       modal.close();
     }
   }
 
   voltarConsultando(){
-    this.comuns.alternarTela('');
+    this.comuns.alternarTela('', this.componente);
     this.modoTela = "";
     this.mensagem = "";
 
@@ -171,8 +174,8 @@ export class ServicosComponent {
     }
     
     this.modoTela = modo;
-    this.comuns.alternarTela(modo)
-    this.comuns.navRegistros(this.idRegistro, this.navTabela);
+    this.comuns.alternarTela(modo, this.componente)
+    this.comuns.navRegistros(this.idRegistro, this.navTabela, this.componente);
   }
 
   validarInputs(){
@@ -180,7 +183,7 @@ export class ServicosComponent {
     let contato = document.querySelector('#contato') as HTMLInputElement;
     
     let inputs = ['#codigo', '#cliente', '#tipo', '#cadastro', '#contato'];
-    let validarInputs = this.comuns.validarInputs(inputs);
+    let validarInputs = this.comuns.validarInputs(inputs, this.componente);
 
     if(validarInputs != true){ this.mensagem = validarInputs; return}
 
@@ -247,7 +250,7 @@ export class ServicosComponent {
     this.modoTela = "Copiando";
     this.mensagem = "";
     
-    this.comuns.alternarTela(this.modoTela);
+    this.comuns.alternarTela(this.modoTela, this.componente);
     codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0')
   }
 
@@ -274,8 +277,8 @@ export class ServicosComponent {
   }
 
   moverComponente(){
-    let componente = document.querySelector('.componente') as HTMLElement;
-    let titulo = document.querySelector('.titulo-componente') as HTMLElement;
+    let componente = document.querySelector(this.componente) as HTMLElement;
+    let titulo = document.querySelector(this.componente + ' .titulo-componente') as HTMLElement;
 
     function mover (event : MouseEvent){
       componente.style.left = `${event.movementX + componente.offsetLeft}px`;

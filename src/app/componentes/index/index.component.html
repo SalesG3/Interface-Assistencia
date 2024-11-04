@@ -11,8 +11,8 @@
         <button>DashBoard</button>
         <button #nav01 value="cadastro" (click)="listDown(nav01)">Cadastro</button>
         <div class="listDown" id="list-cadastro">
-            <a [routerLink]="'/clientes'">Clientes</a>
-            <a >Serviços</a>
+            <a (click)="router.abrirComponente('clientes')">Clientes</a>
+            <a (click)="router.abrirComponente('servicos')">Serviços</a>
             <a >Peças</a>
         </div>
         <button #nav02 value="movimentacao" (click)="listDown(nav02)">Movimentação</button>
@@ -21,19 +21,19 @@
             <a >Andamento OS</a>
             <a >Conclusão OS</a>
         </div>
-        <button #nav03 value="relatorios" (click)="abrirComponente('servicos')">Relatórios</button>
+        <button #nav03 value="relatorios" (click)="listDown(nav03)">Relatórios</button>
         <div class="listDown" id="list-relatorios">
             <a >Listagem</a>
         </div>
-        <button (click)="abrirComponente('clientes')">Configurações</button>
+        <button (click)="router.componenteFocus('clientes')">Configurações</button>
     </nav>
     <section>
 
-        <ng-container *ngComponentOutlet="outlet01"></ng-container>
-        <ng-container *ngComponentOutlet="outlet02"></ng-container>
-        <ng-container *ngComponentOutlet="outlet03"></ng-container>
-        <ng-container *ngComponentOutlet="outlet04"></ng-container>
-        <ng-container *ngComponentOutlet="outlet05"></ng-container>
+        <ng-container *ngComponentOutlet="router.outlet01"></ng-container>
+        <ng-container *ngComponentOutlet="router.outlet02"></ng-container>
+        <ng-container *ngComponentOutlet="router.outlet03"></ng-container>
+        <ng-container *ngComponentOutlet="router.outlet04"></ng-container>
+        <ng-container *ngComponentOutlet="router.outlet05"></ng-container>
 
     </section>
 </main>

@@ -11,6 +11,8 @@ import { ComunsService } from '../../servicos/comuns.service';
   styleUrl: './clientes.component.css'
 })
 export class ClientesComponent {
+  componente = '#clientes'
+
   textoModal : string = "";
   mensagem : string = "";
   modoTela : string = "";
@@ -56,7 +58,7 @@ export class ClientesComponent {
     let response = await this.request.codigoAuto('clientes');
     let codigo = document.querySelector('#codigo') as HTMLInputElement;
 
-    this.comuns.alternarTela('Incluindo');
+    this.comuns.alternarTela('Incluindo', this.componente);
     this.mensagem = "";
     this.modoTela = "Incluindo";
 
@@ -78,13 +80,13 @@ export class ClientesComponent {
     btnSim.onclick = () => {
       this.modoTela = "";
       this.mensagem = "";
-      this.comuns.alternarTela('');
+      this.comuns.alternarTela('', this.componente);
       modal.close();
     }
   }
 
   voltarConsultando(){
-    this.comuns.alternarTela('');
+    this.comuns.alternarTela('', this.componente);
     this.modoTela = "";
     this.mensagem = "";
 
@@ -171,8 +173,8 @@ export class ClientesComponent {
     }
     
     this.modoTela = modo;
-    this.comuns.alternarTela(modo)
-    this.comuns.navRegistros(this.idRegistro, this.navTabela);
+    this.comuns.alternarTela(modo, this.componente)
+    this.comuns.navRegistros(this.idRegistro, this.navTabela, this.componente);
   }
 
   validarInputs(){
@@ -180,7 +182,7 @@ export class ClientesComponent {
     let contato = document.querySelector('#contato') as HTMLInputElement;
     
     let inputs = ['#codigo', '#cliente', '#tipo', '#cadastro', '#contato'];
-    let validarInputs = this.comuns.validarInputs(inputs);
+    let validarInputs = this.comuns.validarInputs(inputs, this.componente);
 
     if(validarInputs != true){ this.mensagem = validarInputs; return}
 
@@ -247,7 +249,7 @@ export class ClientesComponent {
     this.modoTela = "Copiando";
     this.mensagem = "";
     
-    this.comuns.alternarTela(this.modoTela);
+    this.comuns.alternarTela(this.modoTela, this.componente);
     codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0')
   }
 
@@ -274,15 +276,14 @@ export class ClientesComponent {
   }
 
   moverComponente(){
-    let componente = document.querySelector('.componente') as HTMLElement;
-    let titulo = document.querySelector('.titulo-componente') as HTMLElement;
+    let componente = document.querySelector(this.componente) as HTMLElement;
 
     function mover (event : MouseEvent){
       componente.style.left = `${event.movementX + componente.offsetLeft}px`;
       componente.style.top = `${event.movementY + componente.offsetTop}px`;
     }
 
-    titulo.onmouseup = () => {
+    document.onmouseup = () => {
       document.removeEventListener('mousemove', mover);
     }
 

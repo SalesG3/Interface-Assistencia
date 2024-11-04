@@ -11,7 +11,7 @@ export class RequestService {
 
   async dadosGrid(tabela : string, data : object){
 
-    this.carregamento()
+    this.carregamento(tabela)
 
     try{
       let request = await fetch(environment.APIURL + `/grid/${tabela}`,{
@@ -23,18 +23,18 @@ export class RequestService {
       if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
       let response = await request.json();
 
-      this.finalizado();
+      this.finalizado(tabela);
       return response;
     }
     catch(erro){
       alert('Inconsistência Interna! Entrar em contato com Suporte.');
-      console.error(erro); this.finalizado(); return
+      console.error(erro); this.finalizado(tabela); return
     }
   }
 
   async codigoAuto( tabela : string){
 
-    this.carregamento()
+    this.carregamento(tabela)
 
     try{
       let request = await fetch(environment.APIURL + `/codigo/${tabela}`,{
@@ -45,18 +45,18 @@ export class RequestService {
       if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
       let response = await request.json();
 
-      this.finalizado();
+      this.finalizado(tabela);
       return response;
     }
     catch(erro){
       alert('Inconsistência Interna! Entrar em contato com Suporte.');
-      console.error(erro); this.finalizado(); return
+      console.error(erro); this.finalizado(tabela); return
     }
   }
 
   async novoRegistro( tabela : string, data : object ){
 
-    this.carregamento()
+    this.carregamento(tabela)
 
     try{
       let request = await fetch(environment.APIURL + `/novo/${tabela}`,{
@@ -68,19 +68,19 @@ export class RequestService {
       if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
       let response = await request.json();
 
-      this.finalizado();
+      this.finalizado(tabela);
       return response;
     }
     catch (erro){
       
       alert('Inconsistência Interna! Entrar em contato com Suporte.');
-      console.error(erro); this.finalizado(); return
+      console.error(erro); this.finalizado(tabela); return
     }
   }
 
   async alterarRegistro(tabela : string, data : object, id : number){
 
-    this.carregamento();
+    this.carregamento(tabela);
 
     try{
       let request = await fetch(environment.APIURL + `/alterar/${tabela}/${id}`,{
@@ -92,18 +92,18 @@ export class RequestService {
       if(!request.ok){alert('Inconsitência Interna! Entrar em contato com Suporte.'); console.error(request); return}
       let response = await request.json();
 
-      this.finalizado();
+      this.finalizado(tabela);
       return response
     }
     catch(erro){
       alert('Inconsistência Interna! Entrar em contato com Suporte.');
-      console.error(erro); this.finalizado(); return
+      console.error(erro); this.finalizado(tabela); return
     }
   }
 
   async consultarRegistro(tabela : string, id : number){
 
-    this.carregamento()
+    this.carregamento(tabela)
     
     try{
       let request = await fetch(environment.APIURL + `/consulta/${tabela}/${id}`,{
@@ -114,18 +114,18 @@ export class RequestService {
       if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
       let response = await request.json();
 
-      this.finalizado();
+      this.finalizado(tabela);
       return response;
     }
     catch(erro){
       alert('Inconsistência Interna! Entrar em contato com Suporte.');
-      console.error(erro); this.finalizado(); return
+      console.error(erro); this.finalizado(tabela); return
     }
   }
 
   async excluirRegistro(tabela : string, id : number){
 
-    this.carregamento();
+    this.carregamento(tabela);
 
     try{
       let request = await fetch(environment.APIURL + `/delete/${tabela}/${id}`,{
@@ -136,22 +136,22 @@ export class RequestService {
       if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
       let response = await request.json();
 
-      this.finalizado();
+      this.finalizado(tabela);
       return response;
     }
     catch(erro){
       alert('Inconsistência Interna! Entrar em contato com Suporte.');
-      console.error(erro); this.finalizado(); return
+      console.error(erro); this.finalizado(tabela); return
     }
   }
 
-  carregamento(){
-    let loading = document.querySelector('.loading') as HTMLElement;
+  carregamento(tabela : string){
+    let loading = document.querySelector(`#${tabela} .loading`) as HTMLElement;
     loading.style.display = "inline-flex"
   }
 
-  finalizado(){
-    let loading = document.querySelector('.loading') as HTMLElement;
+  finalizado(tabela : string){
+    let loading = document.querySelector(`#${tabela} .loading`) as HTMLElement;
     loading.style.display = "none"
   }
 }
