@@ -46,8 +46,9 @@ export class ServicosComponent {
     for(let i = 0; i < response.length; i++){
       html += `<tr id="${response[i].id_cliente}">
       <td class="codigo">${response[i].codigo}</td>
-      <td class="cliente">${response[i].cliente}</td>
-      <td class="cadastro">${response[i].cadastro}</td></tr>`;
+      <td class="servico">${response[i].servico}</td>
+      <td class="duracao">${response[i].duracao}</td>
+      <td class="valor">${response[i].valor}</td></tr>`;
 
       this.navTabela.push(response[i].id_cliente);
     }
@@ -107,15 +108,13 @@ export class ServicosComponent {
 
     let data = {
       codigo: (document.querySelector(`#${this.componente} #codigo`) as HTMLInputElement).value,
-      cliente: (document.querySelector(`#${this.componente} #cliente`) as HTMLInputElement).value,
-      tipo: (document.querySelector(`#${this.componente} #tipo`) as HTMLInputElement).value,
-      cadastro: (document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement).value,
-      contato: (document.querySelector(`#${this.componente} #contato`) as HTMLInputElement).value,
-      email: (document.querySelector(`#${this.componente} #email`) as HTMLInputElement).value,
-      endereco: (document.querySelector(`#${this.componente} #endereco`) as HTMLInputElement).value,
-      historico: (document.querySelector(`#${this.componente} #historico`) as HTMLInputElement).value,
+      servico: (document.querySelector(`#${this.componente} #servico`) as HTMLInputElement).value,
+      duracao: (document.querySelector(`#${this.componente} #duracao`) as HTMLInputElement).value,
+      categoria: (document.querySelector(`#${this.componente} #categoria`) as HTMLInputElement).value,
+      desconto: (document.querySelector(`#${this.componente} #desconto`) as HTMLInputElement).value,
+      valor: (document.querySelector(`#${this.componente} #valor`) as HTMLInputElement).value,
+      descricao: (document.querySelector(`#${this.componente} #descricao`) as HTMLInputElement).value,
       ativo: (document.querySelector(`#${this.componente} #ativo`) as HTMLInputElement).checked,
-      notificar: (document.querySelector(`#${this.componente} #notificar`) as HTMLInputElement).checked
     }
 
     let response;
@@ -189,28 +188,15 @@ export class ServicosComponent {
   // Valida os inputs Cadastro e Contato, exclusivos desse componente.
   // Envia array com id de inputs obrigatórios para Serviço Comuns para validar e tratar;
   validarInputs(){
-    let cadastro = document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement;
-    let contato = document.querySelector(`#${this.componente} #contato`) as HTMLInputElement;
+    let valor = document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement;
     
-    let inputs = ['#codigo', '#cliente', '#tipo', '#cadastro', '#contato'];
+    let inputs = ['#codigo', '#servico', '#valor'];
     let validarInputs = this.comuns.validarInputs(this.componente, inputs);
 
     if(validarInputs != true){
       this.mensagem = validarInputs;
       return false
     }
-
-    if(cadastro.value.length != 14 && cadastro.value.length != 18){
-      cadastro.classList.add('inputObrigatorio');
-      this.mensagem = "Campo CPF/CNPJ é inválido!";
-      return false
-    };
-
-    if(contato.value.length != 13){
-      contato.classList.add('inputObrigatorio');
-      this.mensagem = "Campo Contato é inválido!";
-      return false
-    };
 
     return true
   }

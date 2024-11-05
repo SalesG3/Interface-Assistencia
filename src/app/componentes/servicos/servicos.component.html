@@ -40,8 +40,9 @@
                 <thead>
                     <tr>
                         <th class="codigo">Código:</th>
-                        <th class="cliente">Cliente:</th>
-                        <th class="cadastro">CPF/CNPJ:</th>
+                        <th class="servico">Serviço:</th>
+                        <th class="duracao">Duração:</th>
+                        <th class="valor">Valor:</th>
                     </tr>
                 </thead>
                 <tbody [innerHTML]="dadosTabela" (click)="trFocus($event)"></tbody>
@@ -52,40 +53,33 @@
         </div>
         <div class="dados-componente" hidden>
             <div class="dados-registro">
-                <span>Cliente</span>
+                <span>Serviço</span>
                 <label for="codigo">Código:</label>
                 <input type="number" id="codigo" maxlength="4" (input)="mascaraCodigo($event)">
 
-                <label for="cliente">Cliente:</label>
-                <input type="text" id="cliente">
+                <label for="servico">Serviço:</label>
+                <input type="text" id="servico">
                 <br>
-                <label for="tipo">Tipo Pessoa:</label>
-                <select id="tipo">
+                <label for="duracao">Duração:</label>
+                <input type="text" id="duracao">
+
+                <label for="categoria">Categoria:</label>
+                <select id="categoria">
                     <option value="" hidden></option>
-                    <option value="CPF">Física</option>
-                    <option value="CNPJ">Jurídica</option>
+                    <option value="1">Teste 01</option>
+                    <option value="2">Teste 02</option>
                 </select>
+                <label for="desconto">Desc. Max.:</label>
+                <input type="text" id="desconto">
 
-                <label for="cadastro">CPF/CNPJ:</label>
-                <input type="text" id="cadastro" (input)="mascaraCadastro()" maxlength="18">
-
-                <label for="contato">Contato:</label>
-                <input type="text" id="contato" (input)="mascaraContato()" maxlength="13">
+                <label for="valor">Valor:</label>
+                <input type="text" id="valor">
                 <br>
-                <label for="email">Email:</label>
-                <input type="text" id="email">
-
-                <label for="endereco">Endereço:</label>
-                <input type="text" id="endereco">
-                <br>
-                <label for="historico">Histórico:</label><br>
-                <textarea id="historico"></textarea>
+                <label for="descricao">Descrição:</label><br>
+                <textarea id="descricao"></textarea>
                 <br>
                 <label for="ativo">Ativo:</label>
                 <input type="checkbox" id="ativo" checked>
-                
-                <label for="notificar">Notificar?</label>
-                <input type="checkbox" id="notificar" checked>
                 <br><br>
                 <span class="mensagem">{{mensagem}}</span>
             </div>
