@@ -44,13 +44,13 @@ export class ServicosComponent {
     
     let html : string = "";
     for(let i = 0; i < response.length; i++){
-      html += `<tr id="${response[i].id_cliente}">
+      html += `<tr id="${response[i].id_servico}">
       <td class="codigo">${response[i].codigo}</td>
       <td class="servico">${response[i].servico}</td>
-      <td class="duracao">${response[i].duracao}</td>
+      <td class="duracao">${response[i].duracao || '00:00'}</td>
       <td class="valor">${response[i].valor}</td></tr>`;
 
-      this.navTabela.push(response[i].id_cliente);
+      this.navTabela.push(response[i].id_servico);
     }
 
     this.dadosTabela = this.sanitizer.bypassSecurityTrustHtml(html);
@@ -170,8 +170,8 @@ export class ServicosComponent {
     let response = await this.request.consultarRegistro(this.componente, this.idRegistro);
     
     for(let i in response[0]){
-      if(document.getElementById(i)){
-        let input = document.getElementById(i) as HTMLInputElement;
+      if(document.querySelector(`#${this.componente} #${i}`)){
+        let input = document.querySelector(`#${this.componente} #${i}`) as HTMLInputElement;
         input.value = response[0][i];
         
         if(input.type == "checkbox"){
