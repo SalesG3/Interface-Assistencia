@@ -107,8 +107,8 @@ export class ServicosComponent {
       servico: (document.querySelector(`#${this.componente} #servico`) as HTMLInputElement).value,
       duracao: (document.querySelector(`#${this.componente} #duracao`) as HTMLInputElement).value,
       categoria: (document.querySelector(`#${this.componente} #categoria`) as HTMLInputElement).value,
-      desconto: (document.querySelector(`#${this.componente} #desconto`) as HTMLInputElement).value,
-      valor: (document.querySelector(`#${this.componente} #valor`) as HTMLInputElement).value,
+      desconto: Number((document.querySelector(`#${this.componente} #desconto`) as HTMLInputElement).value.replace(',','.')) /100 ,
+      valor: (document.querySelector(`#${this.componente} #valor`) as HTMLInputElement).value.replace('.','').replace(',','.'),
       descricao: (document.querySelector(`#${this.componente} #descricao`) as HTMLInputElement).value,
       ativo: (document.querySelector(`#${this.componente} #ativo`) as HTMLInputElement).checked,
     }
@@ -139,6 +139,7 @@ export class ServicosComponent {
       }
 
       if(modo == "Incluindo"){
+        this.pesquisarGrid();
         await this.incluirRegistro();
       }
       else if(modo == "Copiando"){
