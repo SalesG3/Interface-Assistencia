@@ -11,7 +11,8 @@ import { ComunsService } from '../../servicos/comuns.service';
   styleUrl: './servicos.component.css'
 })
 export class ServicosComponent {
-  componente = 'servicos'
+  componente = 'servicos';
+  comuns : any;
 
   textoModal : string = "";
   mensagem : string = "";
@@ -22,14 +23,9 @@ export class ServicosComponent {
   countTabela : string = "0";
   dadosTabela : any;
 
-  mascaraCodigo : Function;
-  mascaraCadastro : Function;
-  mascaraContato : Function;
 
-  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comuns : ComunsService){
-    this.mascaraCodigo = this.comuns.mascaraCodigo;
-    this.mascaraCadastro = this.comuns.mascaraCadatro;
-    this.mascaraContato = this.comuns.mascaraContato;
+  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comunsService : ComunsService){
+    this.comuns = this.comunsService;
   }
 
   // Pega o Valor do campo Pesquisa, envia para o serviço Requisição e envia dados para GRID:
@@ -48,7 +44,7 @@ export class ServicosComponent {
       <td class="codigo">${response[i].codigo}</td>
       <td class="servico">${response[i].servico}</td>
       <td class="duracao">${response[i].duracao || '00:00'}</td>
-      <td class="valor">${response[i].valor}</td></tr>`;
+      <td class="valor">${Number(response[i].valor).toFixed(2).replace('.',',')}</td></tr>`;
 
       this.navTabela.push(response[i].id_servico);
     }
@@ -173,7 +169,15 @@ export class ServicosComponent {
       if(document.querySelector(`#${this.componente} #${i}`)){
         let input = document.querySelector(`#${this.componente} #${i}`) as HTMLInputElement;
         input.value = response[0][i];
-        
+
+        if(i == "desconto"){
+          input.value = Number((response[0][i]) * 100).toFixed(2).replace('.',',');
+        }
+
+        if(i == "valor"){
+          input.value = Number(response[0][i]).toFixed(2).replace('.',',');
+        }
+
         if(input.type == "checkbox"){
           input.checked = response[0][i];
         }
@@ -278,10 +282,10 @@ export class ServicosComponent {
     }
 
     btnSim.onclick = async () => {
+      modal.close();
       await this.request.excluirRegistro(this.componente, this.idRegistro);
       this.voltarConsultando();
       this.pesquisarGrid();
-      modal.close();
     }
   }
 

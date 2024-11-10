@@ -167,7 +167,7 @@
             overflow-y: scroll;
 
             & tr, th{
-                height: 1.5rem;
+                height: 1.25rem;
                 border: 1px solid lightgray;
                 padding-left: .5rem;
             }
@@ -177,7 +177,7 @@
             display: block;
             font: normal .9rem 'Calibri';
             background-color: #ECECEC;
-            height: 15rem;
+            height: 15.25rem;
             overflow-y: scroll;
 
             & tr, td{
@@ -391,4 +391,8 @@
 
 input[type=number]::-webkit-inner-spin-button{
     -webkit-appearance: none;
+}
+
+input[type=time]::-webkit-calendar-picker-indicator{
+    display: none;
 }

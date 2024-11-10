@@ -11,4 +11,4 @@
 #duracao{ width: 3.85rem; }
 #categoria{ width: 6.5rem; }
 #desconto{ width: 3.5rem; }
-#valor{ width: 6.5rem; }
+#valor{ width: 6.5rem; text-align: right;}

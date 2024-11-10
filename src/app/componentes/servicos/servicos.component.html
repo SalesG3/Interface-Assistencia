@@ -55,13 +55,13 @@
             <div class="dados-registro">
                 <span>Serviço</span>
                 <label for="codigo">Código:</label>
-                <input type="number" id="codigo" maxlength="4" (input)="mascaraCodigo($event)">
+                <input type="number" id="codigo" maxlength="4" (input)="comuns.mascaraCodigo(componente, $event)">
 
                 <label for="servico">Serviço:</label>
                 <input type="text" id="servico">
                 <br>
                 <label for="duracao">Duração:</label>
-                <input type="text" id="duracao">
+                <input type="time" id="duracao" maxlength="5" (input)="comuns.mascaraDuracao(componente)">
 
                 <label for="categoria">Categoria:</label>
                 <select id="categoria">
@@ -70,10 +70,10 @@
                     <option value="2">Teste 02</option>
                 </select>
                 <label for="desconto">Desc. Max.:</label>
-                <input type="text" id="desconto">
+                <input type="text" id="desconto" maxlength="4" (input)="comuns.mascaraDesconto(componente, $event)">
 
                 <label for="valor">Valor:</label>
-                <input type="text" id="valor">
+                <input type="text" id="valor" maxlength="12" (input)="comuns.mascaraValor(componente, $event)" placeholder="0,00">
                 <br>
                 <label for="descricao">Descrição:</label><br>
                 <textarea id="descricao"></textarea>
@@ -95,31 +95,31 @@
     </div>
 
     
-<dialog id="modalSucesso" class="modal">
-    <div>
-        <div class="titulo">
-            <span>Sucesso!</span>
+    <dialog id="modalSucesso" class="modal">
+        <div>
+            <div class="titulo">
+                <span>Sucesso!</span>
+            </div>
+            <div class="corpo">
+                <img src="../../../assets/salvar+.svg">
+                <span>{{textoModal}}</span><br>
+                <button><img src="../../../assets/salvar.svg">OK!</button>
+            </div>
         </div>
-        <div class="corpo">
-            <img src="../../../assets/salvar+.svg">
-            <span>{{textoModal}}</span><br>
-            <button><img src="../../../assets/salvar.svg">OK!</button>
-        </div>
-    </div>
-</dialog>
+    </dialog>
 
-<dialog id="modalConfirmacao" class="modal">
-    <div>
-        <div class="titulo">
-            <span>Confirmação:</span>
+    <dialog id="modalConfirmacao" class="modal">
+        <div>
+            <div class="titulo">
+                <span>Confirmação:</span>
+            </div>
+            <div class="corpo">
+                <img src="../../../assets/aviso.svg">
+                <span>{{textoModal}}</span><br>
+                <button id="nao">Não</button>
+                <button id="sim">Sim</button>
+            </div>
         </div>
-        <div class="corpo">
-            <img src="../../../assets/aviso.svg">
-            <span>{{textoModal}}</span><br>
-            <button id="nao">Não</button>
-            <button id="sim">Sim</button>
-        </div>
-    </div>
-</dialog>
+    </dialog>
 
 </section>

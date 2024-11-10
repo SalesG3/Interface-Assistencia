@@ -288,4 +288,89 @@ export class ComunsService {
       input.value = "";
     }
   }
+
+  mascaraDuracao(componente : string){
+    let input = document.querySelector(`#${componente} #duracao`) as HTMLInputElement;
+    let valor = input.value.replace(':','');
+    let formatado : string = "";
+
+    for(let i = 0; i < valor.length; i++){
+      if(!(valor[i] in [1,2,3,4,5,6,7,8,9,0])){
+        input.value = ""; return
+      }
+
+      if(i == 2){
+        formatado += ":"
+      }
+
+      if(i < input.maxLength){
+        formatado += valor[i]
+      }
+    }
+    
+    input.value = formatado;
+    if(input.value.length > input.maxLength){
+      input.value = "";
+    }
+  }
+
+  mascaraDesconto(componente : string, event : Event){
+    let input = document.querySelector(`#${componente} #desconto`) as HTMLInputElement;
+    let valor = input.value.replace('%','');
+    let formatado : string = "";
+
+    if(Number(valor) > 100){
+      valor = "100"
+    }
+
+    if((event as InputEvent).inputType == "deleteContentBackward"){ return }
+
+    for(let i = 0; i < valor.length; i++){
+      if(!(valor[i] in [1,2,3,4,5,6,7,8,9,0])){
+        input.value = ""; return
+      }
+
+      if( i < input.maxLength){
+        formatado += valor[i]
+      }
+    }
+
+    formatado += '%';
+
+    if(formatado.length > input.maxLength){
+      input.value = "";
+      return
+    }
+
+    input.value = formatado;
+  }
+
+  mascaraValor(componente : string, event : Event){
+    let input = document.querySelector(`#${componente} #valor`) as HTMLInputElement;
+    let valor = input.value.replace(',','').replaceAll('.','');
+    let formatado : string = "";
+
+    if((event as InputEvent).inputType == "deleteContentBackward"){  }
+
+    else if(valor.length < 3){
+      valor = "0".repeat(3 - valor.length) + valor;
+    }
+
+    for(let i = 0; i < valor.length; i++){
+
+      if(i == (valor.length - 2)){
+        formatado += ','
+      }
+
+      if(i < input.maxLength){
+        formatado += valor[i]
+      }
+    }
+
+    if(formatado[0] == '0' && valor.length > 3){
+      formatado = formatado.replace('0','');
+    }
+
+    input.value = formatado
+  }
 }
