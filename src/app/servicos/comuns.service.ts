@@ -9,7 +9,7 @@ export class ComunsService {
 
   // Alterna entre Telas e Modifica Barra de Ferramentas de acordo com Modo:
   alternarTela(componente : string, modo : string){
-    let inputs = document.querySelectorAll(`#${componente} .dados-componente input, textarea, select`)
+    let inputs = document.querySelectorAll(`#${componente} .dados-componente input, #${componente} textarea, #${componente} select`)
 
     let grid = document.querySelector(`#${componente} .grid-componente`) as HTMLElement;
     let dados = document.querySelector(`#${componente} .dados-componente`) as HTMLElement;

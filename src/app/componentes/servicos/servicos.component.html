@@ -62,16 +62,15 @@
                 <br>
                 <label for="duracao">Duração:</label>
                 <input type="time" id="duracao" maxlength="5" (input)="comuns.mascaraDuracao(componente)">
-
+                
                 <label for="categoria">Categoria:</label>
-                <select id="categoria">
+                <select id="categoria" (focus)="lookupCategoria()">
                     <option value="" hidden></option>
-                    <option value="1">Teste 01</option>
-                    <option value="2">Teste 02</option>
                 </select>
+                <br>
                 <label for="desconto">Desc Max (%)</label>
                 <input type="text" id="desconto" maxlength="6" (input)="comuns.mascaraDesconto(componente, $event)">
-
+                
                 <label for="valor">Valor:</label>
                 <input type="text" id="valor" maxlength="10" (input)="comuns.mascaraValor(componente, $event)">
                 <br>

@@ -144,6 +144,25 @@ export class RequestService {
       console.error(erro); this.finalizado(tabela); return
     }
   }
+  
+  async lookupSelect(tabela : string){
+
+    try{
+      let request = await fetch(environment.APIURL + `/lookup/${tabela}`,{
+        method: "GET",
+        headers: this.headers
+      });
+
+      if(!request.ok){alert('Inconsistência Interna! Entrar em contato com Suporte.'); console.error(request); return };
+      let response = await request.json();
+
+      return response;
+    }
+    catch(erro){
+      alert('Inconsistência Interna! Entrar em contato com Suporte.');
+      console.error(erro); this.finalizado(tabela); return
+    }
+  }
 
   carregamento(tabela : string){
     let loading = document.querySelector(`#${tabela} .loading`) as HTMLElement;

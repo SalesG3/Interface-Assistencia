@@ -179,6 +179,10 @@ export class ServicosComponent {
           input.value = Number(response[0][i]).toFixed(2).replace('.',',');
         }
 
+        if(input.type == "select-one"){
+          input.innerHTML = `<option value="${response[0][`id_${i}`]}" hidden>${response[0][i]}</option>`;
+        }
+
         if(input.type == "checkbox"){
           input.checked = response[0][i];
         }
@@ -308,5 +312,16 @@ export class ServicosComponent {
     }
 
     document.addEventListener('mousemove',mover)
+  }
+
+  // Lookup: Pega Valores de uma tabela e insere em um Select
+  async lookupCategoria(){
+    let response = await this.request.lookupSelect('categorias');
+    let select = document.querySelector('#categoria') as HTMLSelectElement;
+    select.innerHTML = `<option value="" hidden></option>`
+
+    for(let i = 0; i < response.length; i++){
+      select.innerHTML += `<option value="${response[i].id_categoria}">${response[i].codigo} - ${response[i].categoria}</option>`
+    }
   }
 }

@@ -8,7 +8,7 @@
 /* Dados Registro: */
 #codigo{ width: 3.5rem; }
 #servico{ width: 27.85rem; }
-#duracao{ width: 3.85rem; }
-#categoria{ width: 6.5rem; }
-#desconto{ width: 3.5rem; text-align: right; }
+#duracao{ width: 4.05rem; }
+#categoria{ width: 18rem; }
+#desconto{ width: 3.85rem; text-align: right; }
 #valor{ width: 6.5rem; text-align: right;}
