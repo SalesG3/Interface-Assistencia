@@ -11,6 +11,7 @@
         <button>DashBoard</button>
         <button #nav01 value="cadastro" (click)="listDown(nav01)">Cadastro</button>
         <div class="listDown" id="list-cadastro">
+            <a (click)="router.abrirComponente('categorias')">Categorias</a>
             <a (click)="router.abrirComponente('clientes')">Clientes</a>
             <a (click)="router.abrirComponente('servicos')">Serviços</a>
             <a >Peças</a>

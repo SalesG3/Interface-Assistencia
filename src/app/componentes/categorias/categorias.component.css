@@ -1,0 +1,9 @@
+/* Colunas da Grid: */
+:host ::ng-deep .codigo{ width: 5rem; }
+:host ::ng-deep .categoria{ width: 30rem; }
+:host ::ng-deep .ativo{ width: 8rem; }
+:host ::ng-deep .trFocus{background-color: cornflowerblue !important; color: white !important;}
+
+/* Dados Registro: */
+#codigo{ width: 3.5rem; }
+#categoria{ width: 27.85rem; }

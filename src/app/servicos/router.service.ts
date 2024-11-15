@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ClientesComponent } from '../componentes/clientes/clientes.component';
 import { ServicosComponent } from '../componentes/servicos/servicos.component';
+import { CategoriasComponent } from '../componentes/categorias/categorias.component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class RouterService {
 
   componetes : Record<string, any> = {
     clientes: ClientesComponent,
-    servicos: ServicosComponent
+    servicos: ServicosComponent,
+    categorias : CategoriasComponent
   }
 
   outlet01 : any;
