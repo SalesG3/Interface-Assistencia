@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RequestService } from '../../servicos/request.service';
 import { ComunsService } from '../../servicos/comuns.service';
+import { RouterService } from '../../servicos/router.service';
 
 @Component({
   selector: 'app-clientes',
@@ -25,11 +26,13 @@ export class ClientesComponent {
   mascaraCodigo : Function;
   mascaraCadastro : Function;
   mascaraContato : Function;
+  router : any;
 
-  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comuns : ComunsService){
+  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comuns : ComunsService, private routerService : RouterService){
     this.mascaraCodigo = this.comuns.mascaraCodigo;
     this.mascaraCadastro = this.comuns.mascaraCadatro;
     this.mascaraContato = this.comuns.mascaraContato;
+    this.router = this.routerService;
   }
 
   // Pega o Valor do campo Pesquisa, envia para o serviço Requisição e envia dados para GRID:

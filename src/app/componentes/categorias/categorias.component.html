@@ -5,7 +5,7 @@
     <div class="corpo-componente">
         <div class="ferramentas">
             <button class="voltar" (click)="voltarConsultando()" hidden><img src="../../../assets/voltar.svg">Voltar</button>
-            <button class="fechar"><img src="../../../assets/fechar.svg">Fechar</button>
+            <button class="fechar" (click)="router.fecharComponente(componente)"><img src="../../../assets/fechar.svg">Fechar</button>
             <div class="operadores" hidden>
                 <button (click)="salvarRegistro(this.modoTela)"><img src="../../../assets/salvar+.svg">Salvar +</button>
                 <button (click)="salvarRegistro('')"><img src="../../../assets/salvar+.svg">Salvar</button>

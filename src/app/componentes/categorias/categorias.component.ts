@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RequestService } from '../../servicos/request.service';
 import { ComunsService } from '../../servicos/comuns.service';
+import { RouterService } from '../../servicos/router.service';
 
 @Component({
   selector: 'app-categorias',
@@ -13,6 +14,7 @@ import { ComunsService } from '../../servicos/comuns.service';
 export class CategoriasComponent {
   componente = 'categorias';
   comuns : any;
+  router : any;
 
   textoModal : string = "";
   mensagem : string = "";
@@ -24,8 +26,9 @@ export class CategoriasComponent {
   dadosTabela : any;
 
 
-  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comunsService : ComunsService){
+  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comunsService : ComunsService, private routerService : RouterService){
     this.comuns = this.comunsService;
+    this.router = this.routerService;
   }
 
   // Pega o Valor do campo Pesquisa, envia para o serviço Requisição e envia dados para GRID:

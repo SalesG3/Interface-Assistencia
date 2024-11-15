@@ -32,7 +32,12 @@ export class RouterService {
 
   abrirComponente(componente : string){
 
+
     for(let i in this.outletStatus){
+      if(this[i as keyof RouterService] == this.componetes[componente]){
+        break;
+      }
+
       if(this.outletStatus[i] == false){
         
         this[i as keyof RouterService] = this.componetes[componente];
@@ -53,6 +58,16 @@ export class RouterService {
   
         docComponente.style.zIndex = '1';
       })
-    }, 100)
+    }, 50)
+  }
+
+  fecharComponente(componente : string){
+
+    for(let i in this.outletStatus){
+      if(this[i as keyof RouterService] == this.componetes[componente]){
+        this[i as keyof RouterService] = null;
+        this.outletStatus[i] = false;
+      }
+    }
   }
 }

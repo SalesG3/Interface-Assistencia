@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RequestService } from '../../servicos/request.service';
 import { ComunsService } from '../../servicos/comuns.service';
+import { RouterService } from '../../servicos/router.service';
 
 @Component({
   selector: 'app-servicos',
@@ -13,6 +14,7 @@ import { ComunsService } from '../../servicos/comuns.service';
 export class ServicosComponent {
   componente = 'servicos';
   comuns : any;
+  router : any;
 
   textoModal : string = "";
   mensagem : string = "";
@@ -24,8 +26,9 @@ export class ServicosComponent {
   dadosTabela : any;
 
 
-  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comunsService : ComunsService){
+  constructor(private sanitizer : DomSanitizer, private request : RequestService, private comunsService : ComunsService, private routerService : RouterService){
     this.comuns = this.comunsService;
+    this.router = this.routerService;
   }
 
   // Pega o Valor do campo Pesquisa, envia para o serviço Requisição e envia dados para GRID:
@@ -317,7 +320,7 @@ export class ServicosComponent {
   // Lookup: Pega Valores de uma tabela e insere em um Select
   async lookupCategoria(){
     let response = await this.request.lookupSelect('categorias');
-    let select = document.querySelector('#categoria') as HTMLSelectElement;
+    let select = document.querySelector(`#${this.componente} #categoria`) as HTMLSelectElement;
     select.innerHTML = `<option value="" hidden></option>`
 
     for(let i = 0; i < response.length; i++){
