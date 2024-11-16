@@ -64,15 +64,15 @@
                 <input type="time" id="duracao" maxlength="5" (input)="comuns.mascaraDuracao(componente)">
                 
                 <label for="categoria">Categoria:</label>
-                <select id="categoria" (focus)="lookupCategoria()">
+                <select #servCategoria id="categoria" (focus)="lookupSelect(servCategoria)">
                     <option value="" hidden></option>
                 </select>
                 <br>
                 <label for="desconto">Desc Max (%)</label>
-                <input type="text" id="desconto" maxlength="6" (input)="comuns.mascaraDesconto(componente, $event)">
+                <input #servDesconto type="text" id="desconto" maxlength="6" (input)="comuns.mascaraDesconto(servDesconto)">
                 
                 <label for="valor">Valor:</label>
-                <input type="text" id="valor" maxlength="10" (input)="comuns.mascaraValor(componente, $event)">
+                <input #servValor type="text" id="valor" maxlength="10" (input)="comuns.mascaraValor(servValor)">
                 <br>
                 <label for="descricao">Descrição:</label><br>
                 <textarea id="descricao"></textarea>

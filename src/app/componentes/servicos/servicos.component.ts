@@ -183,7 +183,7 @@ export class ServicosComponent {
         }
 
         if(input.type == "select-one"){
-          input.innerHTML = `<option value="${response[0][`id_${i}`]}" hidden>${response[0][i]}</option>`;
+          response[0][i] ? input.innerHTML = `<option value="${response[0][`id_${i}`]}" hidden>${response[0][i]}</option>`: "";
         }
 
         if(input.type == "checkbox"){
@@ -202,7 +202,7 @@ export class ServicosComponent {
   validarInputs(){
     let valor = document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement;
     
-    let inputs = ['#codigo', '#servico', '#valor'];
+    let inputs = ['#codigo', '#servico','#duracao', '#valor'];
     let validarInputs = this.comuns.validarInputs(this.componente, inputs);
 
     if(validarInputs != true){
@@ -318,13 +318,12 @@ export class ServicosComponent {
   }
 
   // Lookup: Pega Valores de uma tabela e insere em um Select
-  async lookupCategoria(){
-    let response = await this.request.lookupSelect('categorias');
-    let select = document.querySelector(`#${this.componente} #categoria`) as HTMLSelectElement;
-    select.innerHTML = `<option value="" hidden></option>`
+  async lookupSelect(input : HTMLSelectElement){
+    let response = await this.request.lookupSelect(input.id);
+    input.innerHTML = `<option value="" hidden></option>`
 
     for(let i = 0; i < response.length; i++){
-      select.innerHTML += `<option value="${response[i].id_categoria}">${response[i].codigo} - ${response[i].categoria}</option>`
+      input.innerHTML += `<option value="${response[i][`id_${input.id}`]}">${response[i].codigo} - ${response[i][input.id]}</option>`
     }
   }
 }

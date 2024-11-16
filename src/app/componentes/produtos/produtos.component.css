@@ -1,0 +1,15 @@
+/* Colunas da Grid: */
+:host ::ng-deep .codigo{ width: 5rem; }
+:host ::ng-deep .produto{ width: 22rem; }
+:host ::ng-deep .marca{ width: 10rem; }
+:host ::ng-deep .valor{ width: 6rem; }
+:host ::ng-deep .trFocus{background-color: cornflowerblue !important; color: white !important;}
+
+/* Dados Registro: */
+#codigo{ width: 3.5rem; }
+#produto{ width: 27.85rem; }
+#marca { width: 16.225rem; }
+#categoria{ width: 15.9rem; }
+#custo{ width: 6.5rem; text-align: right; }
+#desconto{ width: 3.85rem; text-align: right; }
+#valor{ width: 6.5rem; text-align: right; }

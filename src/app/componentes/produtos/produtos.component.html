@@ -1,1 +1,127 @@
-<p>produtos works!</p>
+<section class="componente" id="produtos">
+    <div class="titulo-componente" (mousedown)="moverComponente()">
+        <span>Produtos:</span>
+    </div>
+    <div class="corpo-componente">
+        <div class="ferramentas">
+            <button class="voltar" (click)="voltarConsultando()" hidden><img src="../../../assets/voltar.svg">Voltar</button>
+            <button class="fechar" (click)="router.fecharComponente(componente)"><img src="../../../assets/fechar.svg">Fechar</button>
+            <div class="operadores" hidden>
+                <button (click)="salvarRegistro(this.modoTela)"><img src="../../../assets/salvar+.svg">Salvar +</button>
+                <button (click)="salvarRegistro('')"><img src="../../../assets/salvar+.svg">Salvar</button>
+                <button (click)="cancelarRegistro()"><img src="../../../assets/fechar.svg">Cancelar</button>
+            </div>
+            <div class="navegacao">
+                <span>{{modoTela}}</span>
+                <div class="navegadores" hidden>
+                    <button id="comeco" (click)="navegarRegistro('comeco')"><img src="../../../assets/comeco.svg"></button>
+                    <button id="anterior" (click)="navegarRegistro('anterior')"><img src="../../../assets/anterior.svg"></button>
+                    <button id="avancar" (click)="navegarRegistro('avancar')"><img src="../../../assets/avancar.svg"></button>
+                    <button id="final" (click)="navegarRegistro('final')"><img src="../../../assets/final.svg"></button>
+                </div>
+            </div>
+            <div class="crud">
+                <button (click)="incluirRegistro()"><img src="../../../assets/incluir.svg">Incluir</button>
+                <button (click)="detalhesRegistro('Alterando')"><img src="../../../assets/alterar.svg">Alterar</button>
+                <button (click)="detalhesRegistro('Consultando')"><img src="../../../assets/consultar.svg">Consultar</button>
+                <button (click)="excluirRegistro()"><img src="../../../assets/excluir.svg">Exluir</button>
+                <button (click)="copiarRegistro()"><img src="../../../assets/copiar.svg">Copiar</button>
+            </div>
+        </div>
+        <div class="grid-componente">
+            <div class="grid-pesquisar">
+                <img src="../../../assets/pesquisa.svg">
+                <input type="text" id="pesquisa">
+                <button (click)="pesquisarGrid()">Pesquisar</button>
+                <span> | </span>
+                <button>Filtrar</button>
+            </div>
+            <table class="grid-tabela">
+                <thead>
+                    <tr>
+                        <th class="codigo">Código:</th>
+                        <th class="produto">Produto:</th>
+                        <th class="marca">Marca:</th>
+                        <th class="valor">Valor:</th>
+                    </tr>
+                </thead>
+                <tbody [innerHTML]="dadosTabela" (click)="trFocus($event)"></tbody>
+            </table>
+            <div class="rodape">
+                <span>Total de Registros: {{countTabela}}</span>
+            </div>
+        </div>
+        <div class="dados-componente" hidden>
+            <div class="dados-registro">
+                <span>Produto</span>
+                <label for="codigo">Código:</label>
+                <input type="number" id="codigo" maxlength="4" (input)="comuns.mascaraCodigo(componente, $event)">
+
+                <label for="produto">Produto:</label>
+                <input type="text" id="produto">
+                <br>
+                <label for="marca">Marca:</label>
+                <input type="text" id="marca">
+                
+                <label for="categoria">Categoria:</label>
+                <select #prodCategoria id="categoria" (focus)="lookupSelect(prodCategoria)">
+                    <option value="" hidden></option>
+                </select>
+                <br>
+                <label for="custo">Custo:</label>
+                <input #prodCusto type="text" id="custo" maxlength="10" (input)="comuns.mascaraValor(prodCusto)">
+
+                <label for="desconto">Desc Max (%)</label>
+                <input #prodDesconto type="text" id="desconto" maxlength="10" (input)="comuns.mascaraDesconto(prodDesconto)">
+                
+                <label for="valor">Valor:</label>
+                <input #prodValor type="text" id="valor" maxlength="10" (input)="comuns.mascaraValor(prodValor)">
+                <br>
+                <label for="descricao">Descrição:</label><br>
+                <textarea id="descricao"></textarea>
+                <br>
+                <label for="ativo">Ativo:</label>
+                <input type="checkbox" id="ativo" checked>
+                <br><br>
+                <span class="mensagem">{{mensagem}}</span>
+            </div>
+        </div>
+
+        <div class="loading" hidden>
+            <div class="texto-loading">
+                <img src="../../../assets/loading.gif">
+                <span>Aguarde ...</span>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <dialog id="modalSucesso" class="modal">
+        <div>
+            <div class="titulo">
+                <span>Sucesso!</span>
+            </div>
+            <div class="corpo">
+                <img src="../../../assets/salvar+.svg">
+                <span>{{textoModal}}</span><br>
+                <button><img src="../../../assets/salvar.svg">OK!</button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modalConfirmacao" class="modal">
+        <div>
+            <div class="titulo">
+                <span>Confirmação:</span>
+            </div>
+            <div class="corpo">
+                <img src="../../../assets/aviso.svg">
+                <span>{{textoModal}}</span><br>
+                <button id="nao">Não</button>
+                <button id="sim">Sim</button>
+            </div>
+        </div>
+    </dialog>
+
+</section>

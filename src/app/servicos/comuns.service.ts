@@ -314,8 +314,7 @@ export class ComunsService {
     }
   }
 
-  mascaraDesconto(componente : string, event : Event){
-    let input = document.querySelector(`#${componente} #desconto`) as HTMLInputElement;
+  mascaraDesconto(input : HTMLInputElement){
     let valor = input.value.replace(',','');
     let formatado : string = "";
 
@@ -345,8 +344,7 @@ export class ComunsService {
     input.value = formatado;
   }
 
-  mascaraValor(componente : string, event : Event){
-    let input = document.querySelector(`#${componente} #valor`) as HTMLInputElement;
+  mascaraValor(input : HTMLInputElement){
     let valor = input.value.replace(',','').replace('.','');
     let formatado : string = "";
 

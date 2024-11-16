@@ -74,6 +74,7 @@ main{
             }
 
             & a:hover{
+                cursor: pointer;
                 background-color: cornflowerblue;
                 color: white;
             }

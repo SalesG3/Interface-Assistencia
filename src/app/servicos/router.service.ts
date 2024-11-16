@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ClientesComponent } from '../componentes/clientes/clientes.component';
 import { ServicosComponent } from '../componentes/servicos/servicos.component';
 import { CategoriasComponent } from '../componentes/categorias/categorias.component';
+import { ProdutosComponent } from '../componentes/produtos/produtos.component';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class RouterService {
   componetes : Record<string, any> = {
     clientes: ClientesComponent,
     servicos: ServicosComponent,
-    categorias : CategoriasComponent
+    categorias : CategoriasComponent,
+    produtos : ProdutosComponent
   }
 
   outlet01 : any;
