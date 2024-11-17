@@ -42,6 +42,7 @@ export class LoginComponent {
       if(data.sucesso){
         this.mensagem = "";
         this.sessao.usuario = data.sucesso[0].nome;
+        this.sessao.id_usuario = data.sucesso[0].id_usuario
         this.router.navigate(['']);
         return
       }

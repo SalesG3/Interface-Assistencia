@@ -1,0 +1,22 @@
+/* Colunas da Grid: */
+:host ::ng-deep .codigo{ width: 5rem; }
+:host ::ng-deep .cliente{ width: 25rem; }
+:host ::ng-deep .abertura{ width: 6rem; }
+:host ::ng-deep .status{ width: 6rem; }
+:host ::ng-deep .trFocus{background-color: cornflowerblue !important; color: white !important;}
+
+/* Dados Registro: */
+
+/* Linha 01 */
+#codigo { width: 3.5rem; }
+#dt_abertura { width: 6rem; }
+#status { width: 4.05rem; }
+#usuario { width: 6.25rem; }
+
+/* Linha 02 */
+#cliente { width: 12rem; }
+#cadastro { width: 8rem; }
+#contato { width: 6.25rem; }
+
+/* Linha 03 */
+#equipamento { width: 25.5rem; }

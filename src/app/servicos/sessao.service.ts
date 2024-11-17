@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SessaoService {
   entidade : string = "Clinica do Smartphone";
+  id_usuario : number = 0;
   usuario : string = "";
   versao : string = "v1.0.00";
 

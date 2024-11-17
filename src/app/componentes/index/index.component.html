@@ -18,7 +18,7 @@
         </div>
         <button #nav02 value="movimentacao" (click)="listDown(nav02)">Movimentação</button>
         <div class="listDown" id="list-movimentacao">
-            <a >Abertura OS</a>
+            <a (click)="router.abrirComponente('abertura')">Abertura OS</a>
             <a >Andamento OS</a>
             <a >Conclusão OS</a>
         </div>
