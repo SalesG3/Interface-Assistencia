@@ -44,19 +44,16 @@ export class AberturaComponent {
 
     let response = await this.request.dadosGrid(this.componente, data);
     this.navTabela = [];
-    let teste : Date = response[0].dt_abertura
-    console.log(teste)
     
     let html : string = "";
     for(let i = 0; i < response.length; i++){
       html += `<tr id="${response[i].id_abertura}">
       <td class="codigo">${response[i].codigo}</td>
       <td class="cliente">${response[i].cliente}</td>
-      <td class="abertura">${response[i].dt_abertura}</td>
+      <td class="dt_abertura">${response[i].dt_abertura}</td>
       <td class="status">${response[i].status}</td></tr>`;
 
       this.navTabela.push(response[i].id_abertura);
-      response[i].dt_abertura
     }
 
     this.dadosTabela = this.sanitizer.bypassSecurityTrustHtml(html);
@@ -213,18 +210,34 @@ export class AberturaComponent {
     this.modoTela = modo;
     this.comuns.alternarTela(this.componente, this.modoTela);
     this.comuns.navRegistros(this.componente, this.idRegistro, this.navTabela);
+
+    // Campos HeadOnly:
+    (document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement).setAttribute('disabled','');
+    (document.querySelector(`#${this.componente} #contato`) as HTMLInputElement).setAttribute('disabled','');
+
+    let status = (document.querySelector(`#${this.componente} #status`) as HTMLInputElement);
+    status.setAttribute('disabled','');
+
+    let usuario = (document.querySelector(`#${this.componente} #usuario`) as HTMLInputElement);
+    usuario.setAttribute('disabled','');
   }
 
   // Valida os inputs Cadastro e Contato, exclusivos desse componente.
   // Envia array com id de inputs obrigatórios para Serviço Comuns para validar e tratar;
   validarInputs(){
-    let valor = document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement;
+    let data = document.querySelector(`#${this.componente} #dt_abertura`) as HTMLInputElement;
     
     let inputs = ['#codigo', '#dt_abertura', '#cliente', '#equipamento', '#descricao'];
     let validarInputs = this.comuns.validarInputs(this.componente, inputs);
 
     if(validarInputs != true){
       this.mensagem = validarInputs;
+      return false
+    }
+
+    if(data.value.substring(0,4) != "2024"){
+      data.classList.add('inputObrigatorio');
+      this.mensagem = "Fora de Competência!"
       return false
     }
 
@@ -289,7 +302,17 @@ export class AberturaComponent {
     this.mensagem = "";
     
     this.comuns.alternarTela(this.componente, this.modoTela);
-    codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0')
+    codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0');
+
+    // Campos HeadOnly:
+    (document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement).setAttribute('disabled','');
+    (document.querySelector(`#${this.componente} #contato`) as HTMLInputElement).setAttribute('disabled','');
+
+    let status = (document.querySelector(`#${this.componente} #status`) as HTMLInputElement);
+    status.setAttribute('disabled','');
+
+    let usuario = (document.querySelector(`#${this.componente} #usuario`) as HTMLInputElement);
+    usuario.setAttribute('disabled','');
   }
 
   // Aciona o Modal e Confirma Exclusão que é feita pelos serviço de Requisições.

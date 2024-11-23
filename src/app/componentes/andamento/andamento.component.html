@@ -1,6 +1,6 @@
-<section class="componente" id="abertura">
+<section class="componente" id="andamento">
     <div class="titulo-componente" (mousedown)="moverComponente()">
-        <span>Abertura OS:</span>
+        <span>Andamento OS:</span>
     </div>
     <div class="corpo-componente">
         <div class="ferramentas">
@@ -53,9 +53,10 @@
         </div>
         <div class="dados-componente" hidden>
             <div class="dados-registro">
-                <span>Abertura</span>
-                <label for="codigo">Nº OS:</label>
-                <input type="number" id="codigo" maxlength="4" (input)="comuns.mascaraCodigo(componente, $event)">
+                <span>Andamento</span>
+                <select #andaOrdem id="os" (focus)="lookupSelect(andaOrdem)">
+                    <option value="" hidden></option>
+                </select>
 
                 <label for="dt_abertura">Abertura:</label>
                 <input type="date" id="dt_abertura">

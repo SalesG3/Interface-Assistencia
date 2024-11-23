@@ -1,7 +1,7 @@
 /* Colunas da Grid: */
 :host ::ng-deep .codigo{ width: 5rem; }
 :host ::ng-deep .cliente{ width: 25rem; }
-:host ::ng-deep .abertura{ width: 6rem; }
+:host ::ng-deep .dt_abertura{ width: 6rem; }
 :host ::ng-deep .status{ width: 6rem; }
 :host ::ng-deep .trFocus{background-color: cornflowerblue !important; color: white !important;}
 
