@@ -28,6 +28,8 @@ export class ClientesComponent {
   mascaraContato : Function;
   router : any;
 
+  readOnly : Array<string> = []
+
   constructor(private sanitizer : DomSanitizer, private request : RequestService, private comuns : ComunsService, private routerService : RouterService){
     this.mascaraCodigo = this.comuns.mascaraCodigo;
     this.mascaraCadastro = this.comuns.mascaraCadatro;
@@ -66,7 +68,7 @@ export class ClientesComponent {
     let codigo = document.querySelector(`#${this.componente} #codigo`) as HTMLInputElement;
 
     this.modoTela = "Incluindo";
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
 
     codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0');
   }
@@ -87,7 +89,7 @@ export class ClientesComponent {
     btnSim.onclick = () => {
       this.modoTela = "";
       this.mensagem = "";
-      this.comuns.alternarTela(this.componente, this.modoTela);
+      this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
       modal.close();
     }
   }
@@ -96,7 +98,7 @@ export class ClientesComponent {
   voltarConsultando(){
     this.modoTela = "";
     this.mensagem = "";
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
 
     document.querySelector('.trFocus')?.classList.remove('trFocus');
     this.idRegistro = 0;
@@ -185,7 +187,7 @@ export class ClientesComponent {
     }
     
     this.modoTela = modo;
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
     this.comuns.navRegistros(this.componente, this.idRegistro, this.navTabela);
   }
 
@@ -275,7 +277,7 @@ export class ClientesComponent {
     this.modoTela = "Copiando";
     this.mensagem = "";
     
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
     codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0')
   }
 

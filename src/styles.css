@@ -437,7 +437,7 @@ input[type=time]::-webkit-calendar-picker-indicator{
         }
     }
 
-    & .sub-ferramentas {
+    & .sub-ferramentas, .sub-operadores {
         height: 2rem;
 
         & button {

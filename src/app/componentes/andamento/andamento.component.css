@@ -26,3 +26,15 @@
 
 /* Linha 03 */
 
+/* Dados dos Sub-Registros */
+.sub-dados{ height: 9.8rem; }
+
+/* Linha 01 */
+#sub-tipo{ width: 6.4rem; }
+#sub-executado{ width: 16rem; }
+#sub-desconto{ width: 4.15rem;}
+
+/* Linha 02 */
+#sub-valorBruto{ width: 8.6rem; }
+#sub-valorDesconto{ width: 8.6rem; }
+#sub-valorLiquido{ width: 8.6rem; }

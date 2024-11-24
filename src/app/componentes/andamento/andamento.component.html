@@ -87,10 +87,10 @@
                         </table>
 
                         <div class="sub-ferramentas">
-                            <button (click)="teste()">Incluir</button>
-                            <button>Alterar</button>
-                            <button>Consultar</button>
-                            <button>Excluir</button>
+                            <button (click)="comuns.alternarSubTela(componente, 'Incluindo')" disabled>Incluir</button>
+                            <button disabled>Alterar</button>
+                            <button disabled>Consultar</button>
+                            <button disabled>Excluir</button>
                         </div>
 
                     </div>
@@ -98,21 +98,35 @@
                     <div class="sub-registro" hidden>
                         <div class="sub-dados">
                             <span>Produto/Serviço</span>
+                            
+                            <label for="sub-tipo">Tipo:</label>
+                            <select id="sub-tipo">
+                                <option value="" hidden></option>
+                                <option value="servico">Serviço</option>
+                                <option value="produto">Produto</option>
+                            </select>
+
                             <label for="sub-executado">Prod./Serv.:</label>
-                            <select #andaExecutado id="sub-executado" (focus)="lookupSubSelect(andaExecutado)">
+                            <select #andaExecutado id="sub-executado" (focus)="lookupExecutado(andaExecutado)">
                                 <option value="" hidden></option>
                             </select>
+
+                            <label for="sub-desconto">Desconto(%):</label>
+                            <input #andaDesconto type="text" id="sub-desconto" maxlength="10" (input)="comuns.mascaraDesconto(andaDesconto)">
                             <br>
-                            <label for="Teste">Teste:</label>
-                            <input type="text" list="data-teste" id="Teste" (change)="TesteList()">
-                                <datalist id="data-teste">
-                                    <option value="Teste01"></option>
-                                    <option value="Teste02"></option>
-                                </datalist>
+                            <label for="sub-valorBruto">Valor Bruto:</label>
+                            <input #andaVlrBruto type="text" id="sub-valorBruto" maxlength="10" (input)="comuns.mascaraValor(andaVlrBruto)">
+
+                            <label for="sub-valorDesconto">Desconto:</label>
+                            <input #andaVlrDesconto type="text" id="sub-valorDesconto" maxlength="10" (input)="comuns.mascaraValor(andaVlrDesconto)">
+
+                            <label for="sub-valorLiquido">Total:</label>
+                            <input #andaVlrLiquido type="text" id="sub-valorLiquido" maxlength="10" (input)="comuns.mascaraValor(andaVlrLiquido)">
                         </div>
                         <div class="sub-operadores">
-                            <button>Salvar</button>
-                            <button>Cancelar</button>
+                            <button (click)="salvarSubRegistro()">Salvar</button>
+
+                            <button (click)="comuns.alternarSubTela(componente, '')">Cancelar</button>
                         </div>
                     </div>
 

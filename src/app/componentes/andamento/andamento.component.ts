@@ -21,6 +21,7 @@ export class AndamentoComponent {
   textoModal : string = "";
   mensagem : string = "";
   modoTela : string = "";
+  dadosSubTabela : Array<any> = [];
   subTabela : any;
 
   navTabela : Array<number> = [];
@@ -28,6 +29,9 @@ export class AndamentoComponent {
   countTabela : string = "0";
   dadosTabela : any;
 
+ 
+
+  readOnly: Array<string> = ['#sub-valorBruto', '#sub-valorDesconto', '#sub-valorLiquido', '#cadastro', '#contato', '#dt_abertura', '#cliente'];
 
   constructor(private sanitizer : DomSanitizer, private request : RequestService, private comunsService : ComunsService,
     private routerService : RouterService, private sessaoService : SessaoService){
@@ -68,15 +72,9 @@ export class AndamentoComponent {
     //let codigo = document.querySelector(`#${this.componente} #codigo`) as HTMLInputElement;
 
     this.modoTela = "Incluindo";
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
 
     //codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0');
-
-    // Campos HeadOnly:
-    (document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement).setAttribute('disabled','');
-    (document.querySelector(`#${this.componente} #contato`) as HTMLInputElement).setAttribute('disabled','');
-    (document.querySelector(`#${this.componente} #dt_abertura`) as HTMLInputElement).setAttribute('disabled', '');
-    (document.querySelector(`#${this.componente} #cliente`) as HTMLInputElement).setAttribute('disabled', '');
   }
 
   // Chama modal de Confirmação e de acordo com a resposta Alterna a Tela.
@@ -95,7 +93,7 @@ export class AndamentoComponent {
     btnSim.onclick = () => {
       this.modoTela = "";
       this.mensagem = "";
-      this.comuns.alternarTela(this.componente, this.modoTela);
+      this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
       modal.close();
     }
   }
@@ -104,7 +102,7 @@ export class AndamentoComponent {
   voltarConsultando(){
     this.modoTela = "";
     this.mensagem = "";
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
 
     document.querySelector('.trFocus')?.classList.remove('trFocus');
     this.idRegistro = 0;
@@ -203,13 +201,8 @@ export class AndamentoComponent {
     }
     
     this.modoTela = modo;
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
     this.comuns.navRegistros(this.componente, this.idRegistro, this.navTabela);
-
-    // Campos HeadOnly:
-    (document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement).setAttribute('disabled','');
-    (document.querySelector(`#${this.componente} #contato`) as HTMLInputElement).setAttribute('disabled','');
-    (document.querySelector(`#${this.componente} #dt_abertura`) as HTMLInputElement).setAttribute('disabled', '');
   }
 
   // Valida os inputs Cadastro e Contato, exclusivos desse componente.
@@ -291,13 +284,8 @@ export class AndamentoComponent {
     this.modoTela = "Copiando";
     this.mensagem = "";
     
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
     codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0');
-
-    // Campos HeadOnly:
-    (document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement).setAttribute('disabled','');
-    (document.querySelector(`#${this.componente} #contato`) as HTMLInputElement).setAttribute('disabled','');
-    (document.querySelector(`#${this.componente} #dt_abertura`) as HTMLInputElement).setAttribute('disabled', '');
   }
 
   // Aciona o Modal e Confirma Exclusão que é feita pelos serviço de Requisições.
@@ -347,16 +335,27 @@ export class AndamentoComponent {
   async lookupSelect(input : HTMLSelectElement){
     let response = await this.request.lookupSelect(input.id);
 
+    let readonly = ['#dt_abertura','#cliente','#cadastro','#contato'];
+
     let dt_abertura = document.querySelector(`#${this.componente} #dt_abertura`) as HTMLInputElement;
     let cliente = document.querySelector(`#${this.componente} #cliente`) as HTMLInputElement;
     let cadastro = document.querySelector(`#${this.componente} #cadastro`) as HTMLInputElement;
     let contato = document.querySelector(`#${this.componente} #contato`) as HTMLInputElement;
 
-    input.innerHTML = `<option value="" hidden></option>`
-    dt_abertura.value = "";
-    cliente.value = "";
-    cadastro.value = "";
-    contato.value = "";
+    input.innerHTML = `<option value="" hidden></option>`;
+
+    let btns = document.querySelectorAll(`#${this.componente} .sub-ferramentas button`);
+    if(input.value == ""){
+      this.comuns.alternarSubTela(this.componente, "");
+
+      for(let i = 0; i < btns.length; i++){
+        btns[i].setAttribute('disabled','')
+      }
+    }
+
+    for(let i = 0; i < readonly.length; i++){
+      (document.querySelector(`#${this.componente} ${readonly[i]}`) as HTMLInputElement).value = ""
+    }
 
     for(let i = 0; i < response.length; i++){
       input.innerHTML += `<option value="${response[i][`id_abertura`]}">${response[i].codigo} - ${response[i][input.id]}</option>`
@@ -370,46 +369,92 @@ export class AndamentoComponent {
           cadastro.value = response[i].cadastro;
           contato.value = response[i].contato;
         }
+      };
+
+      if(input.value != ""){
+        this.comuns.alternarSubTela(this.componente, "");
+  
+        for(let i = 0; i < btns.length; i++){
+          btns[i].removeAttribute('disabled')
+        }
       }
     }
   }
 
-  teste(){
-    let subGrid = document.querySelector('#andamento .sub-grid') as HTMLElement;
-    let subRegistro = document.querySelector('#andamento .sub-registro') as HTMLElement;
+  async lookupExecutado (input : HTMLSelectElement){
+    let tipo = document.querySelector(`#${this.componente} #sub-tipo`) as HTMLInputElement;
+    let desconto = document.querySelector(`#${this.componente} #sub-desconto`) as HTMLInputElement;
+    let valorBruto = document.querySelector(`#${this.componente} #sub-valorBruto`) as HTMLInputElement;
+    let valorDesconto = document.querySelector(`#${this.componente} #sub-valorDesconto`) as HTMLInputElement;
+    let valorLiquido = document.querySelector(`#${this.componente} #sub-valorLiquido`) as HTMLInputElement;
 
-    subGrid.setAttribute('hidden','');
-    subRegistro.removeAttribute('hidden');
-  }
-
-  async lookupSubSelect (input : HTMLElement){
-    let response = await this.request.lookupSelect(input.id);
-    let datalist = document.querySelector('#data-teste') as HTMLDataListElement;
-
-    input.innerHTML = `<option value="" hidden></option>`;
-
-    for(let i = 0; i < response[0].length; i++){
-      input.innerHTML += `<option value="${response[0][i].id_produto}">${response[0][i].codigo} - ${response[0][i].produto} | Produto</option>`;
-      datalist.innerHTML += `<option value="${response[0][i].id_produto}">${response[0][i].codigo} - ${response[0][i].produto} | Produto</option>`;
+    if(!tipo.value){
+      tipo.classList.add('inputObrigatorio');
+      return
     }
 
-    for(let i = 0; i < response[1].length; i++){
-      input.innerHTML += `<option value="${response[1][i].id_servico}">${response[1][i].codigo} - ${response[1][i].servico} | Serviço</option>`;
-      datalist.innerHTML += `<option value="${response[1][i].id_servico}">${response[1][i].codigo} - ${response[1][i].servico} | Serviço</option>`;
-    }
-  }
+    tipo.classList.remove('inputObrigatorio');
 
-  TesteList(){
-    let input = document.querySelector('#Teste') as HTMLInputElement;
-    let datalist = document.querySelector('#data-teste') as HTMLDataListElement;
-    let data = []
+    let response = await this.request.lookupSelect(`${input.id}/${tipo.value}`);
 
-    for(let i = 0; i < datalist.options.length; i++){
-      data.push(datalist.options[i].value)
+    input.innerHTML = '<option value="" hidden></option>';
+
+    for(let i = 0; i < response.length; i++){
+      input.innerHTML += `<option value="${response[i].id_servico || response[i].id_produto}">
+      ${response[i].codigo} - ${response[i].servico || response[i].produto}</option>`
     }
 
-    if(!data.includes(input.value)){
+    tipo.onchange = function(event){
       input.value = "";
+      desconto.value = "";
+      valorBruto.value = "";
+      valorDesconto.value = "";
+      valorLiquido.value = "";
     }
+
+    input.onchange = function(event){
+      for(let i = 0; i < response.length; i++){
+        if(input.value == response[i][`id_${tipo.value}`]){
+          valorBruto.value = (response[i].valor).toFixed(2).replace('.',',');
+        }
+      };
+
+      valorDesconto.value = (Number(desconto.value.replace(',','.')) / 100 * Number(valorBruto.value.replace(',','.'))).toFixed(2).replace('.',',');
+      valorLiquido.value = (Number(valorBruto.value.replace(',','.')) - Number(valorDesconto.value.replace(',','.'))).toFixed(2).replace('.',',');
+    }
+
+    desconto.onchange = function Calcular(event){
+      valorDesconto.value = (Number(desconto.value.replace(',','.')) / 100 * Number(valorBruto.value.replace(',','.'))).toFixed(2).replace('.',',');
+      valorLiquido.value = (Number(valorBruto.value.replace(',','.')) - Number(valorDesconto.value.replace(',','.'))).toFixed(2).replace('.',',');
+    }
+  }
+
+
+  async salvarSubRegistro(){
+    console.log((document.querySelector(`#${this.componente} #sub-executado`) as HTMLInputElement))
+    this.dadosSubTabela.push({
+      tipo: (document.querySelector(`#${this.componente} #sub-tipo`) as HTMLInputElement).value,
+      id_executado: (document.querySelector(`#${this.componente} #sub-executado`) as HTMLInputElement).value,
+      desconto: (document.querySelector(`#${this.componente} #sub-valorDesconto`) as HTMLInputElement).value,
+      valor: (document.querySelector(`#${this.componente} #sub-valorLiquido`) as HTMLInputElement).value
+    });
+
+    this.comunsService.alternarSubTela(this.componente, "");
+    this.leituraSub();
+  }
+
+  leituraSub(){
+
+    let html : string = "";
+    for(let i = 0; i < this.dadosSubTabela.length; i++){
+      html += 
+      `<tr><td class="sub-codigo">${this.dadosSubTabela[i].tipo}</td>
+      <td class="sub-executado">${this.dadosSubTabela[i].id_executado}</td>
+      <td class="sub-desconto">${this.dadosSubTabela[i].desconto}</td>
+      <td class="sub-valor">${this.dadosSubTabela[i].valor}</td></tr>
+      `
+    }
+    this.subTabela = this.sanitizer.bypassSecurityTrustHtml(html);
+
   }
 }

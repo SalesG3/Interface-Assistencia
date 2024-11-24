@@ -8,7 +8,7 @@ export class ComunsService {
   constructor() { }
 
   // Alterna entre Telas e Modifica Barra de Ferramentas de acordo com Modo:
-  alternarTela(componente : string, modo : string){
+  alternarTela(componente : string, modo : string, readOnly : Array<string>){
     let inputs = document.querySelectorAll(`#${componente} .dados-componente input, #${componente} textarea, #${componente} select`)
 
     let grid = document.querySelector(`#${componente} .grid-componente`) as HTMLElement;
@@ -44,6 +44,10 @@ export class ComunsService {
           if(input.type == "checkbox"){
             input.checked = true;
           }
+        }
+
+        for(let i = 0; i < readOnly.length; i++){
+          document.querySelector(`#${componente} ${readOnly[i]}`)?.setAttribute('disabled','');
         }
       break;
 
@@ -348,6 +352,8 @@ export class ComunsService {
     let valor = input.value.replace(',','').replace('.','');
     let formatado : string = "";
 
+    console.log('ok');
+
     if((event as InputEvent).inputType != "deleteContentBackward" && valor.length < 3){
       valor = "0".repeat(3 - valor.length) + valor;
     }
@@ -374,5 +380,30 @@ export class ComunsService {
     }
 
     input.value = formatado
+  }
+
+  alternarSubTela(componente : string, modo : string){
+    let inputs = document.querySelectorAll(`#${componente} .sub-dados input, #${componente} .sub-dados select`)
+
+    let subGrid = document.querySelector(`#${componente} .sub-grid`) as HTMLElement;
+    let subDados = document.querySelector(`#${componente} .sub-registro`) as HTMLElement;
+
+    switch(modo){
+
+      case "Incluindo":
+        subGrid.setAttribute('hidden','');
+        subDados.removeAttribute('hidden');
+
+        for(let i = 0; i < inputs.length; i++){
+          (inputs[i] as HTMLInputElement).value = "";
+        }
+      break;
+      default:
+        subGrid.removeAttribute('hidden');
+        subDados.setAttribute('hidden','');
+      break;
+    }
+
+
   }
 }

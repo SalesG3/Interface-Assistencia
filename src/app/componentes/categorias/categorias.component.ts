@@ -25,6 +25,7 @@ export class CategoriasComponent {
   countTabela : string = "0";
   dadosTabela : any;
 
+  readOnly : Array<string> = []
 
   constructor(private sanitizer : DomSanitizer, private request : RequestService, private comunsService : ComunsService, private routerService : RouterService){
     this.comuns = this.comunsService;
@@ -62,7 +63,7 @@ export class CategoriasComponent {
     let codigo = document.querySelector(`#${this.componente} #codigo`) as HTMLInputElement;
 
     this.modoTela = "Incluindo";
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
 
     codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0');
   }
@@ -83,7 +84,7 @@ export class CategoriasComponent {
     btnSim.onclick = () => {
       this.modoTela = "";
       this.mensagem = "";
-      this.comuns.alternarTela(this.componente, this.modoTela);
+      this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
       modal.close();
     }
   }
@@ -92,7 +93,7 @@ export class CategoriasComponent {
   voltarConsultando(){
     this.modoTela = "";
     this.mensagem = "";
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
 
     document.querySelector('.trFocus')?.classList.remove('trFocus');
     this.idRegistro = 0;
@@ -176,7 +177,7 @@ export class CategoriasComponent {
     }
     
     this.modoTela = modo;
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
     this.comuns.navRegistros(this.componente, this.idRegistro, this.navTabela);
   }
 
@@ -253,7 +254,7 @@ export class CategoriasComponent {
     this.modoTela = "Copiando";
     this.mensagem = "";
     
-    this.comuns.alternarTela(this.componente, this.modoTela);
+    this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
     codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0')
   }
 
