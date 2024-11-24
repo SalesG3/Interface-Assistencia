@@ -396,3 +396,64 @@ input[type=number]::-webkit-inner-spin-button{
 input[type=time]::-webkit-calendar-picker-indicator{
     display: none;
 }
+
+/* Testando Estilo: Sub-Componente */
+
+.sub-componente {
+    text-align: left;
+    
+    & .sub-grid table {
+        border-collapse: collapse;
+        background-color:#ECECEC;
+
+        & thead {
+            display: block;
+            font: bold .85rem 'Calibri';
+            background: linear-gradient(to top, lightgray, white);
+            overflow-y: scroll;
+
+            & tr, th{
+                height: 1rem;
+                border: 1px solid lightgray;
+                padding-left: .5rem;
+            }
+        }
+
+        & tbody{
+            display: block;
+            font: normal .8rem 'Calibri';
+            background-color: #ECECEC;
+            overflow-y: scroll;
+
+            & tr, td{
+                height: .9rem;
+                border: 1px solid lightgray;
+                padding-left: .5rem;
+            }
+
+            & tr:nth-child(odd){
+                background-color: whitesmoke;
+            }
+        }
+    }
+
+    & .sub-ferramentas {
+        height: 2rem;
+
+        & button {
+            margin: .25rem 0rem 0rem .25rem;
+            width: 5rem;
+
+            font: normal .9rem 'Calibri';
+            background: linear-gradient(to top, lightgray, white);
+            border: 1px solid gray;
+            border-radius: 3px;
+
+        }
+
+        & button:hover {
+            cursor: pointer;
+            filter: brightness(.95);
+        }
+    }
+}

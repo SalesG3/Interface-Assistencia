@@ -4,6 +4,7 @@ import { ServicosComponent } from '../componentes/servicos/servicos.component';
 import { CategoriasComponent } from '../componentes/categorias/categorias.component';
 import { ProdutosComponent } from '../componentes/produtos/produtos.component';
 import { AberturaComponent } from '../componentes/abertura/abertura.component';
+import { AndamentoComponent } from '../componentes/andamento/andamento.component';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,10 @@ export class RouterService {
   componetes : Record<string, any> = {
     clientes: ClientesComponent,
     servicos: ServicosComponent,
-    categorias : CategoriasComponent,
-    produtos : ProdutosComponent,
-    abertura : AberturaComponent
+    categorias: CategoriasComponent,
+    produtos: ProdutosComponent,
+    abertura: AberturaComponent,
+    andamento: AndamentoComponent 
   }
 
   outlet01 : any;

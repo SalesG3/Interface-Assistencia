@@ -54,35 +54,69 @@
         <div class="dados-componente" hidden>
             <div class="dados-registro">
                 <span>Andamento</span>
-                <select #andaOrdem id="os" (focus)="lookupSelect(andaOrdem)">
+                <label for="ordem_servico">Ordem Serv.:</label>
+                <select #andaOrdem id="ordem_servico" (focus)="lookupSelect(andaOrdem)">
                     <option value="" hidden></option>
                 </select>
 
-                <label for="dt_abertura">Abertura:</label>
-                <input type="date" id="dt_abertura">
-                
-                <label for="status">Status:</label>
-                <input type="text" id="status" disabled>
-
-                <label for="usuario">Atendente:</label>
-                <input type="text" id="usuario" disabled>
-                <br>
                 <label for="cliente">Cliente:</label>
-                <select #aberCliente id="cliente" (focus)="lookupSelect(aberCliente)">
-                    <option value="" hidden></option>
-                </select>
-
+                <input type="text" id="cliente" disabled>
+                <br>
+                <label for="dt_abertura">Abertura:</label>
+                <input type="date" id="dt_abertura" disabled>
+                
                 <label for="cadastro">Cadastro:</label>
                 <input type="text" id="cadastro" disabled>
 
                 <label for="contato">Contato:</label>
                 <input type="text" id="contato" disabled>
-                <br>
-                <label for="equipamento">Equipamento:</label>
-                <input type="text" id="equipamento">
-                <br>
-                <label for="descricao">Problema:</label><br>
-                <textarea id="descricao"></textarea>
+                <br><br>
+                <section id="execucao" class="sub-componente">
+
+                    <div class="sub-grid">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="sub-codigo">Código:</th>
+                                    <th class="sub-executado">Serviço/Produto:</th>
+                                    <th class="sub-desconto">Desconto:</th>
+                                    <th class="sub-valor">Valor:</th>
+                                </tr>
+                            </thead>
+                            <tbody [innerHTML]="subTabela"></tbody>
+                        </table>
+
+                        <div class="sub-ferramentas">
+                            <button (click)="teste()">Incluir</button>
+                            <button>Alterar</button>
+                            <button>Consultar</button>
+                            <button>Excluir</button>
+                        </div>
+
+                    </div>
+
+                    <div class="sub-registro" hidden>
+                        <div class="sub-dados">
+                            <span>Produto/Serviço</span>
+                            <label for="sub-executado">Prod./Serv.:</label>
+                            <select #andaExecutado id="sub-executado" (focus)="lookupSubSelect(andaExecutado)">
+                                <option value="" hidden></option>
+                            </select>
+                            <br>
+                            <label for="Teste">Teste:</label>
+                            <input type="text" list="data-teste" id="Teste" (change)="TesteList()">
+                                <datalist id="data-teste">
+                                    <option value="Teste01"></option>
+                                    <option value="Teste02"></option>
+                                </datalist>
+                        </div>
+                        <div class="sub-operadores">
+                            <button>Salvar</button>
+                            <button>Cancelar</button>
+                        </div>
+                    </div>
+
+                </section>
                 <br><br>
                 <span class="mensagem">{{mensagem}}</span>
             </div>

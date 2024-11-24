@@ -1,0 +1,28 @@
+/* Colunas da Grid: */
+:host ::ng-deep .codigo{ width: 5rem; }
+:host ::ng-deep .cliente{ width: 25rem; }
+:host ::ng-deep .dt_abertura{ width: 6rem; }
+:host ::ng-deep .status{ width: 6rem; }
+:host ::ng-deep .trFocus{background-color: cornflowerblue !important; color: white !important;}
+
+/* Colunas da GRID do sub-componente */
+.sub-grid tbody {height: 8.5rem;}
+
+:host ::ng-deep .sub-codigo{ width: 5rem; }
+:host ::ng-deep .sub-executado{ width: 25rem; }
+:host ::ng-deep .sub-desconto{ width: 5.25rem; }
+:host ::ng-deep .sub-valor{ width: 5.25rem; }
+
+/* Dados Registro: */
+
+/* Linha 01 */
+#ordem_servico { width: 16rem; }
+#cliente { width: 16rem; }
+
+/* Linha 02 */
+#dt_abertura { width: 6.5rem; }
+#cadastro { width: 10.45rem; }
+#contato { width: 9rem; }
+
+/* Linha 03 */
+
