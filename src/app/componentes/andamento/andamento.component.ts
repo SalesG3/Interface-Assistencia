@@ -12,7 +12,7 @@ import { SessaoService } from '../../servicos/sessao.service';
   templateUrl: './andamento.component.html',
   styleUrl: './andamento.component.css'
 })
-export class AndamentoComponent {
+export class AndamentoComponent{
   componente = 'andamento';
   sessao : any;
   comuns : any;
@@ -28,8 +28,6 @@ export class AndamentoComponent {
   idRegistro : number = 0;
   countTabela : string = "0";
   dadosTabela : any;
-
- 
 
   readOnly: Array<string> = ['#sub-valorBruto', '#sub-valorDesconto', '#sub-valorLiquido', '#cadastro', '#contato', '#dt_abertura', '#cliente'];
 
@@ -115,13 +113,10 @@ export class AndamentoComponent {
     if(this.validarInputs() != true){ return }
 
     let data = {
-      codigo: (document.querySelector(`#${this.componente} #codigo`) as HTMLInputElement).value,
-      abertura: (document.querySelector(`#${this.componente} #dt_abertura`) as HTMLInputElement).value,
-      status: (document.querySelector(`#${this.componente} #status`) as HTMLInputElement).value,
-      cliente: (document.querySelector(`#${this.componente} #cliente`) as HTMLInputElement).value,
-      equipamento: (document.querySelector(`#${this.componente} #equipamento`) as HTMLInputElement).value,
-      descricao: (document.querySelector(`#${this.componente} #descricao`) as HTMLInputElement).value,
-      usuario: this.sessao.id_usuario
+      abertura: (document.querySelector(`#${this.componente} #ordem_servico`) as HTMLInputElement).value,
+      data: (document.querySelector(`#${this.componente} #dt_abertura`) as HTMLInputElement).value,
+      tecnico: this.sessaoService.id_usuario,
+      registros: this.subRegistros
     }
 
     let response;
@@ -210,7 +205,7 @@ export class AndamentoComponent {
   validarInputs(){
     let data = document.querySelector(`#${this.componente} #dt_abertura`) as HTMLInputElement;
     
-    let inputs = ['#codigo', '#dt_abertura', '#cliente', '#equipamento', '#descricao'];
+    let inputs = ['#ordem_servico', '#dt_abertura', '#cliente'];
     let validarInputs = this.comuns.validarInputs(this.componente, inputs);
 
     if(validarInputs != true){
@@ -387,6 +382,7 @@ export class AndamentoComponent {
     let valorBruto = document.querySelector(`#${this.componente} #sub-valorBruto`) as HTMLInputElement;
     let valorDesconto = document.querySelector(`#${this.componente} #sub-valorDesconto`) as HTMLInputElement;
     let valorLiquido = document.querySelector(`#${this.componente} #sub-valorLiquido`) as HTMLInputElement;
+    let quantidade = document.querySelector(`#${this.componente} #sub-quantidade`) as HTMLInputElement;
 
     if(!tipo.value){
       tipo.classList.add('inputObrigatorio');
@@ -425,7 +421,7 @@ export class AndamentoComponent {
 
     desconto.onchange = function Calcular(event){
       valorDesconto.value = (Number(desconto.value.replace(',','.')) / 100 * Number(valorBruto.value.replace(',','.'))).toFixed(2).replace('.',',');
-      valorLiquido.value = (Number(valorBruto.value.replace(',','.')) - Number(valorDesconto.value.replace(',','.'))).toFixed(2).replace('.',',');
+      valorLiquido.value = ((Number(valorBruto.value.replace(',','.')) - Number(valorDesconto.value.replace(',','.'))) * Number(quantidade.value.replace(',','.'))).toFixed(2).replace('.',',');
     }
   }
 
@@ -439,7 +435,8 @@ export class AndamentoComponent {
       valor: (document.querySelector(`#${this.componente} #sub-valorLiquido`) as HTMLInputElement).value
     });
 
-    this.comunsService.alternarSubTela(this.componente, "");
+    let leitura = ['sub-unitBruto', 'sub-unitDesconto', 'sub-unitLiquido', 'sub-totalBruto', 'sub-totalDesconto', 'sub-totalLiquido'];
+    this.comunsService.alternarSubTela(this.componente, "", leitura);
     this.leituraSub();
   }
 
@@ -456,5 +453,120 @@ export class AndamentoComponent {
     }
     this.subTabela = this.sanitizer.bypassSecurityTrustHtml(html);
 
+  }
+
+  // SUB-COMPONENTE EXECUTADOS:
+  componentev2 : string = "#andamento"
+
+  // Variáveis:
+  subRegistros : Array<any> = [];
+  innerTabela : any;
+  leitura : Array<string> = ['sub-unitBruto', 'sub-unitDesconto', 'sub-unitLiquido', 'sub-totalBruto', 'sub-totalDesconto', 'sub-totalLiquido'];
+
+  // Options para Select Executado:
+  async selectExecutado(){
+    let tipo = document.querySelector(`#${this.componente} #sub-tipo`) as HTMLInputElement;
+    let executado = document.querySelector(`#${this.componente} #sub-executado`) as HTMLInputElement;
+    let desconto = document.querySelector(`#${this.componente} #sub-desconto`) as HTMLInputElement;
+    let quantidade = document.querySelector(`#${this.componente} #sub-quantidade`) as HTMLInputElement;
+
+    if(!tipo.value){
+      tipo.classList.add('inputObrigatorio');
+      return
+    }
+
+    tipo.classList.remove('inputObrigatorio');
+    let response : Array<any> = await this.request.lookupSelect(tipo.value);
+
+    let uniBruto = document.querySelector(`#${this.componente} #sub-unitBruto`) as HTMLInputElement;
+    let uniDesconto = document.querySelector(`#${this.componente} #sub-unitDesconto`) as HTMLInputElement;
+    let uniLiquido = document.querySelector(`#${this.componente} #sub-unitLiquido`) as HTMLInputElement;
+
+    let totalBruto = document.querySelector(`#${this.componente} #sub-totalBruto`) as HTMLInputElement;
+    let totalDesconto = document.querySelector(`#${this.componente} #sub-totalDesconto`) as HTMLInputElement;
+    let totalLiquido = document.querySelector(`#${this.componente} #sub-totalLiquido`) as HTMLInputElement;
+
+    executado.innerHTML = '<option value="" hidden></option>';
+
+    for(let i = 0; i < response.length; i++){
+      executado.innerHTML += 
+        `<option value="${response[i].id_servico || response[i].id_produto}">${response[i].codigo} - ${response[i].servico || response[i].produto}</option>`
+    }
+
+    let inputs = document.querySelectorAll(`#${this.componente} .sub-dados input`);
+    tipo.onchange = () => {
+      executado.value = "";
+      for(let i = 0; i < inputs.length; i++){
+        (inputs[i] as HTMLInputElement).value = "";
+      }
+    }
+
+    executado.onchange = function executadoChange() {
+      let data = response.find(data => data.id_produto == executado.value || data.id_servico == executado.value);
+      executado.dataset['descricao'] = data.produto || data.servico;
+      uniBruto.value = Number(data.valor).toFixed(2).replace('.',',');
+
+      descontoChange();
+      quantidadeChange();
+    }
+
+    desconto.onchange = descontoChange;
+    function descontoChange(){
+      uniDesconto.value = (Number(uniBruto.value.replace(',','.')) * Number(desconto.value.replace(',','.')) / 100).toFixed(2).replace('.',',');
+      uniLiquido.value = (Number(uniBruto.value.replace(',','.')) - Number(uniDesconto.value.replace(',','.'))).toFixed(2).replace('.',',');
+
+      quantidadeChange();
+    }
+
+
+    quantidade.onchange = quantidadeChange;
+    function quantidadeChange(){
+      totalBruto.value = (Number(uniBruto.value.replace(',','.')) * Number(quantidade.value.replace(',','.'))).toFixed(2).replace('.',',');
+      totalDesconto.value = (Number(uniDesconto.value.replace(',','.')) * Number(quantidade.value.replace(',','.'))).toFixed(2).replace('.',',');
+      totalLiquido.value = (Number(uniLiquido.value.replace(',','.')) * Number(quantidade.value.replace(',','.'))).toFixed(2).replace('.',',');
+    }
+  }
+
+  // Salvar Registro:
+  incluirSubRegistro(){
+
+    //1. Validar Inputs:
+    let inputs = document.querySelectorAll('#andamento .sub-dados input, #andamento .sub-dados select');
+    for(let i = 0; i < inputs.length; i++){
+      if((inputs[i] as HTMLInputElement).value == ""){
+        inputs[i].classList.add('inputObrigatorio');
+      }
+      else{
+        inputs[i].classList.remove('inputObrigatorio');
+      }
+    }
+
+    if(document.querySelector('#andamento .sub-dados .inputObrigatorio')){
+      this.mensagem = "Campos em vermelho são obrigatórios";
+      return
+    }
+
+    // 2. Adicionar Registro:
+    this.subRegistros.push({
+      tipo: (document.querySelector(`#${this.componente} #sub-tipo`) as HTMLInputElement).value,
+      executado : (document.querySelector(`#${this.componente} #sub-executado`) as HTMLInputElement).value,
+      descricao : (document.querySelector(`#${this.componente} #sub-executado`) as HTMLInputElement).dataset['descricao'],
+      quantidade: (document.querySelector(`#${this.componente} #sub-quantidade`) as HTMLInputElement).value,
+      desconto: (document.querySelector(`#${this.componente} #sub-totalDesconto`) as HTMLInputElement).value.replace(',','.'),
+      liquido: (document.querySelector(`#${this.componente} #sub-totalLiquido`) as HTMLInputElement).value.replace(',','.')
+    });
+
+    // 3. Alterna a Tela & 4. Leitura Array
+    let html : string = "";
+    for(let i = 0; i < this.subRegistros.length; i++){
+      html += `<tr><td class="sub-tipo">${this.subRegistros[i].tipo}</td>
+              <td class="sub-executado">${this.subRegistros[i].descricao}</td>
+              <td class="sub-quantidade">${this.subRegistros[i].quantidade}</td>
+              <td class="sub-desconto">${this.subRegistros[i].desconto}</td>
+              <td class="sub-valor">${this.subRegistros[i].liquido}</td></tr>`
+    }
+
+    this.innerTabela = this.sanitizer.bypassSecurityTrustHtml(html);
+    this.comunsService.alternarSubTela(this.componente, "", this.leitura);
   }
 }

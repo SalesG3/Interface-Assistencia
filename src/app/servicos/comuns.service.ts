@@ -352,8 +352,6 @@ export class ComunsService {
     let valor = input.value.replace(',','').replace('.','');
     let formatado : string = "";
 
-    console.log('ok');
-
     if((event as InputEvent).inputType != "deleteContentBackward" && valor.length < 3){
       valor = "0".repeat(3 - valor.length) + valor;
     }
@@ -382,7 +380,7 @@ export class ComunsService {
     input.value = formatado
   }
 
-  alternarSubTela(componente : string, modo : string){
+  alternarSubTela(componente : string, modo : string, leitura : Array<string>){
     let inputs = document.querySelectorAll(`#${componente} .sub-dados input, #${componente} .sub-dados select`)
 
     let subGrid = document.querySelector(`#${componente} .sub-grid`) as HTMLElement;
@@ -397,6 +395,11 @@ export class ComunsService {
         for(let i = 0; i < inputs.length; i++){
           (inputs[i] as HTMLInputElement).value = "";
         }
+
+        for(let i = 0; i < leitura.length; i++){
+          document.querySelector(`#${componente} #${leitura[i]}`)?.setAttribute('disabled','');
+        }
+
       break;
       default:
         subGrid.removeAttribute('hidden');

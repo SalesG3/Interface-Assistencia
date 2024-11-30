@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { SessaoService } from '../../servicos/sessao.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterService } from '../../servicos/router.service';
 
@@ -11,7 +11,7 @@ import { RouterService } from '../../servicos/router.service';
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'
 })
-export class IndexComponent {
+export class IndexComponent implements AfterViewInit{
   entidade : string;
   usuario : string;
   versao : string;
@@ -19,12 +19,18 @@ export class IndexComponent {
   router;
 
 
-  constructor(private sessao : SessaoService, private routerService : RouterService){
+  constructor(private sessao : SessaoService, private routerService : RouterService, private ngRouter: Router){
     this.entidade = this.sessao.entidade;
     this.usuario = this.sessao.usuario;
     this.versao = this.sessao.versao;
 
     this.router = routerService;
+  }
+
+  ngAfterViewInit(): void {
+    if(this.sessao.id_usuario == 0){
+      this.ngRouter.navigate(['/login'])
+    }
   }
 
   listDown ( button : HTMLButtonElement ) {

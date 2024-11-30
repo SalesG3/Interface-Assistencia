@@ -77,17 +77,18 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="sub-codigo">Código:</th>
+                                    <th class="sub-tipo">Tipo:</th>
                                     <th class="sub-executado">Serviço/Produto:</th>
+                                    <th class="sub-quantidade">Quant.:</th>
                                     <th class="sub-desconto">Desconto:</th>
                                     <th class="sub-valor">Valor:</th>
                                 </tr>
                             </thead>
-                            <tbody [innerHTML]="subTabela"></tbody>
+                            <tbody [innerHTML]="innerTabela" (click)="trFocus($event)"></tbody>
                         </table>
 
                         <div class="sub-ferramentas">
-                            <button (click)="comuns.alternarSubTela(componente, 'Incluindo')" disabled>Incluir</button>
+                            <button (click)="comuns.alternarSubTela(componente, 'Incluindo', leitura)" disabled>Incluir</button>
                             <button disabled>Alterar</button>
                             <button disabled>Consultar</button>
                             <button disabled>Excluir</button>
@@ -100,31 +101,44 @@
                             <span>Produto/Serviço</span>
                             
                             <label for="sub-tipo">Tipo:</label>
-                            <select id="sub-tipo">
+                            <select #subTipo id="sub-tipo" >
                                 <option value="" hidden></option>
-                                <option value="servico">Serviço</option>
-                                <option value="produto">Produto</option>
+                                <option value="Servico" data-descricao="Serviço">Serviço</option>
+                                <option value="Produto" data-descricao="Produto">Produto</option>
                             </select>
 
                             <label for="sub-executado">Prod./Serv.:</label>
-                            <select #andaExecutado id="sub-executado" (focus)="lookupExecutado(andaExecutado)">
+                            <select #subExecutado id="sub-executado" (focus)="selectExecutado()" data-descricao="nometeste">
                                 <option value="" hidden></option>
                             </select>
 
                             <label for="sub-desconto">Desconto(%):</label>
-                            <input #andaDesconto type="text" id="sub-desconto" maxlength="10" (input)="comuns.mascaraDesconto(andaDesconto)">
+                            <input #subDesconto type="text" id="sub-desconto" maxlength="10">
                             <br>
-                            <label for="sub-valorBruto">Valor Bruto:</label>
-                            <input #andaVlrBruto type="text" id="sub-valorBruto" maxlength="10" (input)="comuns.mascaraValor(andaVlrBruto)">
+                            <label for="sub-unitBruto">Bruto Unit.:</label>
+                            <input #andaVlrBruto type="text" id="sub-unitBruto" maxlength="10">
 
-                            <label for="sub-valorDesconto">Desconto:</label>
-                            <input #andaVlrDesconto type="text" id="sub-valorDesconto" maxlength="10" (input)="comuns.mascaraValor(andaVlrDesconto)">
+                            <label for="sub-unitDesconto">Desc. Unit.:</label>
+                            <input #andaVlrDesconto type="text" id="sub-unitDesconto" maxlength="10" (input)="comuns.mascaraValor(andaVlrDesconto)">
+                            
+                            <label for="sub-unitLiquido">Total Unit.:</label>
+                            <input #andaVlrLiquido type="text" id="sub-unitLiquido" maxlength="10" (input)="comuns.mascaraValor(andaVlrLiquido)">
+                            
+                            <label for="sub-quantidade">Quantidade:</label>
+                            <input type="text" id="sub-quantidade" maxlength="10">
+                            <br>
+                            <label for="sub-totalBruto">Total Bruto:</label>
+                            <input #andamentoTotalBruto type="text" id="sub-totalBruto" maxlength="10" (input)="comuns.mascaraValor(andamentoTotalBruto)">
+                            
+                            <label for="sub-totalDesconto">Total Desc.:</label>
+                            <input #andamentoTotalDesconto type="text" id="sub-totalDesconto" maxlength="10" (input)="comuns.mascaraValor(andamentoTotalDesconto)">
 
-                            <label for="sub-valorLiquido">Total:</label>
-                            <input #andaVlrLiquido type="text" id="sub-valorLiquido" maxlength="10" (input)="comuns.mascaraValor(andaVlrLiquido)">
+                            <label for="sub-totalLiquido">Total Liq.:</label>
+                            <input #andamentoTotalLiquido type="text" id="sub-totalLiquido" maxlength="10" (input)="comuns.mascaraValor(andamentoTotalLiquido)">
+
                         </div>
                         <div class="sub-operadores">
-                            <button (click)="salvarSubRegistro()">Salvar</button>
+                            <button (click)="incluirSubRegistro()">Salvar</button>
 
                             <button (click)="comuns.alternarSubTela(componente, '')">Cancelar</button>
                         </div>
