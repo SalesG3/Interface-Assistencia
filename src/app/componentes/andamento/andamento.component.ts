@@ -50,11 +50,11 @@ export class AndamentoComponent{
     
     let html : string = "";
     for(let i = 0; i < response.length; i++){
-      html += `<tr id="${response[i].id_abertura}">
+      html += `<tr id="${response[i].id_andamento}">
       <td class="codigo">${response[i].codigo}</td>
       <td class="cliente">${response[i].cliente}</td>
-      <td class="dt_abertura">${response[i].dt_abertura}</td>
-      <td class="status">${response[i].status}</td></tr>`;
+      <td class="dt_andamento">${response[i].dt_andamento}</td>
+      <td class="valor">${response[i].valor}</td></tr>`;
 
       this.navTabela.push(response[i].id_abertura);
     }
