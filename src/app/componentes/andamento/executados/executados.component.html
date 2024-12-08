@@ -1,0 +1,77 @@
+<section id="executados" class="sub-componente">
+
+    <div class="sub-grid">
+        <table>
+            <thead>
+                <tr>
+                    <th class="sub-tipo">Tipo:</th>
+                    <th class="sub-executado">Serviço/Produto:</th>
+                    <th class="sub-quantidade">Quant.:</th>
+                    <th class="sub-desconto">Desconto:</th>
+                    <th class="sub-valor">Valor:</th>
+                </tr>
+            </thead>
+            <tbody [innerHTML]="innerTabela" (click)="selecaoTabela($event)"></tbody>
+        </table>
+
+        <div class="sub-ferramentas">
+            <button disabled (click)="incluir()">Incluir</button>
+            <button disabled (click)="alterar()">Alterar</button>
+            <button disabled (click)="consultar()">Consultar</button>
+            <button disabled (click)="excluir()">Excluir</button>
+        </div>
+
+    </div>
+
+    <div class="sub-registro" hidden>
+        <div class="sub-dados">
+            <span>Produto/Serviço</span>
+            
+            <label for="sub-tipo">Tipo:</label>
+            <select #subTipo id="sub-tipo" >
+                <option value="" hidden></option>
+                <option value="Servico" data-descricao="Serviço">Serviço</option>
+                <option value="Produto" data-descricao="Produto">Produto</option>
+            </select>
+
+            <label for="sub-executado">Prod./Serv.:</label>
+            <select #subExecutado id="sub-executado" (focus)="selectExecutado()">
+                <option value="" hidden></option>
+            </select>
+
+            <label for="sub-desconto">Desconto(%):</label>
+            <input #subDesconto type="text" id="sub-desconto" maxlength="10" (change)="calcular()">
+            <br>
+            <label for="sub-unitBruto">Bruto Unit.:</label>
+            <input #andaVlrBruto type="text" id="sub-unitBruto" maxlength="10">
+
+            <label for="sub-unitDesconto">Desc. Unit.:</label>
+            <input #andaVlrDesconto type="text" id="sub-unitDesconto" maxlength="10">
+            
+            <label for="sub-unitLiquido">Total Unit.:</label>
+            <input #andaVlrLiquido type="text" id="sub-unitLiquido" maxlength="10">
+            
+            <label for="sub-quantidade">Quantidade:</label>
+            <input type="text" id="sub-quantidade" maxlength="10" (change)="calcular()">
+            <br>
+            <label for="sub-totalBruto">Total Bruto:</label>
+            <input #andamentoTotalBruto type="text" id="sub-totalBruto" maxlength="10">
+            
+            <label for="sub-totalDesconto">Total Desc.:</label>
+            <input #andamentoTotalDesconto type="text" id="sub-totalDesconto" maxlength="10">
+
+            <label for="sub-totalLiquido">Total Liq.:</label>
+            <input #andamentoTotalLiquido type="text" id="sub-totalLiquido" maxlength="10">
+            <br><br>
+            <span class="mensagem">{{mensagem}}</span>
+        </div>
+        <div class="sub-operadores">
+            <button (click)="salvarRegistro()">Salvar</button>
+
+            <button>Cancelar</button>
+
+            <span class="metodo">{{metodo}}</span>
+
+        </div>
+    </div>
+</section>

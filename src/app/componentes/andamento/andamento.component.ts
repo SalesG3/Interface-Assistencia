@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RequestService } from '../../servicos/request.service';
 import { ComunsService } from '../../servicos/comuns.service';
 import { RouterService } from '../../servicos/router.service';
 import { SessaoService } from '../../servicos/sessao.service';
+import { ExecutadosComponent } from "./executados/executados.component";
 
 @Component({
   selector: 'app-andamento',
   standalone: true,
-  imports: [],
+  imports: [ExecutadosComponent],
   templateUrl: './andamento.component.html',
   styleUrl: './andamento.component.css'
 })
@@ -30,6 +31,8 @@ export class AndamentoComponent{
   dadosTabela : any;
 
   readOnly: Array<string> = ['#sub-valorBruto', '#sub-valorDesconto', '#sub-valorLiquido', '#cadastro', '#contato', '#dt_abertura', '#cliente'];
+
+  @ViewChild(ExecutadosComponent) executados !: ExecutadosComponent;
 
   constructor(private sanitizer : DomSanitizer, private request : RequestService, private comunsService : ComunsService,
     private routerService : RouterService, private sessaoService : SessaoService){
@@ -66,13 +69,16 @@ export class AndamentoComponent{
   // Solicita código disponível pelo serviço de Requisição. Lança o valor no campo.
   // Altera o modoTela e solicita o serviço comuns para Alternar Tela
   async incluirRegistro(){
-    //let response = await this.request.codigoAuto(this.componente);
-    //let codigo = document.querySelector(`#${this.componente} #codigo`) as HTMLInputElement;
-
     this.modoTela = "Incluindo";
     this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
 
-    //codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0');
+    let subBotoes = document.querySelectorAll('.sub-ferramentas button');
+    for(let i = 0; i < subBotoes.length; i++){
+      subBotoes[i].setAttribute('disabled','');
+    }
+
+    this.subRegistros = [];
+    this.innerTabela = "";
   }
 
   // Chama modal de Confirmação e de acordo com a resposta Alterna a Tela.
@@ -116,7 +122,7 @@ export class AndamentoComponent{
       abertura: (document.querySelector(`#${this.componente} #ordem_servico`) as HTMLInputElement).value,
       data: (document.querySelector(`#${this.componente} #dt_abertura`) as HTMLInputElement).value,
       tecnico: this.sessaoService.id_usuario,
-      registros: this.subRegistros
+      registros: this.executados.registros
     }
 
     let response;
@@ -342,6 +348,8 @@ export class AndamentoComponent{
     let btns = document.querySelectorAll(`#${this.componente} .sub-ferramentas button`);
     if(input.value == ""){
       this.comuns.alternarSubTela(this.componente, "");
+      this.subRegistros = [];
+      this.innerTabela = "";
 
       for(let i = 0; i < btns.length; i++){
         btns[i].setAttribute('disabled','')
@@ -441,26 +449,31 @@ export class AndamentoComponent{
   }
 
   leituraSub(){
+    if(this.subRegistros.length > 0){
+      (document.querySelector(`#${this.componente} #ordem_servico`) as HTMLElement).setAttribute('disabled','')
+    }
+    else{
+      (document.querySelector(`#${this.componente} #ordem_servico`) as HTMLElement).removeAttribute('disabled')
+    }
 
     let html : string = "";
-    for(let i = 0; i < this.dadosSubTabela.length; i++){
-      html += 
-      `<tr><td class="sub-codigo">${this.dadosSubTabela[i].tipo}</td>
-      <td class="sub-executado">${this.dadosSubTabela[i].id_executado}</td>
-      <td class="sub-desconto">${this.dadosSubTabela[i].desconto}</td>
-      <td class="sub-valor">${this.dadosSubTabela[i].valor}</td></tr>
-      `
+    for(let i = 0; i < this.subRegistros.length; i++){
+      html += `<tr id="${this.subRegistros[i].id}"><td class="sub-tipo">${this.subRegistros[i].tipo}</td>
+              <td class="sub-executado">${this.subRegistros[i].descricao}</td>
+              <td class="sub-quantidade">${this.subRegistros[i].quantidade}</td>
+              <td class="sub-desconto">${this.subRegistros[i].desconto}</td>
+              <td class="sub-valor">${this.subRegistros[i].liquido}</td></tr>`
     }
-    this.subTabela = this.sanitizer.bypassSecurityTrustHtml(html);
 
+    this.innerTabela = this.sanitizer.bypassSecurityTrustHtml(html);
+    this.comunsService.alternarSubTela(this.componente, "", this.leitura);
   }
-
-  // SUB-COMPONENTE EXECUTADOS:
-  componentev2 : string = "#andamento"
 
   // Variáveis:
   subRegistros : Array<any> = [];
+  current_subID : Number = 0;
   innerTabela : any;
+  subModo : string = "";
   leitura : Array<string> = ['sub-unitBruto', 'sub-unitDesconto', 'sub-unitLiquido', 'sub-totalBruto', 'sub-totalDesconto', 'sub-totalLiquido'];
 
   // Options para Select Executado:
@@ -496,6 +509,7 @@ export class AndamentoComponent{
     let inputs = document.querySelectorAll(`#${this.componente} .sub-dados input`);
     tipo.onchange = () => {
       executado.value = "";
+      executado.innerHTML = '<option value="" hidden></option>';
       for(let i = 0; i < inputs.length; i++){
         (inputs[i] as HTMLInputElement).value = "";
       }
@@ -503,6 +517,7 @@ export class AndamentoComponent{
 
     executado.onchange = function executadoChange() {
       let data = response.find(data => data.id_produto == executado.value || data.id_servico == executado.value);
+      executado.dataset['codigo'] = data.codigo;
       executado.dataset['descricao'] = data.produto || data.servico;
       uniBruto.value = Number(data.valor).toFixed(2).replace('.',',');
 
@@ -546,27 +561,81 @@ export class AndamentoComponent{
       return
     }
 
+    // Busca o ultimo ID inserido para incrementar +1;
+    let maxvalue = 0;
+    this.subRegistros.find(data => {
+      if(data.id > maxvalue){
+        maxvalue = data.id;
+      }
+    })
+    maxvalue++
+    console.log(maxvalue)
+
     // 2. Adicionar Registro:
     this.subRegistros.push({
+      id: maxvalue,
       tipo: (document.querySelector(`#${this.componente} #sub-tipo`) as HTMLInputElement).value,
       executado : (document.querySelector(`#${this.componente} #sub-executado`) as HTMLInputElement).value,
+      codigo : (document.querySelector(`#${this.componente} #sub-executado`) as HTMLInputElement).dataset['codigo'],
       descricao : (document.querySelector(`#${this.componente} #sub-executado`) as HTMLInputElement).dataset['descricao'],
       quantidade: (document.querySelector(`#${this.componente} #sub-quantidade`) as HTMLInputElement).value,
       desconto: (document.querySelector(`#${this.componente} #sub-totalDesconto`) as HTMLInputElement).value.replace(',','.'),
       liquido: (document.querySelector(`#${this.componente} #sub-totalLiquido`) as HTMLInputElement).value.replace(',','.')
     });
 
-    // 3. Alterna a Tela & 4. Leitura Array
-    let html : string = "";
-    for(let i = 0; i < this.subRegistros.length; i++){
-      html += `<tr><td class="sub-tipo">${this.subRegistros[i].tipo}</td>
-              <td class="sub-executado">${this.subRegistros[i].descricao}</td>
-              <td class="sub-quantidade">${this.subRegistros[i].quantidade}</td>
-              <td class="sub-desconto">${this.subRegistros[i].desconto}</td>
-              <td class="sub-valor">${this.subRegistros[i].liquido}</td></tr>`
+    // Leitura e Muda tela:
+    this.leituraSub();
+  }
+
+  // CONSULTAR SUB REGISTRO::: DESENVOLVIMENTO
+  subId = 0;
+  consultarSub(){
+    this.comunsService.alternarSubTela(this.componente, "Incluindo", this.leitura);
+    
+    let tipo = document.querySelector(`#${this.componente} #sub-tipo`) as HTMLInputElement;
+    let executado = document.querySelector(`#${this.componente} #sub-executado`) as HTMLInputElement;
+    let quantidade = (document.querySelector(`#${this.componente} #sub-quantidade`) as HTMLInputElement);
+    let desconto = (document.querySelector(`#${this.componente} #sub-desconto`) as HTMLInputElement);
+
+    let uniBruto = document.querySelector(`#${this.componente} #sub-unitBruto`) as HTMLInputElement;
+    let uniDesconto = document.querySelector(`#${this.componente} #sub-unitDesconto`) as HTMLInputElement;
+    let uniLiquido = document.querySelector(`#${this.componente} #sub-unitLiquido`) as HTMLInputElement;
+
+    let totalBruto = document.querySelector(`#${this.componente} #sub-totalBruto`) as HTMLInputElement;
+    let totalDesconto = document.querySelector(`#${this.componente} #sub-totalDesconto`) as HTMLInputElement;
+    let totalLiquido = document.querySelector(`#${this.componente} #sub-totalLiquido`) as HTMLInputElement;
+    
+    let data = this.subRegistros.find(data => data.id == this.subId);
+
+    tipo.value = data.tipo;
+    executado.innerHTML = `<option value="${data.executado}">${data.codigo} - ${data.descricao}</option>`;
+    quantidade.value = data.quantidade;
+    totalLiquido.value = data.liquido;
+    totalDesconto.value = data.desconto;
+
+    function Calcular(){
+
+      totalBruto.value = (Number(totalDesconto.value) + Number(totalLiquido.value)).toFixed(2);
+      uniBruto.value = (Number(totalBruto.value) / Number(quantidade.value)).toFixed(2);
+      uniDesconto.value = (Number(totalDesconto.value) / Number(quantidade.value)).toFixed(2);
+      uniLiquido.value = (Number(totalLiquido.value) / Number(quantidade.value)).toFixed(2);
+      desconto.value = (Number(uniDesconto.value) / Number(uniBruto.value) * 100).toFixed(2);
+    }
+    Calcular()
+
+  }
+
+  subTrFocus(event : MouseEvent){
+    if((document.querySelector(`#${this.componente} .grid-tabela`)) == (event.target as HTMLElement).parentElement){
+      return
     }
 
-    this.innerTabela = this.sanitizer.bypassSecurityTrustHtml(html);
-    this.comunsService.alternarSubTela(this.componente, "", this.leitura);
+    let tr = (event.target as HTMLElement).parentElement as HTMLTableRowElement;
+    if(document.querySelector('.trFocus')){
+      document.querySelector('.trFocus')?.classList.remove('trFocus');
+    }
+    
+    tr.classList.add('trFocus');
+    this.subId = Number(tr.id);
   }
 }

@@ -401,9 +401,31 @@ export class ComunsService {
         }
 
       break;
+
+      case "Alterando":
+        subGrid.setAttribute('hidden','');
+        subDados.removeAttribute('hidden');
+
+        for(let i = 0; i < leitura.length; i++){
+          document.querySelector(`#${componente} #${leitura[i]}`)?.setAttribute('disabled','');
+        }
+      break;
+      case "Consultando":
+        subGrid.setAttribute('hidden','');
+        subDados.removeAttribute('hidden');
+
+        for(let i = 0; i < inputs.length; i++){
+          (inputs[i] as HTMLInputElement).setAttribute('disabled','');
+        }
+      break;
       default:
         subGrid.removeAttribute('hidden');
         subDados.setAttribute('hidden','');
+
+        for(let i = 0; i < inputs.length; i++){
+          (inputs[i] as HTMLInputElement).value = "";
+          (inputs[i] as HTMLInputElement).removeAttribute('disabled');
+        }
       break;
     }
 

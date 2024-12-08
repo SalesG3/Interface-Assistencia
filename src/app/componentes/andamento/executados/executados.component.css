@@ -1,0 +1,26 @@
+.sub-grid tbody {height: 8.5rem;}
+
+:host ::ng-deep .sub-tipo{ width: 4rem; }
+:host ::ng-deep .sub-executado{ width: 22rem; }
+:host ::ng-deep .sub-quantidade{ width: 4rem;}
+:host ::ng-deep .sub-desconto{ width: 5.25rem; }
+:host ::ng-deep .sub-valor{ width: 5.25rem; }
+
+/* Dados dos Sub-Registros */
+.sub-dados{ height: 9.8rem; }
+
+/* Linha 01 */
+#sub-tipo{ width: 6rem; }
+#sub-executado{ width: 17.55rem; }
+#sub-desconto{ width: 3rem;}
+
+/* Linha 02 */
+#sub-unitBruto{ width: 5.65rem; }
+#sub-unitDesconto{ width: 5.65rem; }
+#sub-unitLiquido{ width: 5.65rem; }
+#sub-quantidade{ width: 3rem; }
+
+/* Linha 03 */
+#sub-totalBruto{width: 5.65rem; }
+#sub-totalDesconto{width: 5.65rem; }
+#sub-totalLiquido{width: 5.65rem; }

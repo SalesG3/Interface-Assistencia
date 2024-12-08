@@ -6,13 +6,7 @@
 :host ::ng-deep .trFocus{background-color: cornflowerblue !important; color: white !important;}
 
 /* Colunas da GRID do sub-componente */
-.sub-grid tbody {height: 8.5rem;}
 
-:host ::ng-deep .sub-tipo{ width: 4rem; }
-:host ::ng-deep .sub-executado{ width: 22rem; }
-:host ::ng-deep .sub-quantidade{ width: 4rem;}
-:host ::ng-deep .sub-desconto{ width: 5.25rem; }
-:host ::ng-deep .sub-valor{ width: 5.25rem; }
 
 /* Dados Registro: */
 
