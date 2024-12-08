@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RequestService } from '../../servicos/request.service';
 import { ComunsService } from '../../servicos/comuns.service';
@@ -28,7 +28,7 @@ export class AndamentoComponent{
   countTabela : string = "0";
   dadosTabela : any;
 
-  readOnly: Array<string> = ['#sub-valorBruto', '#sub-valorDesconto', '#sub-valorLiquido', '#cadastro', '#contato', '#dt_abertura', '#cliente'];
+  readOnly: Array<string> = ['#cadastro', '#contato', '#dt_abertura', '#cliente'];
 
   @ViewChild(ExecutadosComponent) executados !: ExecutadosComponent;
 
@@ -55,7 +55,7 @@ export class AndamentoComponent{
       <td class="codigo">${response[i].codigo}</td>
       <td class="cliente">${response[i].cliente}</td>
       <td class="dt_andamento">${response[i].dt_andamento}</td>
-      <td class="valor">${response[i].valor.toFixed(2)}</td></tr>`;
+      <td class="valor">${(response[i].valor || 0).toFixed(2)}</td></tr>`;
 
       this.navTabela.push(response[i].id_andamento);
     }
@@ -285,14 +285,15 @@ export class AndamentoComponent{
     if(this.idRegistro == 0){ return }
     await this.detalhesRegistro("Copiando");
 
-    let response = await this.request.codigoAuto(this.componente);
-    let codigo = document.querySelector(`#${this.componente} #codigo`) as HTMLInputElement;
+    //let response = await this.request.codigoAuto(this.componente);
+    let ordemServico = document.querySelector(`#${this.componente} #ordem_servico`) as HTMLSelectElement;
     
     this.modoTela = "Copiando";
     this.mensagem = "";
     
     this.comuns.alternarTela(this.componente, this.modoTela, this.readOnly);
-    codigo.value = String(response[0].codigo).padStart(codigo.maxLength, '0');
+    
+    this.lookupSelect(ordemServico);
   }
 
   // Aciona o Modal e Confirma Exclusão que é feita pelos serviço de Requisições.
@@ -354,8 +355,6 @@ export class AndamentoComponent{
     let btns = document.querySelectorAll(`#${this.componente} .sub-ferramentas button`);
     if(input.value == ""){
       this.comuns.alternarSubTela(this.componente, "");
-      this.executados.registros = [];
-      this.executados.innerTabela = "";
 
       for(let i = 0; i < btns.length; i++){
         btns[i].setAttribute('disabled','')

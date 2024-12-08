@@ -15,10 +15,10 @@
         </table>
 
         <div class="sub-ferramentas">
-            <button disabled (click)="incluir()">Incluir</button>
-            <button disabled (click)="alterar()">Alterar</button>
-            <button disabled (click)="consultar()">Consultar</button>
-            <button disabled (click)="excluir()">Excluir</button>
+            <button (click)="incluir()">Incluir</button>
+            <button (click)="alterar()">Alterar</button>
+            <button (click)="consultar()">Consultar</button>
+            <button (click)="excluir()">Excluir</button>
         </div>
 
     </div>
@@ -66,7 +66,7 @@
             <span class="mensagem">{{mensagem}}</span>
         </div>
         <div class="sub-operadores">
-            <button (click)="salvarRegistro()">Salvar</button>
+            <button class="sub-salvar" (click)="salvarRegistro()">Salvar</button>
 
             <button (click)="cancelar()">Cancelar</button>
 

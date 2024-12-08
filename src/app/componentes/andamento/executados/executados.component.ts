@@ -82,7 +82,7 @@ export class ExecutadosComponent {
       this.registros.splice(this.registros.findIndex(obj => obj.id == data.id), 1);
     }
     else{
-      data.status = "Delete"
+      data.status = "Delete";
     }
     
     this.dadosGrid();
@@ -166,7 +166,6 @@ export class ExecutadosComponent {
       }
     }
 
-    console.log(this.registros)
     this.dadosGrid();
   }
 
@@ -177,9 +176,6 @@ export class ExecutadosComponent {
   // ** MÉTODOS COMUNS **
 
   dadosGrid(){
-    if(this.registros){
-      (document.querySelector(`#andamento #ordem_servico`) as HTMLElement).setAttribute('disabled','')
-    }
 
     let html : string = "";
     let desconto : number;

@@ -9,7 +9,8 @@ export class ComunsService {
 
   // Alterna entre Telas e Modifica Barra de Ferramentas de acordo com Modo:
   alternarTela(componente : string, modo : string, readOnly : Array<string>){
-    let inputs = document.querySelectorAll(`#${componente} .dados-componente input, #${componente} textarea, #${componente} select`)
+    let inputs = document.querySelectorAll(`#${componente} .dados-componente input, #${componente} textarea, #${componente} select`);
+    let subCrud = document.querySelectorAll(`#${componente} .sub-ferramentas button`);
 
     let grid = document.querySelector(`#${componente} .grid-componente`) as HTMLElement;
     let dados = document.querySelector(`#${componente} .dados-componente`) as HTMLElement;
@@ -60,12 +61,21 @@ export class ComunsService {
         nav.setAttribute('hidden','');
 
         oper.removeAttribute('hidden');
+
         for(let i = 0; i < crud.length; i++){
           crud[i].setAttribute('disabled','');
         };
         for(let i = 0; i < inputs.length; i++){
           (inputs[i] as HTMLInputElement).removeAttribute('disabled');
         }
+        for(let i = 0; i < readOnly.length; i++){
+          (document.querySelector(`#${componente} ${readOnly[i]}`) as HTMLInputElement).setAttribute('disabled','');
+        };
+        for(let i = 0; i < subCrud.length; i++){
+          subCrud[i].removeAttribute('disabled');
+        };
+
+        document.querySelector(`#${componente} #ordem_servico`)?.setAttribute('disabled','');
       break;
 
       case 'Consultando':
@@ -79,6 +89,14 @@ export class ComunsService {
         oper.setAttribute('hidden','');
         for(let i = 0; i < inputs.length; i++){
           (inputs[i] as HTMLInputElement).setAttribute('disabled','');
+        };
+
+        for(let i = 0; i < subCrud.length; i++){
+          if(subCrud[i].textContent == "Consultar"){
+            subCrud[i].removeAttribute('disabled');
+            continue
+          }
+          subCrud[i].setAttribute('disabled','');
         }
       break;
 
@@ -97,6 +115,9 @@ export class ComunsService {
         for(let i = 0; i < inputs.length; i++){
           (inputs[i] as HTMLInputElement).removeAttribute('disabled');
         }
+        for(let i = 0; i < readOnly.length; i++){
+          (document.querySelector(`#${componente} ${readOnly[i]}`) as HTMLInputElement).setAttribute('disabled','');
+        };
       break;
 
       default:
@@ -386,6 +407,8 @@ export class ComunsService {
     let subGrid = document.querySelector(`#${componente} .sub-grid`) as HTMLElement;
     let subDados = document.querySelector(`#${componente} .sub-registro`) as HTMLElement;
 
+    let salvar = document.querySelector(`#${componente} .sub-salvar`) as HTMLElement;
+
     switch(modo){
 
       case "Incluindo":
@@ -395,6 +418,8 @@ export class ComunsService {
         for(let i = 0; i < inputs.length; i++){
           (inputs[i] as HTMLInputElement).value = "";
         }
+
+        salvar.removeAttribute('disabled');
 
         for(let i = 0; i < leitura.length; i++){
           document.querySelector(`#${componente} #${leitura[i]}`)?.setAttribute('disabled','');
@@ -406,6 +431,8 @@ export class ComunsService {
         subGrid.setAttribute('hidden','');
         subDados.removeAttribute('hidden');
 
+        salvar.removeAttribute('disabled');
+
         for(let i = 0; i < leitura.length; i++){
           document.querySelector(`#${componente} #${leitura[i]}`)?.setAttribute('disabled','');
         }
@@ -413,6 +440,8 @@ export class ComunsService {
       case "Consultando":
         subGrid.setAttribute('hidden','');
         subDados.removeAttribute('hidden');
+
+        salvar.setAttribute('disabled','');
 
         for(let i = 0; i < inputs.length; i++){
           (inputs[i] as HTMLInputElement).setAttribute('disabled','');
