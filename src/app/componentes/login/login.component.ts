@@ -24,10 +24,10 @@ export class LoginComponent {
   async login(){
 
     try {
-      let request = await fetch(environment.APIURL + '/login',{
+      let request = await fetch((environment.APIURL || process.env['APIURL']) + '/login',{
         method: "POST",
         headers: {
-          TOKEN: environment.TOKEN,
+          TOKEN: environment.TOKEN || process.env['TOKEN'] || "",
           "Content-Type":"application/json"
         },
         body: JSON.stringify({
