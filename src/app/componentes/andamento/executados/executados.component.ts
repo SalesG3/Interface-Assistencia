@@ -170,6 +170,10 @@ export class ExecutadosComponent {
     this.dadosGrid();
   }
 
+  cancelar(){
+    this.comuns.alternarSubTela(this.componente, "", this.leitura);
+  }
+
   // ** MÉTODOS COMUNS **
 
   dadosGrid(){
