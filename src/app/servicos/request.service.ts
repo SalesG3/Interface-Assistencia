@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequestService {
-  headers = { TOKEN: environment.TOKEN || process.env['TOKEN'] || "", "Content-Type":"application/json"};
+  headers = { TOKEN: process.env['TOKEN'] || "", "Content-Type":"application/json"};
 
   constructor() { }
 
@@ -14,7 +13,7 @@ export class RequestService {
     this.carregamento(tabela)
 
     try{
-      let request = await fetch((environment.APIURL || process.env['APIURL']) + `/grid/${tabela}`,{
+      let request = await fetch(process.env['APIURL'] + `/grid/${tabela}`,{
         method: "POST",
         headers: this.headers,
         body: JSON.stringify(data)
@@ -37,7 +36,7 @@ export class RequestService {
     this.carregamento(tabela)
 
     try{
-      let request = await fetch((environment.APIURL || process.env['APIURL']) + `/codigo/${tabela}`,{
+      let request = await fetch(process.env['APIURL'] + `/codigo/${tabela}`,{
         method: "GET",
         headers: this.headers
       });
@@ -59,7 +58,7 @@ export class RequestService {
     this.carregamento(tabela)
 
     try{
-      let request = await fetch((environment.APIURL || process.env['APIURL']) + `/novo/${tabela}`,{
+      let request = await fetch(process.env['APIURL'] + `/novo/${tabela}`,{
         method: "POST",
         headers: this.headers,
         body: JSON.stringify(data)
@@ -83,7 +82,7 @@ export class RequestService {
     this.carregamento(tabela);
 
     try{
-      let request = await fetch((environment.APIURL || process.env['APIURL']) + `/alterar/${tabela}/${id}`,{
+      let request = await fetch(process.env['APIURL'] + `/alterar/${tabela}/${id}`,{
         method: "PUT",
         headers: this.headers,
         body: JSON.stringify(data)
@@ -106,7 +105,7 @@ export class RequestService {
     this.carregamento(tabela)
     
     try{
-      let request = await fetch((environment.APIURL || process.env['APIURL']) + `/consulta/${tabela}/${id}`,{
+      let request = await fetch(process.env['APIURL'] + `/consulta/${tabela}/${id}`,{
         method: "GET",
         headers: this.headers
       });
@@ -128,7 +127,7 @@ export class RequestService {
     this.carregamento(tabela);
 
     try{
-      let request = await fetch((environment.APIURL || process.env['APIURL']) + `/delete/${tabela}/${id}`,{
+      let request = await fetch(process.env['APIURL'] + `/delete/${tabela}/${id}`,{
         method: "DELETE",
         headers: this.headers
       });
@@ -148,7 +147,7 @@ export class RequestService {
   async lookupSelect(tabela : string){
 
     try{
-      let request = await fetch((environment.APIURL || process.env['APIURL']) + `/lookup/${tabela}`,{
+      let request = await fetch(process.env['APIURL'] + `/lookup/${tabela}`,{
         method: "GET",
         headers: this.headers
       });
