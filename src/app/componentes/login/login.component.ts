@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { SessaoService } from '../../servicos/sessao.service';
-import { environment } from '../../../environments/environment';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -24,10 +23,10 @@ export class LoginComponent {
   async login(){
 
     try {
-      let request = await fetch((environment.APIURL || process.env['APIURL']) + '/login',{
+      let request = await fetch(process.env['APIURL'] + '/login',{
         method: "POST",
         headers: {
-          TOKEN: environment.TOKEN || process.env['TOKEN'] || "",
+          TOKEN: process.env['TOKEN'] || "",
           "Content-Type":"application/json"
         },
         body: JSON.stringify({
